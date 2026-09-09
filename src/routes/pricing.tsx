@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Check, Minus } from "lucide-react";
+import { useState } from "react";
+import { Check, Minus, ShieldCheck } from "lucide-react";
 
 import { PageShell, PageHero, CtaBand } from "@/components/site/PageShell";
 import { Reveal } from "@/components/Reveal";
@@ -46,15 +47,111 @@ const matrix: { f: string; v: (boolean | string)[] }[] = [
 function PricingPage() {
   const { country } = useRegion();
   const cur = currencyOf(country);
+  const [mobilePlan, setMobilePlan] = useState<(typeof plans)[number]["id"]>("growth");
+  const selected = plans.find((plan) => plan.id === mobilePlan) ?? plans[1];
   return (
-    <PageShell>
-      <PageHero
-        eyebrow="أسعار واضحة"
-        title="فريق كامل بأقل من راتب موظف مبتدئ"
-        lead="بدون رسوم إعداد، بدون عقد سنوي إجباري، وبدون مفاجآت في الفاتورة. الأسعار شهرية وتُعرض تقريبياً بعملة بلدك."
-      />
+    <PageShell className="h-svh overflow-hidden bg-background md:min-h-screen md:h-auto md:overflow-visible" hideFooterOnMobile>
+      <section className="flex h-svh flex-col px-4 pb-4 pt-[5.5rem] md:hidden">
+        <div className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <span className="text-xs font-bold text-primary">أسعار واضحة</span>
+              <h1 className="mt-1 font-display text-[1.7rem] leading-tight font-black">
+                اختر فريقك وابدأ اليوم
+              </h1>
+            </div>
+            <RegionPicker className="shrink-0 [&>span:nth-child(2)]:hidden" />
+          </div>
 
-      <section className="mx-auto max-w-6xl px-5 py-14">
+          <div
+            role="tablist"
+            aria-label="اختر الباقة"
+            className="mt-4 grid grid-cols-3 rounded-2xl border border-border bg-card/75 p-1 shadow-card backdrop-blur-xl"
+          >
+            {plans.map((plan) => (
+              <button
+                key={plan.id}
+                type="button"
+                role="tab"
+                aria-selected={mobilePlan === plan.id}
+                onClick={() => setMobilePlan(plan.id)}
+                className={`min-h-11 rounded-xl px-2 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                  mobilePlan === plan.id
+                    ? "bg-foreground text-background shadow-card"
+                    : "text-muted-foreground"
+                }`}
+              >
+                {plan.name}
+              </button>
+            ))}
+          </div>
+
+          <article className="mt-3 flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.75rem] border border-border bg-card/90 p-5 shadow-lift backdrop-blur-xl">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold text-primary">{selected.tag}</p>
+                <h2 className="mt-1 font-display text-xl font-black">باقة {selected.name}</h2>
+              </div>
+              {selected.highlight ? (
+                <span className="rounded-full bg-jade/15 px-3 py-1 text-[0.68rem] font-bold text-jade-deep">
+                  الأنسب للنمو
+                </span>
+              ) : null}
+            </div>
+
+            <div className="mt-3 flex items-end gap-2 border-b border-border pb-3">
+              <span className="font-display text-4xl font-black leading-none text-primary">
+                {priceOf(selected, false, country)}
+              </span>
+              {selected.monthly !== null ? (
+                <span className="text-xs text-muted-foreground">{cur.label} / شهرياً</span>
+              ) : (
+                <span className="text-xs text-muted-foreground">حل مخصص لحجمك</span>
+              )}
+            </div>
+
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{selected.desc}</p>
+            <ul className="mt-3 grid min-h-0 gap-2 overflow-hidden">
+              {selected.perks.slice(0, 4).map((perk) => (
+                <li key={perk} className="flex items-center gap-2 text-sm font-medium">
+                  <span className="grid size-5 shrink-0 place-items-center rounded-full bg-jade/15 text-jade-deep">
+                    <Check className="size-3" strokeWidth={3} />
+                  </span>
+                  <span className="truncate">{perk}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-auto pt-3">
+              {selected.id === "scale" ? (
+                <Link to="/contact" className="block min-h-12 rounded-full bg-foreground px-5 py-3 text-center font-bold text-background">
+                  {selected.cta}
+                </Link>
+              ) : (
+                <Link
+                  to="/auth"
+                  search={{ mode: "signup", plan: selected.id }}
+                  className="block min-h-12 rounded-full bg-foreground px-5 py-3 text-center font-bold text-background"
+                >
+                  {selected.cta}
+                </Link>
+              )}
+              <p className="mt-2 flex items-center justify-center gap-1.5 text-[0.68rem] font-semibold text-muted-foreground">
+                <ShieldCheck className="size-3.5 text-jade-deep" /> بدون بطاقة · إلغاء فوري · بيانات مشفّرة
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div className="hidden md:block">
+        <PageHero
+          eyebrow="أسعار واضحة"
+          title="فريق كامل بأقل من راتب موظف مبتدئ"
+          lead="بدون رسوم إعداد، بدون عقد سنوي إجباري، وبدون مفاجآت في الفاتورة. الأسعار شهرية وتُعرض تقريبياً بعملة بلدك."
+        />
+
+        <section className="mx-auto max-w-6xl px-5 py-14">
         <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
           <span>العملة حسب بلدك:</span>
           <RegionPicker />
@@ -131,9 +228,9 @@ function PricingPage() {
             </Reveal>
           ))}
         </div>
-      </section>
+        </section>
 
-      <section className="mx-auto max-w-5xl px-5 pb-16">
+        <section className="mx-auto max-w-5xl px-5 pb-16">
         <Reveal>
           <div className="overflow-x-auto rounded-3xl border border-border bg-card shadow-card">
             <table className="w-full min-w-[36rem] text-right">
@@ -173,9 +270,10 @@ function PricingPage() {
         <p className="mt-6 text-center text-sm text-muted-foreground">
           كل الباقات تشمل: تشفير البيانات، تصدير كامل في أي وقت، وإلغاء بضغطة دون مكالمة احتفاظ.
         </p>
-      </section>
+        </section>
 
-      <CtaBand title="جرّب قبل أن تدفع" lead="١٤ يوماً كاملة بكل مزايا باقة النمو، بدون بطاقة." />
+        <CtaBand title="جرّب قبل أن تدفع" lead="١٤ يوماً كاملة بكل مزايا باقة النمو، بدون بطاقة." />
+      </div>
     </PageShell>
   );
 }
