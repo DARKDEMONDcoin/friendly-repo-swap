@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 export function CtaFooter() {
@@ -27,7 +26,6 @@ export function CtaFooter() {
                   className="cta-glow-button group inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-4 font-bold text-background transition-transform duration-300 hover:-translate-y-1"
                 >
                   وظّف فريقك الآن
-                  <ArrowLeft className="size-5 transition-transform duration-300 group-hover:-translate-x-1" />
                 </Link>
                 <a
                   href="#pricing"

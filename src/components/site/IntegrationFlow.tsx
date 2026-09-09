@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Check, Sparkles } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { TeamOrbit } from "@/components/site/TeamOrbit";
 
@@ -11,7 +10,6 @@ export function IntegrationFlow() {
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 text-sm font-bold text-amber">
-              <Sparkles className="size-4" />
               منظومة واحدة بدلاً من أدوات متفرقة
             </span>
             <h2 className="mt-4 font-display text-4xl leading-tight font-black sm:text-5xl">
@@ -36,9 +34,7 @@ export function IntegrationFlow() {
             <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-background/65">
               {["صلاحيات تحددها أنت", "موافقتك قبل النشر", "تفصل أي حساب فوراً"].map((item) => (
                 <span key={item} className="flex items-center gap-2">
-                  <span className="grid size-5 place-items-center rounded-full bg-jade/25 text-background">
-                    <Check className="size-3" strokeWidth={3} />
-                  </span>
+                  <span className="size-1.5 rounded-full bg-amber/80" />
                   {item}
                 </span>
               ))}
@@ -53,7 +49,6 @@ export function IntegrationFlow() {
               className="group inline-flex items-center gap-2 font-bold text-amber transition-colors hover:text-background"
             >
               شاهد كل التكاملات
-              <ArrowLeft className="size-4 transition-transform duration-300 group-hover:-translate-x-1" />
             </Link>
           </div>
         </Reveal>

@@ -1,4 +1,3 @@
-import { Activity } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 const dashboard = "/product-shots/overview.png";
@@ -26,12 +25,12 @@ export function ProductShowcase() {
             <figure className="phone-frame phone-calendar">
               <span className="phone-island" />
               <img src={calendar} alt="تقويم المحتوى في سهل" loading="lazy" />
-              <figcaption><Activity /> تحديث حي</figcaption>
+              <figcaption>تحديث حي</figcaption>
             </figure>
             <figure className="phone-frame phone-chat">
               <span className="phone-island" />
               <img src={chat} alt="محادثة سِراج داخل تطبيق سهل على الهاتف" loading="lazy" />
-              <figcaption><Activity /> الفريق متاح</figcaption>
+              <figcaption>الفريق متاح</figcaption>
             </figure>
           </div>
         </Reveal>

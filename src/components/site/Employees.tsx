@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/Reveal";
 import { Portrait } from "@/components/site/Portrait";
@@ -50,7 +49,7 @@ export function Employees() {
                     <p>{member.role}</p>
                     <h3>{member.name}</h3>
                     <strong>{detail.promise}</strong>
-                    <ul>{detail.tasks.map((task) => <li key={task}><CheckCircle2 />{task}</li>)}</ul>
+                    <ul>{detail.tasks.map((task) => <li key={task}>{task}</li>)}</ul>
                     <div className="employee-proof">{detail.proof}</div>
                   </div>
                 </article>
@@ -62,7 +61,7 @@ export function Employees() {
         <Reveal>
           <div className="employee-closing">
             <p>ابدأ بموظف واحد، ووسّع فريقك عندما تحتاج.</p>
-            <Link to="/auth" search={{ mode: "signup" as const }}>قابل فريقك الآن <ArrowLeft /></Link>
+            <Link to="/auth" search={{ mode: "signup" as const }}>قابل فريقك الآن</Link>
           </div>
         </Reveal>
       </div>

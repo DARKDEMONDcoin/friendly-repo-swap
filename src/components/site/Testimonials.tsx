@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { Star, Quote } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 const quotes = [
@@ -95,13 +94,7 @@ export function Testimonials() {
         <div ref={trackRef} className="testimonial-track" dir="rtl">
           {cards.map((t, i) => (
             <figure key={`${t.n}-${i}`} className="testimonial-card liquid-glass">
-              <Quote aria-hidden className="testimonial-quote-mark" strokeWidth={1.5} />
-              <div className="relative flex gap-0.5 text-amber" aria-label="تقييم 5 من 5">
-                {Array.from({ length: 5 }).map((_, k) => (
-                  <Star key={k} className="size-4 fill-current" strokeWidth={0} />
-                ))}
-              </div>
-              <blockquote className="relative mt-4 text-lg leading-relaxed">«{t.q}»</blockquote>
+              <blockquote className="relative text-lg leading-relaxed">«{t.q}»</blockquote>
               <figcaption className="relative mt-5 flex items-center gap-3">
                 <span
                   className="grid size-10 place-items-center rounded-full font-display font-black text-background"
