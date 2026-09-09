@@ -22,7 +22,7 @@ const stats: Stat[] = [
     suffix: " ساعة",
     title: "الوقت المستعاد شهريًا",
     label: "متوسط ما يعود لفريقك من ساعات تشغيل",
-    unit: "ساعة/شهر",
+    unit: "شهريًا",
     delta: "٢٢٪+",
     trend: "up",
     icon: Clock3,
