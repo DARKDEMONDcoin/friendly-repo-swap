@@ -50,8 +50,16 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
   const [step, setStep] = useState(0);
   const [arrived, setArrived] = useState(false);
   const [hovered, setHovered] = useState<number | null>(null);
+  // كل موظف يتقدّم في قائمته الخاصة حتى يذكر كل ما يقدّمه ثم يبدأ جولة جديدة
+  const [spoken, setSpoken] = useState<number[]>(() => team.map(() => 0));
 
   useEffect(() => {
+    const speaker = step % ROUTES.length;
+    setSpoken((prev) => {
+      const next = [...prev];
+      next[speaker] = (prev[speaker] ?? 0) + 1;
+      return next;
+    });
     if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
       setArrived(true);
       return;
@@ -67,7 +75,7 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
 
   const active = step % ROUTES.length;
   const activeConnection = hovered ?? active;
-  const round = Math.floor(step / ROUTES.length);
+
 
   return (
     <div className={cn("team-orbit", compact && "team-orbit-compact", dark && "team-orbit-dark")}>
