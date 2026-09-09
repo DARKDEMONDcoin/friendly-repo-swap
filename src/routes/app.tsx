@@ -46,13 +46,8 @@ export const Route = createFileRoute("/app")({
   pendingMs: 150,
   pendingComponent: () => (
     <div className="grid min-h-dvh place-items-center bg-background px-6 text-center">
-      <div>
-        <span
-          className="mx-auto grid size-14 animate-pulse place-items-center rounded-2xl text-primary-foreground"
-          style={{ backgroundImage: "var(--gradient-aurora)" }}
-        >
-          <Sparkles className="size-6" />
-        </span>
+      <div className="flex flex-col items-center">
+        <BrandLoader size="lg" label={null} />
         <p className="mt-4 font-display text-lg font-black">نجهّز مساحة عملك…</p>
         <p className="mt-1 text-sm text-muted-foreground">ثوانٍ قليلة ويكون فريقك جاهزًا.</p>
       </div>
