@@ -3,6 +3,7 @@ import { Sparkles } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { guestSession } from "@/lib/guest.functions";
+import { BrandLoader } from "@/components/site/BrandLoader";
 
 /**
  * فتح جلسة التجربة مرة واحدة فقط لكل تبويب: عدة نداءات متوازية (فتح أكثر من صفحة
