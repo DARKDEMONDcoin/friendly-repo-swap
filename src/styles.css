@@ -788,11 +788,13 @@
 .orbit-user strong, .orbit-user small { display: block; }
 .orbit-user strong { margin-top: 0.35rem; font-family: var(--font-display); }
 .orbit-user small { color: var(--muted-foreground); font-size: 0.67rem; }
-.orbit-map-center { position: absolute; z-index: 5; inset: 46% auto auto 50%; width: 19rem; height: 11.5rem; translate: -50% -50%; pointer-events: none; animation: mena-map-breathe 7s ease-in-out infinite; }
-.orbit-map-center > small { position: absolute; inset: auto -18% -1.15rem; display: grid; gap: 0.15rem; color: color-mix(in oklab, var(--primary) 82%, var(--foreground)); font-size: 0.62rem; font-weight: 800; text-align: center; }
-.orbit-map-center > small b { font-family: var(--font-display); font-size: 0.82rem; }
+.orbit-map-center { position: absolute; z-index: 1; inset: 45% auto auto 50%; width: 22rem; height: 13rem; translate: -50% -50%; pointer-events: none; animation: mena-map-breathe 7s ease-in-out infinite; }
+.orbit-map-center > small { position: absolute; inset: auto -14% -2.6rem; display: grid; gap: 0.18rem; color: color-mix(in oklab, var(--primary) 82%, var(--foreground)); font-size: 0.62rem; font-weight: 800; text-align: center; }
+.orbit-map-center > small b { font-family: var(--font-display); font-size: 0.86rem; letter-spacing: 0.01em; }
 .orbit-map-center > small span { color: var(--muted-foreground); font-weight: 600; }
 .orbit-slot { position: absolute; z-index: 2; width: min(15.5rem, 27%); }
+.orbit-slot:has(.orbit-bubble) { z-index: 9; }
+
 .orbit-employee { position: relative; display: flex; width: 100%; min-height: 5.25rem; align-items: center; gap: 0.75rem; border-radius: 1rem; padding: 0.7rem; animation: orbit-float 5s ease-in-out infinite; animation-delay: var(--float-delay); transition: border-color 280ms ease, box-shadow 280ms ease; }
 .orbit-connections .orbit-connection.is-active { stroke: var(--primary) !important; stroke-width: 2.2px !important; filter: drop-shadow(0 0 5px color-mix(in oklab, var(--primary) 78%, transparent)); }
 .orbit-employee:hover { border-color: color-mix(in oklab, var(--employee-tone) 54%, var(--border)); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--card) 96%, transparent), 0 18px 38px -22px color-mix(in oklab, var(--employee-tone) 65%, transparent); }
@@ -1029,13 +1031,19 @@
   margin: 0;
   overflow: visible;
   opacity: 1;
-  filter: drop-shadow(0 9px 13px color-mix(in oklab, var(--primary) 28%, transparent));
+  filter:
+    drop-shadow(0 0 18px color-mix(in oklab, var(--primary) 30%, transparent))
+    drop-shadow(0 14px 22px color-mix(in oklab, var(--primary) 26%, transparent));
 }
-.mena-map-orbit .mena-map-fill { fill: color-mix(in oklab, var(--primary) 15%, transparent); }
-.mena-map-orbit .mena-map-outline { stroke: var(--primary); stroke-width: 2.8; stroke-dasharray: 1800; animation: mena-outline-draw 3.2s var(--ease-enter) both, mena-outline-glow 5s 3.2s ease-in-out infinite; }
-.mena-map-orbit .mena-map-borders { stroke: color-mix(in oklab, var(--primary) 58%, transparent); stroke-width: 1.15; }
-.mena-map-orbit .mena-route { stroke-width: 2; }
-.mena-map-orbit .mena-capital-dot { stroke-width: 2; }
+.mena-map-orbit .mena-map-fill { fill: color-mix(in oklab, var(--primary) 30%, transparent); }
+.mena-map-orbit .mena-map-outline { stroke: color-mix(in oklab, var(--amber) 45%, var(--primary)); stroke-width: 2.2; stroke-linejoin: round; stroke-dasharray: 1800; animation: mena-outline-draw 3.2s var(--ease-enter) both, mena-outline-glow 5s 3.2s ease-in-out infinite; }
+.mena-map-orbit .mena-map-borders { stroke: color-mix(in oklab, var(--amber) 34%, transparent); stroke-width: 0.9; stroke-dasharray: 3 4; }
+.mena-map-orbit .mena-map-aura { fill: color-mix(in oklab, var(--primary) 6%, transparent); opacity: 0.7; }
+.mena-map-orbit .mena-route { stroke: color-mix(in oklab, var(--amber) 62%, transparent); stroke-width: 1.6; stroke-dasharray: 3 9; }
+.mena-map-orbit .mena-capital-dot { stroke-width: 1.8; }
+.mena-map-orbit .mena-capital-pulse { animation-duration: 3.4s; }
+.mena-map-orbit .mena-place-labels { fill: color-mix(in oklab, var(--primary) 60%, var(--foreground)); font-size: 11px; letter-spacing: 0.02em; }
+
 
 .mena-map-fill { fill: color-mix(in oklab, var(--primary) 6%, transparent); }
 .mena-map-outline {
@@ -1371,42 +1379,78 @@
 .orbit-employee.is-lit { border-color: color-mix(in oklab, var(--employee-tone) 62%, var(--border)); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--card) 96%, transparent), 0 0 0 1px color-mix(in oklab, var(--employee-tone) 30%, transparent), 0 22px 46px -24px color-mix(in oklab, var(--employee-tone) 75%, transparent); }
 .orbit-bubble {
   position: absolute;
-  z-index: 5;
-  inset: auto 0 calc(100% + 0.5rem) 0;
+  z-index: 6;
+  inset: auto 0 calc(100% + 0.7rem) 0;
   display: grid;
-  gap: 0.35rem;
-  border: 1px solid color-mix(in oklab, var(--primary) 22%, transparent);
-  border-radius: 0.85rem;
-  padding: 0.55rem 0.65rem;
-  background: color-mix(in oklab, var(--card) 88%, transparent);
-  box-shadow: 0 18px 40px -22px color-mix(in oklab, var(--foreground) 60%, transparent);
-  backdrop-filter: blur(18px) saturate(150%);
-  animation: orbit-bubble-in 380ms var(--ease-enter) both;
+  gap: 0.4rem;
+  border: 1px solid color-mix(in oklab, var(--employee-tone, var(--primary)) 34%, transparent);
+  border-radius: 1rem;
+  padding: 0.6rem 0.72rem;
+  background:
+    linear-gradient(160deg, color-mix(in oklab, var(--employee-tone, var(--primary)) 12%, transparent), transparent 62%),
+    color-mix(in oklab, var(--card) 92%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--card) 90%, transparent),
+    0 22px 48px -24px color-mix(in oklab, var(--employee-tone, var(--primary)) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  animation: orbit-bubble-in 420ms var(--ease-enter) both;
 }
-.orbit-bubble-head { display: flex; align-items: center; gap: 0.4rem; color: var(--primary); font-size: 0.57rem; font-weight: 900; }
-.orbit-bubble-head i { width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--jade); box-shadow: 0 0 0 0.22rem color-mix(in oklab, var(--jade) 15%, transparent); }
-.orbit-bubble-text { color: var(--foreground); font-size: 0.72rem; font-weight: 700; line-height: 1.45; }
-.orbit-bubble-foot { color: var(--muted-foreground); font-size: 0.54rem; font-weight: 700; }
-.team-orbit-dark .orbit-bubble { border-color: color-mix(in oklab, var(--background) 18%, transparent); background: color-mix(in oklab, var(--foreground) 78%, transparent); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--background) 12%, transparent), 0 20px 45px -20px color-mix(in oklab, var(--primary) 45%, transparent); }
+.orbit-bubble::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: auto 1.4rem -0.34rem auto;
+  width: 0.7rem;
+  height: 0.7rem;
+  rotate: 45deg;
+  border-inline-end: 1px solid color-mix(in oklab, var(--employee-tone, var(--primary)) 34%, transparent);
+  border-block-end: 1px solid color-mix(in oklab, var(--employee-tone, var(--primary)) 34%, transparent);
+  border-end-end-radius: 0.18rem;
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+}
+.orbit-bubble-head { display: flex; align-items: center; gap: 0.4rem; color: color-mix(in oklab, var(--employee-tone, var(--primary)) 78%, var(--foreground)); font-family: var(--font-display); font-size: 0.68rem; font-weight: 900; }
+.orbit-bubble-head i { width: 0.4rem; height: 0.4rem; flex: none; border-radius: 50%; background: var(--jade); box-shadow: 0 0 0 0.22rem color-mix(in oklab, var(--jade) 15%, transparent); }
+.orbit-bubble-head b { overflow: hidden; margin-inline-start: auto; color: var(--muted-foreground); font-family: inherit; font-size: 0.53rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.orbit-bubble-text { color: var(--foreground); font-size: 0.73rem; font-weight: 700; line-height: 1.5; animation: orbit-bubble-line 340ms var(--ease-enter) both; }
+.orbit-bubble-typing { display: flex; gap: 0.22rem; padding-block: 0.35rem; }
+.orbit-bubble-typing i { width: 0.28rem; height: 0.28rem; border-radius: 50%; background: color-mix(in oklab, var(--employee-tone, var(--primary)) 70%, transparent); animation: orbit-typing 1.1s ease-in-out infinite; }
+.orbit-bubble-typing i:nth-child(2) { animation-delay: 0.15s; }
+.orbit-bubble-typing i:nth-child(3) { animation-delay: 0.3s; }
+.orbit-bubble-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; color: var(--muted-foreground); font-size: 0.54rem; font-weight: 700; }
+.orbit-bubble-foot em { font-style: normal; white-space: nowrap; }
+.orbit-bubble-progress { display: flex; gap: 0.16rem; }
+.orbit-bubble-progress i { width: 0.28rem; height: 0.16rem; border-radius: 99px; background: color-mix(in oklab, var(--muted-foreground) 32%, transparent); transition: background 260ms ease; }
+.orbit-bubble-progress i.is-on { background: color-mix(in oklab, var(--employee-tone, var(--primary)) 80%, transparent); }
+.team-orbit-dark .orbit-bubble { border-color: color-mix(in oklab, var(--employee-tone, var(--primary)) 48%, transparent); background: linear-gradient(160deg, color-mix(in oklab, var(--employee-tone, var(--primary)) 18%, transparent), transparent 60%), color-mix(in oklab, var(--foreground) 82%, transparent); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--background) 12%, transparent), 0 22px 48px -20px color-mix(in oklab, var(--employee-tone, var(--primary)) 55%, transparent); }
+.team-orbit-dark .orbit-bubble::after { background: color-mix(in oklab, var(--foreground) 82%, transparent); border-color: color-mix(in oklab, var(--employee-tone, var(--primary)) 48%, transparent); }
 .team-orbit-dark .orbit-bubble-text { color: var(--background); }
-.team-orbit-dark .orbit-bubble-foot { color: color-mix(in oklab, var(--background) 52%, transparent); }
+.team-orbit-dark .orbit-bubble-head { color: color-mix(in oklab, var(--employee-tone, var(--primary)) 62%, var(--background)); }
+.team-orbit-dark .orbit-bubble-head b, .team-orbit-dark .orbit-bubble-foot { color: color-mix(in oklab, var(--background) 55%, transparent); }
 @keyframes orbit-bubble-in { from { opacity: 0; translate: 0 12px; scale: 0.94; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes orbit-bubble-line { from { opacity: 0; translate: 0 6px; } to { opacity: 1; translate: 0 0; } }
+@keyframes orbit-typing { 0%, 100% { opacity: 0.35; translate: 0 0; } 50% { opacity: 1; translate: 0 -3px; } }
 @media (max-width: 768px) {
-  .orbit-bubble { width: 10.5rem; padding: 0.5rem 0.58rem; }
+  .orbit-bubble { width: 11rem; padding: 0.5rem 0.6rem; }
   .orbit-slot:nth-child(odd) .orbit-bubble { right: 0; left: auto; }
   .orbit-slot:nth-child(even) .orbit-bubble { right: auto; left: 0; }
-  .orbit-bubble-text { font-size: 0.62rem; line-height: 1.55; }
-  .orbit-bubble-head { font-size: 0.52rem; }
+  .orbit-bubble-text { font-size: 0.63rem; line-height: 1.55; }
+  .orbit-bubble-head { font-size: 0.58rem; }
+  .orbit-bubble-head b { display: none; }
   .orbit-bubble-foot { font-size: 0.48rem; }
   .mena-place-labels { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .orbit-bubble, .mena-map-scan, .integration-team-status i { animation: none; }
+  .orbit-bubble, .orbit-bubble-text, .orbit-bubble-typing i, .mena-map-scan, .integration-team-status i { animation: none; }
 }
 
 .orbit-slot.orbit-employee-1 .orbit-bubble,
-.orbit-slot.orbit-employee-2 .orbit-bubble { inset: calc(100% + 0.5rem) 0 auto 0; animation-name: orbit-bubble-in-down; }
+.orbit-slot.orbit-employee-2 .orbit-bubble { animation-name: orbit-bubble-in-down; }
+.orbit-slot.orbit-employee-1 .orbit-bubble { inset: calc(100% + 0.7rem) 24% auto -24%; }
+.orbit-slot.orbit-employee-2 .orbit-bubble { inset: calc(100% + 0.7rem) -24% auto 24%; }
+.orbit-slot.orbit-employee-1 .orbit-bubble::after { inset: -0.34rem 12% auto auto; rotate: 225deg; }
+.orbit-slot.orbit-employee-2 .orbit-bubble::after { inset: -0.34rem auto auto 12%; rotate: 225deg; }
 @keyframes orbit-bubble-in-down { from { opacity: 0; translate: 0 -12px; scale: 0.94; } to { opacity: 1; translate: 0 0; scale: 1; } }
+
 
 /* Brand-tinted infinite icon marquee */
 .brand-icon-track { align-items: center; animation-duration: 46s; }

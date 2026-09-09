@@ -50,8 +50,16 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
   const [step, setStep] = useState(0);
   const [arrived, setArrived] = useState(false);
   const [hovered, setHovered] = useState<number | null>(null);
+  // كل موظف يتقدّم في قائمته الخاصة حتى يذكر كل ما يقدّمه ثم يبدأ جولة جديدة
+  const [spoken, setSpoken] = useState<number[]>(() => team.map(() => 0));
 
   useEffect(() => {
+    const speaker = step % ROUTES.length;
+    setSpoken((prev) => {
+      const next = [...prev];
+      next[speaker] = (prev[speaker] ?? 0) + 1;
+      return next;
+    });
     if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
       setArrived(true);
       return;
@@ -67,7 +75,7 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
 
   const active = step % ROUTES.length;
   const activeConnection = hovered ?? active;
-  const round = Math.floor(step / ROUTES.length);
+
 
   return (
     <div className={cn("team-orbit", compact && "team-orbit-compact", dark && "team-orbit-dark")}>
@@ -101,9 +109,12 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
 
       <div className="orbit-rail" aria-label="فريق سهل">
         {team.map((member, index) => {
-          const task = member.tasks[round % member.tasks.length];
-          const prefix = actionPrefixes[round % actionPrefixes.length];
+          const count = spoken[index] ?? 0;
+          const taskIndex = count > 0 ? (count - 1) % member.tasks.length : 0;
+          const task = member.tasks[taskIndex];
+          const prefix = actionPrefixes[Math.floor((count - 1) / member.tasks.length + member.tasks.length) % actionPrefixes.length];
           const isActive = active === index;
+          const isLast = taskIndex === member.tasks.length - 1;
           return (
             <div
               key={member.id}
@@ -113,13 +124,34 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
               onFocusCapture={() => setHovered(index)}
               onBlurCapture={() => setHovered(null)}
             >
-              {task && isActive && arrived ? (
-                <div className="orbit-bubble" role="status">
-                  <span className="orbit-bubble-head"><i /> تحديث من {member.name}</span>
-                  <span className="orbit-bubble-text">{prefix} {task}</span>
-                  <span className="orbit-bubble-foot">المهمة {round % member.tasks.length + 1} من {member.tasks.length}</span>
+              {isActive && count > 0 ? (
+                <div
+                  className={cn("orbit-bubble", arrived ? "is-said" : "is-typing")}
+                  role="status"
+                  style={{ "--employee-tone": member.tint } as React.CSSProperties}
+                >
+                  <span className="orbit-bubble-head">
+                    <i /> {member.name}
+                    <b>{member.role}</b>
+                  </span>
+                  {arrived && task ? (
+                    <span key={`${member.id}-${count}`} className="orbit-bubble-text">
+                      {prefix} {task}
+                    </span>
+                  ) : (
+                    <span className="orbit-bubble-typing" aria-label="يكتب الآن"><i /><i /><i /></span>
+                  )}
+                  <span className="orbit-bubble-foot">
+                    <span className="orbit-bubble-progress" aria-hidden>
+                      {member.tasks.map((_, dot) => (
+                        <i key={dot} className={cn(dot <= taskIndex && "is-on")} />
+                      ))}
+                    </span>
+                    <em>{isLast && arrived ? "أنهيت عرض ما أقدّمه" : `${taskIndex + 1} من ${member.tasks.length}`}</em>
+                  </span>
                 </div>
               ) : null}
+
               <LiquidGlass
                 className={cn("orbit-employee", isActive && arrived && "is-lit")}
                 style={{ "--employee-tone": member.tint, "--float-delay": `${index * -0.7}s` } as React.CSSProperties}
