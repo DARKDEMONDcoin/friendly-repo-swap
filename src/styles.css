@@ -1228,12 +1228,16 @@
 .integration-team-status span { display: flex; align-items: center; gap: 0.5rem; color: var(--background); font-weight: 800; }
 .integration-team-status i { width: 0.48rem; height: 0.48rem; border-radius: 50%; background: var(--jade); box-shadow: 0 0 0 0.35rem color-mix(in oklab, var(--jade) 14%, transparent); animation: pulse-ring 2.4s infinite; }
 .integration-team-stage .team-orbit-compact { min-height: 36rem; }
+.integration-team-stage .orbit-slot.orbit-employee-5,
+.integration-team-stage .orbit-slot.orbit-employee-6 { bottom: 7.5rem; }
 @media (min-width: 1024px) {
   .integration-team-stage .orbit-slot { width: min(14.5rem, 25%); }
   .integration-team-stage .orbit-map-center { width: 20rem; height: 12rem; }
 }
 @media (max-width: 640px) {
   .integration-team-stage .team-orbit-compact { min-height: 33rem; }
+  .integration-team-stage .orbit-slot.orbit-employee-5,
+  .integration-team-stage .orbit-slot.orbit-employee-6 { bottom: 7rem; }
   .integration-team-status { align-items: flex-start; flex-direction: column; padding-inline: 0; }
 }
 
