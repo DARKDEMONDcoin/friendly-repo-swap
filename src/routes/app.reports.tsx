@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, CheckCircle2, Loader2, PlugZap, Printer } from "lucide-react";
+import { AlertTriangle, CheckCircle2, PlugZap, Printer } from "lucide-react";
 
 import { AppShell } from "@/components/app/AppShell";
 import { SeoAuditCard } from "@/components/app/SeoAuditCard";
 import { GoogleConnectButton } from "@/components/app/GoogleConnect";
 import { VisitorsPanel } from "@/components/app/VisitorsPanel";
+import { BrandLoader } from "@/components/site/BrandLoader";
 import { useWorkspace } from "@/lib/data";
 import { buildReport } from "@/lib/reports.functions";
 
@@ -138,9 +139,7 @@ function ReportsPage() {
         <SeoAuditCard />
       </div>
       {isLoading ? (
-        <p className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Loader2 className="size-4 animate-spin" /> جارٍ تجميع البيانات…
-        </p>
+        <BrandLoader size="sm" label="جارٍ تجميع البيانات…" />
       ) : error ? (
         <p className="rounded-2xl bg-coral/12 px-4 py-3 text-sm font-semibold text-coral">
           {error instanceof Error ? error.message : "تعذّر بناء التقرير"}

@@ -58,9 +58,11 @@ function ApprovalsPage() {
             onClick={async () => {
               for (const t of pending) await act(t.id, "done");
             }}
-            className="hidden items-center gap-2 rounded-xl bg-foreground px-4 py-2.5 text-sm font-bold text-background sm:inline-flex"
+            className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-foreground px-3 py-2.5 text-sm font-bold text-background sm:px-4"
           >
-            <Check className="size-4" /> اعتماد الكل
+            <Check className="size-4" />
+            <span className="hidden sm:inline">اعتماد الكل</span>
+            <span className="sm:hidden">الكل</span>
           </button>
         ) : null
       }

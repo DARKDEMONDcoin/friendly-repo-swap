@@ -63,12 +63,22 @@ export function PageHero({
   );
 }
 
-export function PageShell({ children }: { children: ReactNode }) {
+export function PageShell({
+  children,
+  className,
+  hideFooterOnMobile = false,
+}: {
+  children: ReactNode;
+  className?: string;
+  hideFooterOnMobile?: boolean;
+}) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className={className ?? "min-h-screen bg-background"}>
       <Nav />
       <main>{children}</main>
-      <SiteFooter />
+      <div className={hideFooterOnMobile ? "hidden md:block" : undefined}>
+        <SiteFooter />
+      </div>
     </div>
   );
 }
