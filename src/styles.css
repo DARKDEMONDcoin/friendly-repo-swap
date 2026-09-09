@@ -937,7 +937,7 @@
   .employee-editorial-grid > div { grid-column: span 6; }
   .auth-layout { display: block; }
   .auth-story { display: block; min-height: 0; padding: 0; }
-  .auth-form-column { min-height: 100svh; border: 0; padding-top: 6.5rem; }
+  .auth-form-column { min-height: 0; border: 0; padding-top: 2rem; }
 }
 
 @media (max-width: 767px) {
