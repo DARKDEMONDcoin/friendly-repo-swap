@@ -449,7 +449,31 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
             <Button type="submit" disabled={passwordBusy} className="gap-2">{passwordBusy ? <Loader2 className="size-4 animate-spin" /> : <LockKeyhole className="size-4" />}تغيير كلمة المرور</Button>
           </form>
         )}
-        <div className="mt-6 border-t border-border pt-5">
+        <div className="mt-6 flex flex-wrap gap-3 border-t border-border pt-5">
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-2"
+            onClick={async () => {
+              const [{ data: workspaces }, { data: profiles }] = await Promise.all([
+                supabase.from("workspaces").select("*"),
+                supabase.from("profiles").select("*"),
+              ]);
+              const blob = new Blob([JSON.stringify({ profiles, workspaces }, null, 2)], { type: "application/json" });
+              const url = URL.createObjectURL(blob);
+              const anchor = document.createElement("a");
+              anchor.href = url;
+              anchor.download = "sahl-account-data.json";
+              anchor.click();
+              URL.revokeObjectURL(url);
+              onNotice({ type: "success", text: "تم تنزيل نسخة من بياناتك." });
+            }}
+          >
+            <Download className="size-4" />تنزيل نسخة من بياناتي
+          </Button>
+          <Button type="button" variant="outline" className="gap-2" onClick={async () => { await supabase.auth.signOut({ scope: "global" }); window.location.assign("/"); }}>
+            <ShieldCheck className="size-4" />تسجيل الخروج من كل الأجهزة
+          </Button>
           <Button type="button" variant="outline" className="gap-2 text-destructive hover:text-destructive" onClick={async () => { await supabase.auth.signOut(); window.location.assign("/"); }}><LogOut className="size-4" />تسجيل الخروج من هذا الجهاز</Button>
         </div>
       </SettingsCard>
