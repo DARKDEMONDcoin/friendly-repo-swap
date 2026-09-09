@@ -3,6 +3,7 @@ import { team } from "@/data/team";
 import { Portrait } from "@/components/site/Portrait";
 import { LiquidGlass } from "@/components/site/LiquidGlass";
 import { MenaMap } from "@/components/site/MenaMap";
+import { AppIcon } from "@/components/site/AppIcon";
 import { cn } from "@/lib/utils";
 
 const outcomes: Record<string, { short: string; detail: string }> = {
