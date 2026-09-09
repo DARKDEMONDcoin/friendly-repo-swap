@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const LIGHT = "#FBF7F0";
-const DARK = "#211C17";
+const BROWSER_THEME = "#C1663A";
 
 function setTheme(dark: boolean) {
   document.documentElement.classList.toggle("dark", dark);
   document.documentElement.style.colorScheme = dark ? "dark" : "light";
   document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((meta) => {
-    meta.content = dark ? DARK : LIGHT;
+    meta.content = BROWSER_THEME;
   });
   localStorage.setItem("sahl-theme", dark ? "dark" : "light");
 }
