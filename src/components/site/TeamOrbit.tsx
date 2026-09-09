@@ -131,8 +131,14 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
                   style={{ "--employee-tone": member.tint } as React.CSSProperties}
                 >
                   <span className="orbit-bubble-head">
-                    <i /> {member.name}
-                    <b>{member.role}</b>
+                    <span className="orbit-bubble-avatar" aria-hidden>
+                      <Portrait memberId={member.id} name={member.name} className="size-full" />
+                      <i />
+                    </span>
+                    <span className="orbit-bubble-id">
+                      <strong>{member.name}</strong>
+                      <b>{member.role}</b>
+                    </span>
                   </span>
                   {arrived && task ? (
                     <span key={`${member.id}-${count}`} className="orbit-bubble-text">
@@ -141,6 +147,11 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
                   ) : (
                     <span className="orbit-bubble-typing" aria-label="يكتب الآن"><i /><i /><i /></span>
                   )}
+                  <span className="orbit-bubble-apps" aria-hidden>
+                    {member.apps.slice(0, 5).map((app) => (
+                      <AppIcon key={app} name={app} className="size-3" />
+                    ))}
+                  </span>
                   <span className="orbit-bubble-foot">
                     <span className="orbit-bubble-progress" aria-hidden>
                       {member.tasks.map((_, dot) => (
