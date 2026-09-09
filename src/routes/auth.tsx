@@ -18,7 +18,6 @@ import {
 import { Reveal } from "@/components/Reveal";
 import { AmbientBackground } from "@/components/site/AmbientBackground";
 import { AuthCover } from "@/components/site/AuthCover";
-import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { supabase } from "@/integrations/supabase/client";
 import { signIn } from "@/lib/auth";
 import { GUEST_EMAIL } from "@/lib/guest.functions";
@@ -59,8 +58,7 @@ export const Route = createFileRoute("/auth")({
 
 const dialects = ["خليجية", "مصرية", "شامية", "مغربية", "فصحى"] as const;
 
-const inputCls =
-  "w-full rounded-2xl border border-border bg-card px-11 py-3 text-start outline-none transition-colors focus:border-primary";
+const inputCls = "glass-input px-11";
 
 type Errors = Record<string, string>;
 
@@ -231,7 +229,6 @@ function AuthPage() {
       <AmbientBackground quiet />
       <header className="auth-topbar">
         <Link to="/" className="auth-logo"><Sparkles /> <span>سهل</span></Link>
-        <ThemeToggle />
       </header>
 
       <div className="auth-layout">
@@ -318,7 +315,7 @@ function AuthPage() {
                       id="dialect"
                       value={dialect}
                       onChange={(e) => setDialect(e.target.value)}
-                      className="w-full rounded-2xl border border-border bg-card px-4 py-3 outline-none transition-colors focus:border-primary"
+                      className="glass-input px-4"
                     >
                       {dialects.map((d) => (
                         <option key={d} value={d}>
