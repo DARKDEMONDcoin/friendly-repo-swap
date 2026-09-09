@@ -2204,3 +2204,63 @@ select.glass-input { appearance: none; }
   .impact-spark-line { animation: none; stroke-dashoffset: 0; }
   .impact-spark-dot { animation: none; opacity: 1; }
 }
+
+/* ── علامة تحميل سهل ─────────────────────────────────────────── */
+.brand-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.brand-loader-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  flex: none;
+}
+.brand-loader-sm .brand-loader-ring { width: 2.1rem; height: 2.1rem; }
+.brand-loader-lg .brand-loader-ring { width: 4.75rem; height: 4.75rem; }
+.brand-loader-arc {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in oklab, var(--primary) 12%, transparent) 140deg,
+    var(--primary) 300deg,
+    color-mix(in oklab, var(--amber, var(--primary)) 85%, transparent) 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  animation: brand-loader-spin 1.05s linear infinite;
+}
+.brand-loader-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 62%;
+  height: 62%;
+  animation: brand-loader-pulse 1.8s ease-in-out infinite;
+}
+.brand-loader-label {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: color-mix(in oklab, var(--foreground) 62%, transparent);
+}
+.brand-loader-screen {
+  display: grid;
+  place-items: center;
+  min-height: 60svh;
+  padding: 3rem 1.25rem;
+}
+@keyframes brand-loader-spin { to { transform: rotate(360deg); } }
+@keyframes brand-loader-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.07); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-loader-arc { animation-duration: 3s; }
+  .brand-loader-mark { animation: none; }
+}
