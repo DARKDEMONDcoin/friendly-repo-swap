@@ -7,6 +7,7 @@ import { getMember } from "@/data/team";
 import { taskStatusLabel } from "@/data/app";
 import { taskSteps, useTasks, useWorkspace, type Task } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { Portrait } from "@/components/site/Portrait";
 
 export const Route = createFileRoute("/app/tasks")({
   head: () => ({
@@ -91,10 +92,10 @@ function TasksPage() {
                   {member ? (
                     <span className="inline-flex items-center gap-2 text-sm font-bold">
                       <span
-                        className="grid size-8 place-items-center rounded-xl"
-                        style={{ background: member.tintSoft, color: member.tint }}
+                        className="size-8 overflow-hidden rounded-xl"
+                        style={{ background: member.tintSoft }}
                       >
-                        <member.icon className="size-4" strokeWidth={2.2} />
+                        <Portrait memberId={member.id} name={member.name} className="size-full" />
                       </span>
                       {member.name}
                     </span>

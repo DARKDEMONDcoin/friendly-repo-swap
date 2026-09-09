@@ -9,6 +9,7 @@ import { getMember } from "@/data/team";
 import type { BusinessProfile } from "@/lib/business-profile.server";
 import { profileMyWebsite } from "@/lib/business-profile.functions";
 import { cn } from "@/lib/utils";
+import { Portrait } from "@/components/site/Portrait";
 
 type Props = {
   workspaceId: string;
@@ -157,8 +158,8 @@ export function BusinessProfileCard({ workspaceId, website, profile, onProfiled,
                       search={{ prompt: t.prompt }}
                       className="group flex items-center gap-3 rounded-2xl border border-border p-3 text-start transition-colors hover:bg-secondary/60"
                     >
-                      <span className="grid size-9 shrink-0 place-items-center rounded-xl" style={{ background: m.tintSoft, color: m.tint }}>
-                        <m.icon className="size-4" strokeWidth={2.2} />
+                      <span className="size-9 shrink-0 overflow-hidden rounded-xl" style={{ background: m.tintSoft }}>
+                        <Portrait memberId={m.id} name={m.name} className="size-full" />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block text-xs font-bold text-muted-foreground">{m.name}</span>

@@ -9,6 +9,7 @@ import { getMember } from "@/data/team";
 import { brainKindLabel } from "@/data/app";
 import { useAddBrainItem, useBrainItems, useDeleteBrainItem, useWorkspace } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { Portrait } from "@/components/site/Portrait";
 
 export const Route = createFileRoute("/app/brain")({
   head: () => ({
@@ -178,10 +179,10 @@ function BrainPage() {
                           <span
                             key={uid}
                             title={m.name}
-                            className="grid size-7 place-items-center rounded-full border-2 border-card"
-                            style={{ background: m.tintSoft, color: m.tint }}
+                            className="size-7 overflow-hidden rounded-full border-2 border-card"
+                            style={{ background: m.tintSoft }}
                           >
-                            <m.icon className="size-3.5" strokeWidth={2.4} />
+                            <Portrait memberId={m.id} name={m.name} className="size-full" />
                           </span>
                         );
                       })}

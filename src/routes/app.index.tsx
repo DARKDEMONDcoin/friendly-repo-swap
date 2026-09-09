@@ -9,6 +9,7 @@ import { AppIcon, appLabel } from "@/components/site/AppIcon";
 import { getMember } from "@/data/team";
 import { taskStatusLabel } from "@/data/app";
 import { useIntegrations, useProfile, useTasks, useWorkspace } from "@/lib/data";
+import { Portrait } from "@/components/site/Portrait";
 
 export const Route = createFileRoute("/app/")({
   head: () => ({
@@ -194,10 +195,10 @@ function AppHome() {
                       {member ? (
                         <span className="inline-flex items-center gap-1.5 font-bold">
                           <span
-                            className="grid size-6 place-items-center rounded-lg"
-                            style={{ background: member.tintSoft, color: member.tint }}
+                            className="size-6 overflow-hidden rounded-lg"
+                            style={{ background: member.tintSoft }}
                           >
-                            <member.icon className="size-3" strokeWidth={2.4} />
+                            <Portrait memberId={member.id} name={member.name} className="size-full" />
                           </span>
                           {member.name}
                         </span>
