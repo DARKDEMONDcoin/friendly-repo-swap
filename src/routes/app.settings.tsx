@@ -596,4 +596,3 @@ function BillingPanel({ doneCount, loading }: { doneCount: number; loading: bool
     </SettingsCard>
   );
 }
-}
