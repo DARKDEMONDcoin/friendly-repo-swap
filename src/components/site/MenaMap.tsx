@@ -2,6 +2,53 @@
 // Purely presentational: no JS, no network, no layout impact.
 import { cn } from "@/lib/utils";
 
+type City = { n: string; x: number; y: number; hub?: boolean };
+
+/** عواصم موزّعة على كامل المنطقة من المغرب حتى الخليج. */
+const CITIES: City[] = [
+  { n: "الدار البيضاء", x: 110, y: 325 },
+  { n: "الجزائر", x: 300, y: 258 },
+  { n: "تونس", x: 400, y: 244 },
+  { n: "طرابلس", x: 495, y: 292 },
+  { n: "القاهرة", x: 770, y: 315, hub: true },
+  { n: "الخرطوم", x: 845, y: 528 },
+  { n: "عمّان", x: 812, y: 286 },
+  { n: "بغداد", x: 915, y: 280 },
+  { n: "الرياض", x: 975, y: 430 },
+  { n: "الدوحة", x: 1022, y: 404 },
+  { n: "دبي", x: 1078, y: 392 },
+  { n: "صنعاء", x: 962, y: 540 },
+];
+
+/** مسارات تغطي عرض الخريطة كله، وليست متجمّعة حول نقطة واحدة. */
+const LINKS: [number, number][] = [
+  [0, 1],
+  [1, 2],
+  [2, 3],
+  [3, 4],
+  [0, 4],
+  [4, 6],
+  [6, 7],
+  [7, 8],
+  [8, 9],
+  [9, 10],
+  [4, 8],
+  [4, 5],
+  [5, 11],
+  [11, 8],
+  [1, 3],
+];
+
+function curve(a: City, b: City, index: number) {
+  const mx = (a.x + b.x) / 2;
+  const my = (a.y + b.y) / 2;
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const bend = index % 2 === 0 ? 0.14 : -0.14;
+  return `M${a.x} ${a.y} Q${(mx - dy * bend).toFixed(1)} ${(my + dx * bend).toFixed(1)} ${b.x} ${b.y}`;
+}
+
+
 export function MenaMap({ orbit = false }: { orbit?: boolean }) {
   return (
     <div className={cn("mena-map-layer", orbit && "mena-map-orbit")} aria-hidden>
