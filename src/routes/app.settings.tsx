@@ -336,6 +336,7 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
   const { country, setCountry } = useRegion();
   const updateProfile = useUpdateProfile();
   const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
   const [anonymous, setAnonymous] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordBusy, setPasswordBusy] = useState(false);
@@ -343,6 +344,7 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
   useEffect(() => {
     void supabase.auth.getUser().then(({ data }) => {
       setEmail(data.user?.email ?? "حساب تجريبي");
+      setUserId(data.user?.id ?? null);
       setAnonymous(Boolean(data.user?.is_anonymous));
     });
   }, []);
