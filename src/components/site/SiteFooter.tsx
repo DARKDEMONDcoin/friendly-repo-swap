@@ -71,7 +71,7 @@ export function SiteFooter() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-3">
-              <Link to="/auth/signup" className="site-footer-primary">
+              <Link to="/auth" className="site-footer-primary">
                 ابدأ مجانًا
                 <ArrowUpRight className="size-4" strokeWidth={2.6} />
               </Link>
