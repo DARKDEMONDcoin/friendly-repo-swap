@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { plans, priceOf, currencyOf } from "@/data/pricing";
@@ -139,12 +138,12 @@ export function Pricing() {
                         className="perk-row flex items-start gap-2.5"
                         style={{ animationDelay: `${i * 90 + pi * 70}ms` }}
                       >
-                        <Check
+                        <span
+                          aria-hidden
                           className={cn(
-                            "mt-0.5 size-4.5 shrink-0",
-                            p.highlight ? "text-amber" : "text-jade-deep",
+                            "mt-2 size-1.5 shrink-0 rounded-full",
+                            p.highlight ? "bg-amber" : "bg-jade-deep",
                           )}
-                          strokeWidth={3}
                         />
                         <span className={cn("text-sm", p.highlight ? "text-background/90" : "text-ink-soft")}>
                           {f}

@@ -1789,6 +1789,20 @@
 
 /* Brand-tinted infinite icon marquee */
 .brand-icon-track { align-items: center; animation-duration: 46s; }
+.brand-word-chip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  border: 1px solid color-mix(in oklab, var(--primary) 15%, transparent);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  background: color-mix(in oklab, var(--card) 80%, transparent);
+  color: color-mix(in oklab, var(--foreground) 78%, transparent);
+  font-size: 0.86rem;
+  font-weight: 700;
+  white-space: nowrap;
+  backdrop-filter: blur(14px) saturate(140%);
+}
 .brand-icon-chip {
   display: inline-grid;
   width: 3.25rem;
@@ -1966,11 +1980,14 @@
 .site-footer-link:hover { color: var(--primary); }
 .site-footer-link:hover::after { transform: scaleX(1); }
 .site-footer-chip {
-  display: grid;
-  place-items: center;
-  width: 2.15rem;
-  height: 2.15rem;
-  border-radius: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32rem 0.7rem;
+  color: color-mix(in oklab, var(--foreground) 70%, transparent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  border-radius: 999px;
   border: 1px solid color-mix(in oklab, var(--foreground) 9%, transparent);
   background: color-mix(in oklab, var(--card) 65%, transparent);
   box-shadow: 0 1px 0 color-mix(in oklab, white 28%, transparent) inset;

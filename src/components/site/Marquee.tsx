@@ -1,22 +1,20 @@
-import { AppIcon, appLabel } from "@/components/site/AppIcon";
-
 const platforms = [
-  "instagram",
-  "linkedin",
-  "facebook",
-  "x",
-  "tiktok",
-  "youtube",
-  "pinterest",
-  "whatsapp",
-  "gmail",
-  "slack",
-  "shopify",
-  "notion",
-  "wordpress",
-  "figma",
-  "canva",
-  "analytics",
+  "إنستغرام",
+  "لينكدإن",
+  "فيسبوك",
+  "إكس",
+  "تيك توك",
+  "يوتيوب",
+  "بينترست",
+  "واتساب",
+  "جيميل",
+  "سلاك",
+  "شوبيفاي",
+  "نوشن",
+  "ووردبريس",
+  "فيجما",
+  "كانفا",
+  "تحليلات جوجل",
 ];
 
 export function Marquee() {
@@ -27,10 +25,10 @@ export function Marquee() {
         فريقك ينشر ويشتغل مباشرة على المنصات اللي تستخدمها
       </p>
       <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-        <div className="marquee-track brand-icon-track gap-5">
+        <div className="marquee-track brand-icon-track gap-3">
           {row.map((p, i) => (
-            <span key={`${p}-${i}`} className="brand-icon-chip" aria-label={appLabel(p)}>
-              <AppIcon name={p} colored={false} className="size-6" />
+            <span key={`${p}-${i}`} className="brand-word-chip">
+              {p}
             </span>
           ))}
         </div>

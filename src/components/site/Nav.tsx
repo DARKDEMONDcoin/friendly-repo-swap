@@ -1,7 +1,7 @@
 import { LogoMark } from "@/components/site/LogoMark";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -110,8 +110,8 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
         <div className="nav-glass-sheet mx-3 my-3 max-w-[26rem] p-4 text-foreground md:mx-auto">
           <div className="mb-3 flex items-center justify-between px-1">
             <span className="text-xs font-semibold tracking-wide text-foreground/55">تنقّل</span>
-            <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.7rem] font-medium text-foreground/55" style={{ border: "1px solid color-mix(in oklab, var(--foreground) 16%, transparent)" }}>
-              <span className="size-1.5 rounded-full bg-primary" /> سهل
+            <span className="flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[0.72rem] font-bold text-foreground/70" style={{ border: "1px solid color-mix(in oklab, var(--foreground) 14%, transparent)" }}>
+              <LogoMark className="size-4" size={16} /> سهل
             </span>
           </div>
           <ul className="grid grid-cols-2 gap-1.5">

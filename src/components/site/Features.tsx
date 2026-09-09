@@ -1,10 +1,8 @@
 import { useCallback } from "react";
 import type { MouseEvent } from "react";
-import { Languages, ShieldCheck, Zap, Layers, Video, Wallet, Sparkles, Check, X } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 type Item = {
-  icon: typeof Languages;
   title: string;
   body: string;
   span: string;
@@ -16,7 +14,6 @@ type Item = {
 
 const items: Item[] = [
   {
-    icon: Languages,
     title: "عربي أصيل، مش ترجمة",
     body: "يكتب بالفصحى وبالمصري والخليجي والمغاربي، ويولّد صوراً بنص عربي منسّق بدون حروف مكسورة.",
     span: "md:col-span-2",
@@ -25,7 +22,6 @@ const items: Item[] = [
     visual: "dialects",
   },
   {
-    icon: Video,
     title: "فيديو قصير تلقائي",
     body: "ريلز وتيك توك من مقال أو منتج، مع تعليق صوتي عربي وترجمة على الشاشة.",
     span: "",
@@ -34,7 +30,6 @@ const items: Item[] = [
     metric: { value: "٤٠ ثانية", label: "من مقال إلى فيديو" },
   },
   {
-    icon: Zap,
     title: "نشر في التوقيت الذكي",
     body: "يتعلّم متى يتفاعل جمهورك فعلاً ويجدول النشر على أساسه.",
     span: "",
@@ -43,7 +38,6 @@ const items: Item[] = [
     metric: { value: "+٣٢٪", label: "متوسط زيادة التفاعل" },
   },
   {
-    icon: Layers,
     title: "ذاكرة مشتركة للفريق",
     body: "كل موظف يعرف علامتك التجارية، منتجاتك، ونبرتك — سياق واحد يتحدث تلقائياً.",
     span: "md:col-span-2",
@@ -52,7 +46,6 @@ const items: Item[] = [
     visual: "memory",
   },
   {
-    icon: Wallet,
     title: "رصيد شفاف يترحّل",
     body: "تشوف تكلفة كل مهمة بالضبط، والرصيد غير المستخدم ينتقل للشهر التالي.",
     span: "",
@@ -61,7 +54,6 @@ const items: Item[] = [
     metric: { value: "٠ مفاجآت", label: "في الفاتورة" },
   },
   {
-    icon: ShieldCheck,
     title: "موافقتك قبل أي نشر",
     body: "وضع المراجعة اختياري: راجع كل شيء، أو اترك الفريق يشتغل بالكامل.",
     span: "",
@@ -99,7 +91,7 @@ function DialectVisual() {
 function MemoryVisual() {
   return (
     <div className="feature-visual feature-visual-memory" aria-hidden="true">
-      <div className="fv-core"><Sparkles className="size-4" /></div>
+      <div className="fv-core"><b>سهل</b></div>
       <div className="fv-nodes">
         {["محتوى", "إعلانات", "دعم", "تحليلات", "سيو"].map((n) => (
           <span key={n} className="fv-node">{n}</span>
@@ -124,7 +116,6 @@ export function Features() {
           <div className="flex flex-col items-start gap-5 md:flex-row md:items-end md:justify-between">
             <div>
               <span className="section-eyebrow">
-                <Sparkles className="size-3.5" />
                 لماذا سهل
               </span>
               <h2 className="mt-4 max-w-2xl font-display text-4xl leading-[1.15] font-black md:text-5xl">
@@ -141,8 +132,8 @@ export function Features() {
           <ul className="compare-strip mt-8">
             {compare.map((c) => (
               <li key={c.good} className="compare-item">
-                <span className="compare-bad"><X className="size-3.5" />{c.bad}</span>
-                <span className="compare-good"><Check className="size-3.5" />{c.good}</span>
+                <span className="compare-bad">{c.bad}</span>
+                <span className="compare-good">{c.good}</span>
               </li>
             ))}
           </ul>
@@ -157,10 +148,7 @@ export function Features() {
               >
                 <span className="feature-spotlight" aria-hidden="true" />
                 <div className="relative flex h-full flex-col">
-                  <span className="feature-icon-shell grid size-11 place-items-center rounded-2xl">
-                    <it.icon className={`feature-icon ${it.motion} size-5`} strokeWidth={2.2} />
-                  </span>
-                  <h3 className="mt-5 font-display text-xl font-extrabold">{it.title}</h3>
+                  <h3 className=" font-display text-xl font-extrabold">{it.title}</h3>
                   <p className="mt-2 leading-relaxed text-muted-foreground">{it.body}</p>
 
                   {it.visual === "dialects" && <DialectVisual />}

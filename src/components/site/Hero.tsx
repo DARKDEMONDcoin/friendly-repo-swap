@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
 import { Portrait } from "@/components/site/Portrait";
 import { team } from "@/data/team";
 
@@ -35,7 +34,6 @@ export function Hero() {
         <div className="sahl-video-actions">
           <Link to="/auth" search={{ mode: "signup" as const }} className="sahl-video-primary">
             <span>كوّن فريقك مجانًا</span>
-            <ArrowLeft aria-hidden="true" />
           </Link>
           <Link to="/app" className="sahl-video-secondary">شاهد فريقك يعمل</Link>
         </div>
