@@ -76,7 +76,14 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
 
   const active = step % ROUTES.length;
   const activeConnection = hovered ?? active;
-
+  const activeMember = team[active];
+  const activeCount = spoken[active] ?? 0;
+  const activeTaskIndex = activeMember && activeCount > 0 ? (activeCount - 1) % activeMember.tasks.length : 0;
+  const activeTask = activeMember?.tasks[activeTaskIndex];
+  const activePrefix = activeMember
+    ? actionPrefixes[Math.floor((activeCount - 1) / activeMember.tasks.length + activeMember.tasks.length) % actionPrefixes.length]
+    : actionPrefixes[0];
+  const activeIsLast = activeMember ? activeTaskIndex === activeMember.tasks.length - 1 : false;
 
   return (
     <div className={cn("team-orbit", compact && "team-orbit-compact", dark && "team-orbit-dark")}>
@@ -110,12 +117,7 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
 
       <div className="orbit-rail" aria-label="فريق سهل">
         {team.map((member, index) => {
-          const count = spoken[index] ?? 0;
-          const taskIndex = count > 0 ? (count - 1) % member.tasks.length : 0;
-          const task = member.tasks[taskIndex];
-          const prefix = actionPrefixes[Math.floor((count - 1) / member.tasks.length + member.tasks.length) % actionPrefixes.length];
           const isActive = active === index;
-          const isLast = taskIndex === member.tasks.length - 1;
           return (
             <div
               key={member.id}
@@ -125,45 +127,6 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
               onFocusCapture={() => setHovered(index)}
               onBlurCapture={() => setHovered(null)}
             >
-              {isActive && count > 0 ? (
-                <div
-                  className={cn("orbit-bubble", arrived ? "is-said" : "is-typing")}
-                  role="status"
-                  style={{ "--employee-tone": member.tint } as React.CSSProperties}
-                >
-                  <span className="orbit-bubble-head">
-                    <span className="orbit-bubble-avatar" aria-hidden>
-                      <Portrait memberId={member.id} name={member.name} className="size-full" />
-                      <i />
-                    </span>
-                    <span className="orbit-bubble-id">
-                      <strong>{member.name}</strong>
-                      <b>{member.role}</b>
-                    </span>
-                  </span>
-                  {arrived && task ? (
-                    <span key={`${member.id}-${count}`} className="orbit-bubble-text">
-                      {prefix} {task}
-                    </span>
-                  ) : (
-                    <span className="orbit-bubble-typing" aria-label="يكتب الآن"><i /><i /><i /></span>
-                  )}
-                  <span className="orbit-bubble-apps" aria-hidden>
-                    {member.apps.slice(0, 5).map((app) => (
-                      <AppIcon key={app} name={app} className="size-3" />
-                    ))}
-                  </span>
-                  <span className="orbit-bubble-foot">
-                    <span className="orbit-bubble-progress" aria-hidden>
-                      {member.tasks.map((_, dot) => (
-                        <i key={dot} className={cn(dot <= taskIndex && "is-on")} />
-                      ))}
-                    </span>
-                    <em>{isLast && arrived ? "أنهيت عرض ما أقدّمه" : `${taskIndex + 1} من ${member.tasks.length}`}</em>
-                  </span>
-                </div>
-              ) : null}
-
               <LiquidGlass
                 className={cn("orbit-employee", isActive && arrived && "is-lit")}
                 style={{ "--employee-tone": member.tint, "--float-delay": `${index * -0.7}s` } as React.CSSProperties}
@@ -183,6 +146,42 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
           );
         })}
       </div>
+
+      {activeMember && activeCount > 0 ? (
+        <div
+          className={cn("orbit-commentary", arrived ? "is-said" : "is-typing")}
+          role="status"
+          aria-live="polite"
+          style={{ "--employee-tone": activeMember.tint } as React.CSSProperties}
+        >
+          <span className="orbit-bubble-head">
+            <span className="orbit-bubble-avatar" aria-hidden>
+              <Portrait memberId={activeMember.id} name={activeMember.name} className="size-full" />
+              <i />
+            </span>
+            <span className="orbit-bubble-id">
+              <strong>{activeMember.name}</strong>
+              <b>{activeMember.role}</b>
+            </span>
+          </span>
+          {arrived && activeTask ? (
+            <span key={`${activeMember.id}-${activeCount}`} className="orbit-bubble-text">
+              {activePrefix} {activeTask}
+            </span>
+          ) : (
+            <span className="orbit-bubble-typing" aria-label="يكتب الآن"><i /><i /><i /></span>
+          )}
+          <span className="orbit-bubble-apps" aria-hidden>
+            {activeMember.apps.slice(0, 5).map((app) => <AppIcon key={app} name={app} className="size-3" />)}
+          </span>
+          <span className="orbit-bubble-foot">
+            <span className="orbit-bubble-progress" aria-hidden>
+              {activeMember.tasks.map((_, dot) => <i key={dot} className={cn(dot <= activeTaskIndex && "is-on")} />)}
+            </span>
+            <em>{activeIsLast && arrived ? "أنهيت عرض ما أقدّمه" : `${activeTaskIndex + 1} من ${activeMember.tasks.length}`}</em>
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 }
