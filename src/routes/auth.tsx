@@ -229,7 +229,7 @@ function AuthPage() {
     <main className="auth-experience">
       <AmbientBackground quiet />
       <header className="auth-topbar">
-        <Link to="/" className="auth-logo"><LogoMark className="size-6" size={24} /> <span>سهل</span></Link>
+        <Link to="/" className="auth-logo"><LogoMark className="size-8" size={32} /> <span>سهل</span></Link>
       </header>
 
       <div className="auth-layout">

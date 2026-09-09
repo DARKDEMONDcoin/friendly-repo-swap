@@ -29,7 +29,7 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5">
         <Link to="/" className="nav-floating-control pointer-events-auto group flex items-center gap-2.5 rounded-full py-1.5 pe-4 ps-1.5">
-          <LogoMark className="size-9" />
+          <LogoMark className="size-11" size={44} />
           <span className="font-display text-xl font-extrabold tracking-tight">سهل</span>
         </Link>
 
@@ -111,7 +111,7 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
           <div className="mb-3 flex items-center justify-between px-1">
             <span className="text-xs font-semibold tracking-wide text-foreground/55">تنقّل</span>
             <span className="flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[0.72rem] font-bold text-foreground/70" style={{ border: "1px solid color-mix(in oklab, var(--foreground) 14%, transparent)" }}>
-              <LogoMark className="size-4" size={16} /> سهل
+              <LogoMark className="size-5" size={20} /> سهل
             </span>
           </div>
           <ul className="grid grid-cols-2 gap-1.5">
