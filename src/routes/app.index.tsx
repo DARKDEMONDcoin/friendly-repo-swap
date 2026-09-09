@@ -10,6 +10,7 @@ import { getMember } from "@/data/team";
 import { taskStatusLabel } from "@/data/app";
 import { useIntegrations, useProfile, useTasks, useWorkspace } from "@/lib/data";
 import { Portrait } from "@/components/site/Portrait";
+import { BrandLoader } from "@/components/site/BrandLoader";
 
 export const Route = createFileRoute("/app/")({
   head: () => ({
@@ -170,7 +171,7 @@ function AppHome() {
           </div>
           {isLoading ? (
             <p className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
-              <Loader2 className="size-4 animate-spin" /> جارٍ التحميل…
+              <BrandLoader size="sm" />
             </p>
           ) : list.length === 0 ? (
             <div className="mt-6 rounded-2xl bg-secondary/50 p-8 text-center">

@@ -30,6 +30,7 @@ import {
 import { GUEST_EMAIL } from "@/lib/guest.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { BrandLoader } from "@/components/site/BrandLoader";
 
 export const Route = createFileRoute("/app/integrations")({
   head: () => ({
@@ -380,7 +381,7 @@ function IntegrationsPage() {
 
       {isLoading ? (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Loader2 className="size-4 animate-spin" /> جارٍ التحميل…
+          <BrandLoader size="sm" />
         </p>
       ) : (
         <div className="space-y-6">

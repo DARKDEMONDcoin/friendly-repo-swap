@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, MessageCircle, RefreshCw, Trash2 } from "lucide-react";
 
 import {
+import { BrandLoader } from "@/components/site/BrandLoader";
   connectWhatsappFromExistingMeta,
   createLinkCode,
   removeCommandLink,
@@ -136,7 +137,7 @@ export function WhatsAppCommand({ workspaceId }: { workspaceId: string }) {
   if (isLoading) {
     return (
       <p className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Loader2 className="size-4 animate-spin" /> جارٍ التحميل…
+        <BrandLoader size="sm" />
       </p>
     );
   }

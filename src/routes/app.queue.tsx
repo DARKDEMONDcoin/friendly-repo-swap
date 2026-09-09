@@ -7,6 +7,7 @@ import { AppShell } from "@/components/app/AppShell";
 import { AppIcon, appLabel } from "@/components/site/AppIcon";
 import { useSocialPosts, useWorkspace, type SocialPost } from "@/lib/data";
 import { updateSocialPost } from "@/lib/social-queue.functions";
+import { BrandLoader } from "@/components/site/BrandLoader";
 
 export const Route = createFileRoute("/app/queue")({
   head: () => ({
@@ -84,7 +85,7 @@ function QueuePage() {
 
       {isLoading ? (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Loader2 className="size-4 animate-spin" /> جارٍ التحميل…
+          <BrandLoader size="sm" />
         </p>
       ) : rows.length === 0 ? (
         <div className="rounded-3xl border border-border bg-card p-14 text-center">

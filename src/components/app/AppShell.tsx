@@ -206,7 +206,7 @@ function GuestBar() {
 }
 
 /** قائمة المستخدم: اسمه وبريده، والملف الشخصي، وزي الفريق، وتسجيل الخروج. */
-function UserMenu({ initial, name }: { initial: string; name: string | null }) {
+function UserMenu({ name }: { name: string | null }) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
   const { country, countryInfo, setCountry } = useRegion();
@@ -315,7 +315,6 @@ export function AppShell({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { data: profile } = useProfile();
-  const initial = (profile?.full_name ?? "ع").trim().charAt(0) || "ع";
 
   return (
     <div className="min-h-screen bg-background">
@@ -359,7 +358,7 @@ export function AppShell({
               >
                 <Bell className="size-4.5" />
               </Link>
-              <UserMenu initial={initial} name={profile?.full_name ?? null} />
+              <UserMenu name={profile?.full_name ?? null} />
             </div>
 
           </div>
