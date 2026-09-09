@@ -596,42 +596,4 @@ function BillingPanel({ doneCount, loading }: { doneCount: number; loading: bool
     </SettingsCard>
   );
 }
-
-function SecretsPanel() {
-  const queryClient = useQueryClient();
-  const load = useServerFn(listSecrets);
-  const save = useServerFn(upsertSecrets);
-  const remove = useServerFn(deleteSecret);
-  const test = useServerFn(testAiProviders);
-  const [note, setNote] = useState<string | null>(null);
-  const [showValue, setShowValue] = useState(false);
-  const { data, isLoading } = useQuery({ queryKey: ["app-secrets"], queryFn: () => load() });
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ["app-secrets"] });
-  const saveMutation = useMutation({
-    mutationFn: (input: { entries?: { name: string; value: string }[]; bulk?: string }) => save({ data: input }),
-    onSuccess: async (result) => { setNote(result.saved > 0 ? `تم حفظ ${result.saved} مفتاح بنجاح.` : "لم يُقرأ أي مفتاح. تأكد من صيغة NAME=value."); await refresh(); },
-    onError: () => setNote("تعذّر حفظ المفتاح."),
-  });
-  const deleteMutation = useMutation({ mutationFn: (name: string) => remove({ data: { name } }), onSuccess: async () => { setNote("تم حذف المفتاح."); await refresh(); } });
-  const testMutation = useMutation({ mutationFn: () => test(), onSuccess: (result) => setNote(result.message), onError: () => setNote("تعذّر الاختبار.") });
-
-  return (
-    <SettingsCard>
-      <PanelHeader icon={KeyRound} title="مفاتيح الذكاء" description="تُحفظ القيم بعيداً عن المتصفح ولا نعرضها كاملة بعد الحفظ." />
-      {note ? <p role="status" className="mb-5 rounded-lg border border-primary/20 bg-primary/10 px-4 py-3 text-sm font-semibold">{note}</p> : null}
-      <div className="mb-6 space-y-2">
-        <h3 className="text-sm font-black">المحفوظ حالياً</h3>
-        {isLoading ? <div className="h-16 animate-pulse rounded-lg bg-secondary" /> : null}
-        {!isLoading && (data?.stored ?? []).length === 0 ? <p className="rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground">لا يوجد مفتاح محفوظ بعد.</p> : null}
-        {(data?.stored ?? []).map((secret) => <div key={secret.name} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border px-4 py-3 text-sm"><span className="font-mono font-bold">{secret.name}</span><span className="flex items-center gap-3"><span className="font-semibold text-primary">{secret.preview}</span><Button type="button" size="sm" variant="ghost" disabled={deleteMutation.isPending} onClick={() => deleteMutation.mutate(secret.name)} className="text-destructive hover:text-destructive">حذف</Button></span></div>)}
-      </div>
-      {(data?.missing ?? []).length ? <div className="mb-6"><h3 className="mb-2 text-sm font-black">مفاتيح ينتظرها التطبيق</h3><div className="grid gap-2 sm:grid-cols-2">{(data?.missing ?? []).map((item) => <div key={item.name} className="rounded-lg border border-dashed border-border p-3"><p className="break-all font-mono text-xs font-bold">{item.name}</p><p className="mt-1 text-xs text-muted-foreground">{item.label}</p></div>)}</div></div> : null}
-      <form className="space-y-4 rounded-lg bg-secondary/50 p-5" onSubmit={(event) => { event.preventDefault(); const form = event.currentTarget; const values = new FormData(form); const name = String(values.get("name") ?? "").trim(); const value = String(values.get("value") ?? "").trim(); saveMutation.mutate({ entries: name && value ? [{ name, value }] : [], bulk: String(values.get("bulk") ?? "") }); form.reset(); }}>
-        <h3 className="text-sm font-black">إضافة أو تحديث مفتاح</h3>
-        <div className="grid gap-4 sm:grid-cols-2"><Field label="اسم المفتاح"><input name="name" placeholder="GEMINI_API_KEY" className={cn(field, "font-mono")} /></Field><Field label="القيمة"><div className="relative"><input name="value" type={showValue ? "text" : "password"} autoComplete="off" className={cn(field, "ps-10")} /><Button type="button" variant="ghost" size="icon" className="absolute left-1 top-1 size-8" onClick={() => setShowValue((value) => !value)} aria-label={showValue ? "إخفاء القيمة" : "إظهار القيمة"}>{showValue ? <EyeOff className="size-4" /> : <Eye className="size-4" />}</Button></div></Field></div>
-        <Field label="إضافة عدة مفاتيح" hint="سطر لكل مفتاح بصيغة NAME=value"><textarea name="bulk" spellCheck={false} placeholder={"GEMINI_API_KEY=…\nOPENROUTER_API_KEY=…"} className={cn(field, "min-h-28 resize-y font-mono")} /></Field>
-        <div className="flex flex-wrap gap-3"><Button type="submit" disabled={saveMutation.isPending} className="gap-2">{saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}حفظ المفتاح</Button><Button type="button" variant="outline" onClick={() => testMutation.mutate()} disabled={testMutation.isPending} className="gap-2">{testMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />}اختبار الاتصال</Button></div>
-      </form>
-    </SettingsCard>
-  );
 }
