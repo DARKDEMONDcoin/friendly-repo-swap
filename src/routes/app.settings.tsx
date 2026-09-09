@@ -353,13 +353,39 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
     <div className="space-y-5">
       <SettingsCard>
         <PanelHeader icon={User} title="بيانات الحساب" description="بياناتك الشخصية واللغة التي يكتب بها فريقك." />
+        {userId ? (
+          <div className="mb-6 rounded-lg border border-border bg-secondary/40 p-4">
+            <AvatarUploader
+              userId={userId}
+              path={profile.avatar_url}
+              name={profile.full_name ?? ""}
+              onError={(text) => onNotice({ type: "error", text })}
+              onChange={async (nextPath) => {
+                try {
+                  await updateProfile.mutateAsync({ id: profile.id, patch: { avatar_url: nextPath } });
+                  onNotice({ type: "success", text: nextPath ? "تم تحديث صورتك الشخصية." : "تم حذف صورتك الشخصية." });
+                } catch {
+                  onNotice({ type: "error", text: "تعذّر حفظ الصورة." });
+                }
+              }}
+            />
+          </div>
+        ) : null}
         <form
           className="space-y-5"
           onSubmit={async (event) => {
             event.preventDefault();
             const form = new FormData(event.currentTarget);
             try {
-              await updateProfile.mutateAsync({ id: profile.id, patch: { full_name: String(form.get("full_name") ?? "").trim(), dialect: String(form.get("dialect") ?? "") } });
+              await updateProfile.mutateAsync({
+                id: profile.id,
+                patch: {
+                  full_name: String(form.get("full_name") ?? "").trim(),
+                  dialect: String(form.get("dialect") ?? ""),
+                  job_title: String(form.get("job_title") ?? "").trim() || null,
+                  phone: String(form.get("phone") ?? "").trim() || null,
+                },
+              });
               onNotice({ type: "success", text: "تم تحديث بيانات حسابك." });
             } catch {
               onNotice({ type: "error", text: "تعذّر تحديث الحساب." });
@@ -369,6 +395,12 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
           <div className="grid gap-5 sm:grid-cols-2">
             <Field label="الاسم"><input name="full_name" defaultValue={profile.full_name ?? ""} className={field} /></Field>
             <Field label="البريد الإلكتروني"><div className="relative"><Mail className="absolute right-3 top-3 size-4 text-muted-foreground" /><input value={email} readOnly className={cn(field, "pe-9 text-muted-foreground")} /></div></Field>
+            <Field label="المسمى الوظيفي" hint="اختياري — يظهر في التقارير التي يعدّها فريقك">
+              <input name="job_title" defaultValue={profile.job_title ?? ""} placeholder="مدير التسويق" className={field} />
+            </Field>
+            <Field label="رقم الجوال" hint="اختياري — لتنبيهات واتساب مستقبلاً">
+              <input name="phone" type="tel" dir="ltr" defaultValue={profile.phone ?? ""} placeholder="+9665…" className={field} />
+            </Field>
             <Field label="لهجة المحتوى">
               <select name="dialect" defaultValue={profile.dialect} className={field}>
                 {["خليجية", "مصرية", "شامية", "مغاربية", "فصحى معاصرة"].map((dialect) => <option key={dialect}>{dialect}</option>)}
