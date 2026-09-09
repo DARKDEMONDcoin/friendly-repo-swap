@@ -64,8 +64,7 @@ const tabs = [
   { id: "workspace", label: "مساحة العمل", hint: "الهوية والتفضيلات", icon: Building2 },
   { id: "account", label: "الحساب والأمان", hint: "بياناتك وكلمة المرور", icon: ShieldCheck },
   { id: "notifications", label: "التنبيهات", hint: "ما يصلك ومتى", icon: Bell },
-  { id: "connections", label: "الاتصالات", hint: "واتساب والتكاملات", icon: Workflow },
-  { id: "ai", label: "مفاتيح الذكاء", hint: "إدارة المزوّدين", icon: KeyRound },
+  { id: "appearance", label: "المظهر واللغة", hint: "الوضع الداكن والعرض", icon: Palette },
   { id: "billing", label: "الاستخدام والباقات", hint: "حالة تجربتك", icon: CreditCard },
 ] as const;
 
