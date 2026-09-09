@@ -1956,10 +1956,14 @@
 .auth-cover-dot[data-active="true"] > span { animation-name: auth-cover-progress; animation-timing-function: linear; animation-fill-mode: forwards; }
 @keyframes auth-cover-progress { from { width: 0; } to { width: 100%; } }
 @media (max-width: 1023px) {
-  .auth-cover { min-height: 0; height: 46svh; }
-  .auth-cover-ghost { top: 6%; font-size: clamp(70px, 22vw, 150px); }
-  .auth-cover-card { max-width: none; padding: 0.9rem 1rem; }
-  .auth-cover-quote { font-size: 0.88rem; }
+  .auth-cover { min-height: 0; height: 36svh; border-end-start-radius: 28px; border-end-end-radius: 28px; }
+  .auth-cover-ghost { top: 4%; font-size: clamp(64px, 20vw, 130px); opacity: 0.18; }
+  .auth-cover-top { display: none; }
+  .auth-cover-card { max-width: none; padding: 0.75rem 0.9rem; border-radius: 20px; }
+  .auth-cover-quote { margin-top: 0.25rem; font-size: 0.82rem; line-height: 1.55; }
+  .auth-cover-quote-icon { width: 0.9rem; height: 0.9rem; }
+  .auth-cover-meta { margin-top: 0.55rem; }
+  .auth-cover-bottom { gap: 0.55rem; bottom: 0.75rem; }
   .auth-cover-figure[data-role="center"] { height: 82%; bottom: 2%; transform: translateX(-50%) scale(1); }
   .auth-cover-figure[data-role="left"],
   .auth-cover-figure[data-role="right"],
