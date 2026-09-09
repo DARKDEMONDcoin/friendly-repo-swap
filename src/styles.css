@@ -962,9 +962,15 @@
   .impact-card-inner { padding: 1rem; }
   .impact-icon-shell { top: 1rem; right: 1rem; width: 2.35rem; height: 2.35rem; }
   .impact-icon { width: 1.05rem; }
-  .impact-mini-visual { top: 1.15rem; left: 0.85rem; width: 3.8rem; }
-  .impact-value { font-size: clamp(1.55rem, 7vw, 2.1rem); }
-  .impact-card p { font-size: 0.7rem; line-height: 1.65; }
+  .impact-value { font-size: clamp(1.4rem, 6.5vw, 1.95rem); }
+  .impact-card p { font-size: 0.68rem; line-height: 1.6; }
+  .impact-card-inner { gap: 0.6rem; padding: 1rem 0.9rem 0.9rem; }
+  .impact-card-head { flex-direction: column-reverse; align-items: flex-start; gap: 0.5rem; }
+  .impact-title { font-size: 0.72rem; }
+  .impact-icon-shell { position: static; width: 1.9rem; height: 1.9rem; }
+  .impact-unit { font-size: 0.62rem; white-space: nowrap; }
+  .impact-spark { height: 3.4rem; }
+  .impact-meta dd { font-size: 0.74rem; }
   .employee-editorial-grid { display: flex; gap: 0.8rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 1.25rem; margin-inline: -1.25rem; padding-inline: 1.25rem; scrollbar-width: none; touch-action: pan-x; overscroll-behavior-inline: contain; }
   .employee-editorial-grid::-webkit-scrollbar { display: none; }
   .employee-editorial-grid > div { width: min(84vw, 21rem); min-width: min(84vw, 21rem); scroll-snap-align: center; }
