@@ -8,6 +8,7 @@ import { taskStatusLabel } from "@/data/app";
 import { taskSteps, useTasks, useWorkspace, type Task } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Portrait } from "@/components/site/Portrait";
+import { BrandLoader } from "@/components/site/BrandLoader";
 
 export const Route = createFileRoute("/app/tasks")({
   head: () => ({
@@ -72,7 +73,7 @@ function TasksPage() {
 
       {isLoading ? (
         <p className="mt-8 flex items-center gap-2 text-sm text-muted-foreground">
-          <Loader2 className="size-4 animate-spin" /> جارٍ التحميل…
+          <BrandLoader size="sm" />
         </p>
       ) : list.length === 0 ? (
         <div className="mt-6 rounded-3xl border border-border bg-card p-12 text-center">

@@ -10,6 +10,7 @@ import { brainKindLabel } from "@/data/app";
 import { useAddBrainItem, useBrainItems, useDeleteBrainItem, useWorkspace } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Portrait } from "@/components/site/Portrait";
+import { BrandLoader } from "@/components/site/BrandLoader";
 
 export const Route = createFileRoute("/app/brain")({
   head: () => ({
@@ -151,7 +152,7 @@ function BrainPage() {
 
           {isLoading ? (
             <p className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
-              <Loader2 className="size-4 animate-spin" /> جارٍ التحميل…
+              <BrandLoader size="sm" />
             </p>
           ) : (
             <ul className="mt-5 space-y-3">

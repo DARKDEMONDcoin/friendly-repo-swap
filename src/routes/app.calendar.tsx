@@ -35,6 +35,7 @@ import {
   updateCalendarPost,
 } from "@/lib/content-calendar.functions";
 import { cn } from "@/lib/utils";
+import { BrandLoader } from "@/components/site/BrandLoader";
 
 export const Route = createFileRoute("/app/calendar")({
   head: () => ({
@@ -347,7 +348,7 @@ function CalendarPage() {
               </div>
               {isLoading ? (
                 <p className="flex items-center gap-2 p-6 text-sm text-muted-foreground">
-                  <Loader2 className="size-4 animate-spin" /> جارٍ التحميل…
+                  <BrandLoader size="sm" />
                 </p>
               ) : (
                 <div className="grid grid-cols-7">

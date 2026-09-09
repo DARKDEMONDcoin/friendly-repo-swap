@@ -8,6 +8,7 @@ import { AppIcon, appLabel } from "@/components/site/AppIcon";
 import { getMember } from "@/data/team";
 import { useTasks, useUpdateTask, useWorkspace } from "@/lib/data";
 import { sanitizePostBody } from "@/lib/post-format";
+import { BrandLoader } from "@/components/site/BrandLoader";
 
 
 export const Route = createFileRoute("/app/approvals")({
@@ -66,7 +67,7 @@ function ApprovalsPage() {
     >
       {isLoading ? (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Loader2 className="size-4 animate-spin" /> جارٍ التحميل…
+          <BrandLoader size="sm" />
         </p>
       ) : pending.length === 0 ? (
         <div className="rounded-3xl border border-border bg-card p-14 text-center">

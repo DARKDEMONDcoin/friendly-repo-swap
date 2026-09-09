@@ -32,6 +32,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { GUEST_EMAIL } from "@/lib/guest.functions";
 
 import { useProfile, useTasks, useWorkspace } from "@/lib/data";
+import { UserAvatar } from "@/components/app/UserAvatar";
 import { cn } from "@/lib/utils";
 
 
@@ -205,7 +206,7 @@ function GuestBar() {
 }
 
 /** قائمة المستخدم: اسمه وبريده، والملف الشخصي، وزي الفريق، وتسجيل الخروج. */
-function UserMenu({ initial, name }: { initial: string; name: string | null }) {
+function UserMenu({ name }: { name: string | null }) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
   const { country, countryInfo, setCountry } = useRegion();
@@ -227,9 +228,9 @@ function UserMenu({ initial, name }: { initial: string; name: string | null }) {
         onClick={() => setOpen((v) => !v)}
         aria-label="حسابك"
         aria-expanded={open}
-        className="grid size-10 place-items-center rounded-xl bg-foreground font-display text-sm font-black text-background"
+        className="size-10 overflow-hidden rounded-xl border border-border/60 shadow-card transition-transform hover:-translate-y-0.5"
       >
-        {initial}
+        <UserAvatar />
       </button>
       {open ? (
         <>
@@ -239,11 +240,16 @@ function UserMenu({ initial, name }: { initial: string; name: string | null }) {
             onClick={() => setOpen(false)}
           />
           <div className="absolute end-0 z-50 mt-2 w-[min(88vw,17rem)] rounded-2xl border border-border bg-card p-2 shadow-lift">
-            <div className="px-3 py-2">
+            <div className="flex items-center gap-3 px-3 py-2">
+              <span className="size-10 shrink-0 overflow-hidden rounded-xl border border-border/60">
+                <UserAvatar />
+              </span>
+              <span className="min-w-0">
               <p className="truncate text-sm font-bold">{name ?? "حسابك"}</p>
               {email ? (
                 <p className="truncate text-xs text-muted-foreground">{email}</p>
               ) : null}
+              </span>
             </div>
             <Link
               to="/app/settings"
@@ -309,7 +315,6 @@ export function AppShell({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { data: profile } = useProfile();
-  const initial = (profile?.full_name ?? "ع").trim().charAt(0) || "ع";
 
   return (
     <div className="min-h-screen bg-background">
@@ -353,7 +358,7 @@ export function AppShell({
               >
                 <Bell className="size-4.5" />
               </Link>
-              <UserMenu initial={initial} name={profile?.full_name ?? null} />
+              <UserMenu name={profile?.full_name ?? null} />
             </div>
 
           </div>
