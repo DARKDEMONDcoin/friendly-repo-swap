@@ -19,6 +19,7 @@ import { useServerFn } from "@tanstack/react-start";
 
 import { BusinessProfileCard } from "@/components/app/BusinessProfileCard";
 import { team } from "@/data/team";
+import { Portrait } from "@/components/site/Portrait";
 import { saveAutomation } from "@/lib/automations.functions";
 import { useAddBrainItem, useUpdateWorkspace, useWorkspace } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -402,8 +403,8 @@ function Onboarding() {
                           on ? "border-primary/60 bg-primary/15" : "border-border bg-card/50 hover:bg-card/70",
                         )}
                       >
-                        <span className="grid size-10 shrink-0 place-items-center rounded-2xl" style={{ background: member.tintSoft, color: member.tint }}>
-                          <member.icon className="size-5" strokeWidth={2.2} />
+                        <span className="size-11 shrink-0 overflow-hidden rounded-2xl" style={{ background: member.tintSoft }}>
+                          <Portrait memberId={member.id} name={member.name} className="size-full" />
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className="block font-bold">{member.name}</span>

@@ -99,7 +99,6 @@ function MemberPage() {
                 {m.role} — {m.title}
               </p>
               <span className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
-                <m.icon className="size-3.5" strokeWidth={2.4} />
                 {m.tagline}
               </span>
             </div>
