@@ -1965,8 +1965,7 @@
   .auth-cover-meta { margin-top: 0.55rem; }
   .auth-cover-bottom { gap: 0.55rem; bottom: 0.75rem; }
   .auth-cover-figure[data-role="center"] { left: 22%; height: 94%; bottom: 0; transform: translateX(-50%) scale(1); }
-  .auth-cover-card { max-width: 62%; margin-inline-start: auto; }
-  .auth-cover-dots { justify-content: flex-end; }
+  .auth-cover-card { max-width: 64%; margin-inline-start: 0; margin-inline-end: auto; }
   .auth-cover-figure[data-role="left"],
   .auth-cover-figure[data-role="right"],
   .auth-cover-figure[data-role="back"] { opacity: 0; }
