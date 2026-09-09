@@ -1658,3 +1658,165 @@
     0 1px 0 color-mix(in oklab, white 25%, transparent) inset,
     0 24px 70px -30px color-mix(in oklab, var(--foreground) 40%, transparent);
 }
+
+/* ===== iOS-style liquid glass footer ===== */
+.site-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-top: 1px solid color-mix(in oklab, var(--foreground) 8%, transparent);
+  background:
+    linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 3%, transparent), transparent 40%),
+    var(--background);
+}
+.site-footer-glow {
+  position: absolute;
+  inset-inline: -20%;
+  bottom: -45%;
+  height: 90%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(50% 60% at 30% 100%, color-mix(in oklab, var(--primary) 26%, transparent), transparent 70%),
+    radial-gradient(45% 55% at 75% 90%, color-mix(in oklab, var(--accent, var(--primary)) 20%, transparent), transparent 70%);
+  filter: blur(24px);
+  opacity: 0.7;
+}
+.site-footer-cta,
+.site-footer-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  background: color-mix(in oklab, var(--card) 58%, transparent);
+  backdrop-filter: blur(30px) saturate(170%);
+  -webkit-backdrop-filter: blur(30px) saturate(170%);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 30%, transparent) inset,
+    0 -1px 0 color-mix(in oklab, var(--foreground) 6%, transparent) inset,
+    0 30px 80px -40px color-mix(in oklab, var(--foreground) 45%, transparent);
+}
+.site-footer-cta { padding: 1.75rem; }
+.site-footer-panel { padding: 2rem 1.75rem 1.5rem; }
+@media (min-width: 768px) {
+  .site-footer-cta { padding: 2.25rem 2.5rem; }
+  .site-footer-panel { padding: 2.5rem 2.5rem 1.75rem; }
+}
+.site-footer-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, color-mix(in oklab, white 22%, transparent) 0%, transparent 38%, transparent 62%, color-mix(in oklab, white 12%, transparent) 100%);
+  opacity: 0.55;
+}
+.site-footer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  background: color-mix(in oklab, var(--card) 70%, transparent);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+.site-footer-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--primary) 90%, white);
+  box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 60%, transparent);
+  animation: site-footer-pulse 2.4s ease-out infinite;
+}
+@keyframes site-footer-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 55%, transparent); }
+  70% { box-shadow: 0 0 0 6px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.site-footer-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 999px;
+  padding: 0.7rem 1.35rem;
+  font-weight: 700;
+  color: var(--primary-foreground);
+  background-image: var(--gradient-aurora);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 40%, transparent) inset,
+    0 14px 30px -14px color-mix(in oklab, var(--primary) 75%, transparent);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+}
+.site-footer-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 50%, transparent) inset,
+    0 20px 40px -16px color-mix(in oklab, var(--primary) 85%, transparent);
+}
+.site-footer-ghost {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.7rem 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  background: color-mix(in oklab, var(--card) 60%, transparent);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.25s ease;
+}
+.site-footer-ghost:hover { transform: translateY(-2px); background: color-mix(in oklab, var(--card) 85%, transparent); }
+.site-footer-title { font-weight: 800; font-family: var(--font-display, inherit); letter-spacing: -0.01em; }
+.site-footer-link {
+  position: relative;
+  display: inline-block;
+  color: var(--muted-foreground);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.site-footer-link::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: inline-start;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.site-footer-link:hover { color: var(--primary); }
+.site-footer-link:hover::after { transform: scaleX(1); }
+.site-footer-chip {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 0.85rem;
+  border: 1px solid color-mix(in oklab, var(--foreground) 9%, transparent);
+  background: color-mix(in oklab, var(--card) 65%, transparent);
+  box-shadow: 0 1px 0 color-mix(in oklab, white 28%, transparent) inset;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.site-footer-chip:hover { transform: translateY(-3px) scale(1.04); }
+.site-footer-divider {
+  margin: 2rem 0 1.25rem;
+  height: 1px;
+  background: linear-gradient(to left, transparent, color-mix(in oklab, var(--foreground) 14%, transparent), transparent);
+}
+.site-footer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 9%, transparent);
+  background: color-mix(in oklab, var(--card) 60%, transparent);
+  padding: 0.25rem 0.7rem;
+  font-size: 0.78rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-footer-dot { animation: none; }
+  .site-footer-primary, .site-footer-ghost, .site-footer-chip { transition: none; }
+}
