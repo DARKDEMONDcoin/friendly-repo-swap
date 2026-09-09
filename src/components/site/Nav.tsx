@@ -101,33 +101,40 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
 
       <div
         className={cn(
-          "pointer-events-auto transition-[max-height,opacity] duration-400 2xl:hidden",
+          "pointer-events-auto transition-[max-height,opacity] duration-500 ease-out 2xl:hidden",
           open
             ? "max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain opacity-100"
             : "max-h-0 overflow-hidden opacity-0",
         )}
       >
-        <div className="mx-4 my-3 rounded-2xl border border-border bg-card p-3 text-foreground shadow-card">
-          <ul className="grid grid-cols-2 gap-1">
+        <div className="nav-glass-sheet mx-3 my-3 max-w-[26rem] p-4 text-foreground md:mx-auto">
+          <div className="mb-3 flex items-center justify-between px-1">
+            <span className="text-xs font-semibold tracking-wide text-foreground/55">تنقّل</span>
+            <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.7rem] font-medium text-foreground/55" style={{ border: "1px solid color-mix(in oklab, var(--foreground) 16%, transparent)" }}>
+              <span className="size-1.5 rounded-full bg-primary" /> سهل
+            </span>
+          </div>
+          <ul className="grid grid-cols-2 gap-1.5">
             {links.map((l) => (
               <li key={l.to}>
                 <Link
                   onClick={() => setOpen(false)}
                   to={l.to}
-                  className="block rounded-xl px-3 py-2.5 text-[0.95rem] font-medium hover:bg-secondary"
-                  activeProps={{ className: "bg-secondary text-primary font-bold" }}
+                  className="nav-glass-item block px-3.5 py-2.5 text-[0.95rem] font-medium"
+                  activeProps={{ className: "nav-glass-item is-active font-bold" }}
                 >
                   {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border/70 pt-3">
+          <div className="nav-glass-divider my-3.5" />
+          <div className="grid grid-cols-2 gap-2.5">
             <Link
               onClick={() => setOpen(false)}
               to="/auth"
               search={{ mode: "signin" as const }}
-              className="block rounded-xl border border-border px-3 py-2.5 text-center font-bold hover:bg-secondary"
+              className="nav-glass-cta block rounded-xl px-3.5 py-2.5 text-center font-bold text-foreground"
             >
               تسجيل الدخول
             </Link>
@@ -135,15 +142,14 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
               onClick={() => setOpen(false)}
               to="/auth"
               search={{ mode: "signup" as const }}
-              className="block rounded-xl bg-foreground px-3 py-2.5 text-center font-bold text-background"
+              className="nav-glass-cta-primary block rounded-xl px-3.5 py-2.5 text-center font-bold text-primary-foreground"
             >
               أنشئ حسابك
             </Link>
             <Link
               onClick={() => setOpen(false)}
               to="/app"
-              className="col-span-2 block rounded-xl px-3 py-2.5 text-center font-bold text-primary-foreground"
-              style={{ backgroundImage: "var(--gradient-aurora)" }}
+              className="nav-glass-cta-aurora col-span-2 block rounded-xl px-3.5 py-2.5 text-center font-bold text-primary-foreground"
             >
               جرّب الموظفين مجانًا الآن ←
             </Link>
