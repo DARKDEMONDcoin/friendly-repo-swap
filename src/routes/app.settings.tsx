@@ -212,8 +212,7 @@ function SettingsPage() {
             <AccountPanel profile={profile} onNotice={setNotice} />
           ) : null}
           {tab === "notifications" ? <NotificationsPanel onNotice={setNotice} /> : null}
-          {tab === "connections" ? <ConnectionsPanel workspaceId={workspace?.id} /> : null}
-          {tab === "ai" ? <SecretsPanel /> : null}
+          {tab === "appearance" ? <AppearancePanel /> : null}
           {tab === "billing" ? (
             <BillingPanel doneCount={doneCount} loading={tasksLoading} />
           ) : null}
