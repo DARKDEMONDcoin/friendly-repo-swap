@@ -1885,6 +1885,7 @@
 .auth-cover-figure[data-role="right"] { left: 78%; bottom: 12%; height: 26%; transform: translateX(-50%) scale(1); opacity: 0.85; z-index: 10; filter: blur(2px); }
 .auth-cover-figure[data-role="back"] { left: 50%; bottom: 12%; height: 20%; transform: translateX(-50%) scale(1); opacity: 0.75; z-index: 5; filter: blur(4px); }
 .auth-cover-top { position: absolute; top: 1.5rem; inset-inline-start: 1.75rem; z-index: 40; }
+@media (min-width: 1024px) { .auth-cover-top { top: 5.25rem; } }
 .auth-cover-brand {
   display: inline-flex;
   align-items: center;
