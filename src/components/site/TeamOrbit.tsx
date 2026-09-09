@@ -3,7 +3,6 @@ import { team } from "@/data/team";
 import { Portrait } from "@/components/site/Portrait";
 import { LiquidGlass } from "@/components/site/LiquidGlass";
 import { MenaMap } from "@/components/site/MenaMap";
-import { AppIcon } from "@/components/site/AppIcon";
 import { cn } from "@/lib/utils";
 
 const outcomes: Record<string, { short: string; detail: string }> = {
@@ -171,9 +170,6 @@ export function TeamOrbit({ compact = false, mapCenter = false, dark = false }: 
           ) : (
             <span className="orbit-bubble-typing" aria-label="يكتب الآن"><i /><i /><i /></span>
           )}
-          <span className="orbit-bubble-apps" aria-hidden>
-            {activeMember.apps.slice(0, 5).map((app) => <AppIcon key={app} name={app} className="size-3" />)}
-          </span>
           <span className="orbit-bubble-foot">
             <span className="orbit-bubble-progress" aria-hidden>
               {activeMember.tasks.map((_, dot) => <i key={dot} className={cn(dot <= activeTaskIndex && "is-on")} />)}
