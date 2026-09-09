@@ -236,18 +236,8 @@ function AuthPage() {
       </header>
 
       <div className="auth-layout">
-        <aside className="auth-story" aria-label="فريقك في سهل">
-          <div>
-            <span className="auth-eyebrow">ستة متخصصين · مساحة عمل واحدة</span>
-            <h2>فريق كامل ينتظر أول مهمة منك.</h2>
-            <p>يعملون معًا، يتذكرون سياق مشروعك، ويعرضون عليك ما يحتاج موافقتك قبل أن يتحرك.</p>
-          </div>
-          <TeamOrbit compact />
-          <ul className="auth-proof-list">
-            {["عربي أصيل بكل اللهجات", "بياناتك وصلاحياتك تحت سيطرتك", "يمكنك البدء أو الإلغاء في أي وقت"].map((item) => (
-              <li key={item}><CheckCircle2 /> {item}</li>
-            ))}
-          </ul>
+        <aside className="auth-story" aria-label="عملاء سهل">
+          <AuthCover />
         </aside>
 
         <section className="auth-form-column">
