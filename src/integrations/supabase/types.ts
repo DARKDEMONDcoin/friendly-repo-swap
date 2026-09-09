@@ -609,6 +609,53 @@ export type Database = {
           },
         ]
       }
+      notification_preferences: {
+        Row: {
+          approval_ready: boolean
+          created_at: string
+          digest_frequency: string
+          integration_disconnected: boolean
+          publishing_failed: boolean
+          task_digest: boolean
+          timezone: string
+          updated_at: string
+          user_id: string
+          weekly_summary: boolean
+        }
+        Insert: {
+          approval_ready?: boolean
+          created_at?: string
+          digest_frequency?: string
+          integration_disconnected?: boolean
+          publishing_failed?: boolean
+          task_digest?: boolean
+          timezone?: string
+          updated_at?: string
+          user_id: string
+          weekly_summary?: boolean
+        }
+        Update: {
+          approval_ready?: boolean
+          created_at?: string
+          digest_frequency?: string
+          integration_disconnected?: boolean
+          publishing_failed?: boolean
+          task_digest?: boolean
+          timezone?: string
+          updated_at?: string
+          user_id?: string
+          weekly_summary?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_preferences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pipedream_accounts: {
         Row: {
           account_id: string
