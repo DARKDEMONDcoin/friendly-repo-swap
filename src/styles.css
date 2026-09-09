@@ -1964,7 +1964,9 @@
   .auth-cover-quote-icon { width: 0.9rem; height: 0.9rem; }
   .auth-cover-meta { margin-top: 0.55rem; }
   .auth-cover-bottom { gap: 0.55rem; bottom: 0.75rem; }
-  .auth-cover-figure[data-role="center"] { height: 82%; bottom: 2%; transform: translateX(-50%) scale(1); }
+  .auth-cover-figure[data-role="center"] { left: 22%; height: 94%; bottom: 0; transform: translateX(-50%) scale(1); }
+  .auth-cover-card { max-width: 62%; margin-inline-start: auto; }
+  .auth-cover-dots { justify-content: flex-end; }
   .auth-cover-figure[data-role="left"],
   .auth-cover-figure[data-role="right"],
   .auth-cover-figure[data-role="back"] { opacity: 0; }
