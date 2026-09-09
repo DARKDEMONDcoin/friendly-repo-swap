@@ -1630,3 +1630,31 @@
 .brand-icon-chip:nth-child(3n + 2) svg { color: var(--amber); }
 .brand-icon-chip:nth-child(3n + 3) svg { color: var(--jade); }
 .brand-icon-chip:hover { transform: translateY(-3px); border-color: color-mix(in oklab, var(--primary) 38%, transparent); }
+
+/* ===== الإعداد الأولي — زجاج بأسلوب iOS ===== */
+.onboarding-stage {
+  position: relative;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, color-mix(in oklab, var(--primary) 22%, transparent), transparent 60%),
+    radial-gradient(900px 500px at 10% 110%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 60%),
+    var(--background);
+}
+.onboarding-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(70% 60% at 50% 30%, #000, transparent);
+}
+.onboarding-glass {
+  position: relative;
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  background: color-mix(in oklab, var(--card) 60%, transparent);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 25%, transparent) inset,
+    0 24px 70px -30px color-mix(in oklab, var(--foreground) 40%, transparent);
+}

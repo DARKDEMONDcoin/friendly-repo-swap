@@ -67,7 +67,7 @@ const goals = [
 ];
 
 const glassField =
-  "w-full rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm outline-none backdrop-blur-xl transition placeholder:text-muted-foreground/70 focus:border-primary/60 focus:bg-white/15 dark:bg-white/5";
+  "w-full rounded-2xl border border-border bg-card/60 px-4 py-3 text-sm outline-none backdrop-blur-xl transition placeholder:text-muted-foreground/70 focus:border-primary/60 focus:bg-card/80";
 
 function Onboarding() {
   const navigate = useNavigate();
@@ -193,14 +193,14 @@ function Onboarding() {
         <Link to="/" className="font-display text-2xl font-black">
           سهل<span className="text-primary">.</span>
         </Link>
-        <Link to="/app" className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold backdrop-blur-xl">
+        <Link to="/app" className="rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-bold backdrop-blur-xl">
           تخطّي الإعداد
         </Link>
       </header>
 
       <main className="mx-auto max-w-3xl px-5 pb-20">
         <div className="mb-5 flex items-center gap-3">
-          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/15">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-card/80">
             <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${progress}%` }} />
           </div>
           <span className="text-xs font-bold text-muted-foreground">
@@ -218,7 +218,7 @@ function Onboarding() {
                   "flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold backdrop-blur-xl transition",
                   index === step
                     ? "border-primary/50 bg-primary/20 text-foreground"
-                    : "border-white/12 bg-white/8 text-muted-foreground hover:text-foreground",
+                    : "border-border bg-card/50 text-muted-foreground hover:text-foreground",
                 )}
               >
                 {index < step ? <Check className="size-3.5 text-primary" /> : null}
@@ -229,7 +229,7 @@ function Onboarding() {
         </ol>
 
         <section className="onboarding-glass rounded-[2rem] p-6 sm:p-9">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-bold text-primary backdrop-blur-xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] font-bold text-primary backdrop-blur-xl">
             <Sparkles className="size-3.5" /> خطوة اختيارية — تقدر تتخطاها
           </span>
           <h1 className="mt-4 font-display text-2xl font-black md:text-3xl">{current.title}</h1>
@@ -270,7 +270,7 @@ function Onboarding() {
                     />
                   </div>
                 </label>
-                <p className="rounded-2xl border border-white/12 bg-white/8 p-4 text-sm text-muted-foreground backdrop-blur-xl">
+                <p className="rounded-2xl border border-border bg-card/50 p-4 text-sm text-muted-foreground backdrop-blur-xl">
                   ما عندك موقع؟ لا مشكلة إطلاقاً — اضغط «التالي» واكتب عن نشاطك بكلماتك.
                 </p>
               </div>
@@ -295,7 +295,7 @@ function Onboarding() {
                     placeholder="نورّد تموراً فاخرة معبأة يدوياً للمتاجر والفنادق في السعودية…"
                   />
                 </label>
-                <p className="flex items-center gap-2 rounded-2xl border border-white/12 bg-white/8 p-4 text-sm text-muted-foreground backdrop-blur-xl">
+                <p className="flex items-center gap-2 rounded-2xl border border-border bg-card/50 p-4 text-sm text-muted-foreground backdrop-blur-xl">
                   <Sparkles className="size-4 shrink-0 text-primary" />
                   هذا النص يذهب إلى عقل العلامة ويقرأه كل موظفيك.
                 </p>
@@ -312,7 +312,7 @@ function Onboarding() {
                       onClick={() => setTone(item.id)}
                       className={cn(
                         "rounded-2xl border p-4 text-start backdrop-blur-xl transition",
-                        tone === item.id ? "border-primary/60 bg-primary/15" : "border-white/12 bg-white/8 hover:bg-white/12",
+                        tone === item.id ? "border-primary/60 bg-primary/15" : "border-border bg-card/50 hover:bg-card/70",
                       )}
                     >
                       <span className="block font-bold">{item.label}</span>
@@ -337,7 +337,7 @@ function Onboarding() {
                         key={word}
                         type="button"
                         onClick={() => setBanned((list) => list.filter((item) => item !== word))}
-                        className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-bold backdrop-blur-xl hover:border-destructive/50 hover:text-destructive"
+                        className="rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs font-bold backdrop-blur-xl hover:border-destructive/50 hover:text-destructive"
                       >
                         {word} ✕
                       </button>
@@ -371,10 +371,10 @@ function Onboarding() {
                       onClick={() => toggle(picked, setPicked, goal.id)}
                       className={cn(
                         "flex items-start gap-3 rounded-2xl border p-4 text-start backdrop-blur-xl transition",
-                        on ? "border-primary/60 bg-primary/15" : "border-white/12 bg-white/8 hover:bg-white/12",
+                        on ? "border-primary/60 bg-primary/15" : "border-border bg-card/50 hover:bg-card/70",
                       )}
                     >
-                      <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl", on ? "bg-primary text-primary-foreground" : "bg-white/12")}>
+                      <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl", on ? "bg-primary text-primary-foreground" : "bg-card/70")}>
                         <goal.icon className="size-5" />
                       </span>
                       <span className="min-w-0">
@@ -399,7 +399,7 @@ function Onboarding() {
                         onClick={() => toggle(hired, setHired, member.id)}
                         className={cn(
                           "flex items-center gap-3 rounded-2xl border p-4 text-start backdrop-blur-xl transition",
-                          on ? "border-primary/60 bg-primary/15" : "border-white/12 bg-white/8 hover:bg-white/12",
+                          on ? "border-primary/60 bg-primary/15" : "border-border bg-card/50 hover:bg-card/70",
                         )}
                       >
                         <span className="grid size-10 shrink-0 place-items-center rounded-2xl" style={{ background: member.tintSoft, color: member.tint }}>
@@ -409,26 +409,26 @@ function Onboarding() {
                           <span className="block font-bold">{member.name}</span>
                           <span className="block truncate text-sm text-muted-foreground">{member.role}</span>
                         </span>
-                        <span className={cn("grid size-6 shrink-0 place-items-center rounded-full border", on ? "border-primary bg-primary text-primary-foreground" : "border-white/20")}>
+                        <span className={cn("grid size-6 shrink-0 place-items-center rounded-full border", on ? "border-primary bg-primary text-primary-foreground" : "border-border")}>
                           {on ? <Check className="size-3.5" /> : null}
                         </span>
                       </button>
                     );
                   })}
                 </div>
-                <p className="rounded-2xl border border-white/12 bg-white/8 p-4 text-sm text-muted-foreground backdrop-blur-xl">
+                <p className="rounded-2xl border border-border bg-card/50 p-4 text-sm text-muted-foreground backdrop-blur-xl">
                   لن نربط أي حساب الآن. عندما تطلب نشراً أو إرسالاً، سيطلب الموظف المعني ربط الحساب بضغطة واحدة.
                 </p>
               </div>
             ) : null}
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/12 pt-6">
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6">
             <button
               type="button"
               onClick={() => setStep(Math.max(0, step - 1))}
               disabled={step === 0}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-sm font-bold backdrop-blur-xl disabled:opacity-40"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-bold backdrop-blur-xl disabled:opacity-40"
             >
               <ArrowRight className="size-4" /> السابق
             </button>
