@@ -13,7 +13,6 @@ import {
   ShieldCheck,
   Sparkles,
   User,
-  CheckCircle2,
 } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
