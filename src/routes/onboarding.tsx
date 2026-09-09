@@ -1,10 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Check, Sparkles, Loader2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BarChart3,
+  Check,
+  Globe2,
+  Loader2,
+  Mail,
+  MessageSquareHeart,
+  PenLine,
+  Search,
+  Sparkles,
+  Users,
+} from "lucide-react";
 
 import { useServerFn } from "@tanstack/react-start";
 
-import { AppIcon, appLabel } from "@/components/site/AppIcon";
 import { BusinessProfileCard } from "@/components/app/BusinessProfileCard";
 import { team } from "@/data/team";
 import { saveAutomation } from "@/lib/automations.functions";
@@ -15,13 +27,13 @@ export const Route = createFileRoute("/onboarding")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "جهّز فريقك في ٤ خطوات | سهل" },
+      { title: "جهّز فريقك في دقائق | سهل" },
       {
         name: "description",
-        content: "عرّف سهل على نشاطك، اختر موظفيك، اربط حساباتك، وابدأ العمل خلال دقائق.",
+        content: "عرّف سهل على نشاطك، اختر نبرتك وأهدافك وفريقك، وابدأ العمل خلال دقائق — وكل خطوة اختيارية.",
       },
-      { property: "og:title", content: "جهّز فريقك الرقمي في ٤ خطوات — سهل" },
-      { property: "og:description", content: "إعداد كامل خلال ١١ دقيقة، بدون خبرة تقنية." },
+      { property: "og:title", content: "جهّز فريقك الرقمي في دقائق — سهل" },
+      { property: "og:description", content: "إعداد ذكي ومرن، بدون خبرة تقنية، وكل خطوة يمكن تخطّيها." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
@@ -30,19 +42,32 @@ export const Route = createFileRoute("/onboarding")({
   component: Onboarding,
 });
 
-const steps = ["نشاطك", "نبرتك", "فريقك", "حساباتك"] as const;
+const steps = [
+  { id: "site", title: "ابدأ من موقعك", lead: "سنقرأ موقعك ونملأ عنك كل شيء — أو تخطَّ واكتب بنفسك." },
+  { id: "business", title: "عرّفنا على نشاطك", lead: "كلما عرفنا أكثر، كان المحتوى أقرب لعملائك." },
+  { id: "voice", title: "كيف تتكلم علامتك؟", lead: "اختر نبرة جاهزة أو اكتب نبرتك الخاصة." },
+  { id: "goals", title: "ما الذي تريد إنجازه؟", lead: "نختار لك المهام التلقائية المناسبة لأهدافك." },
+  { id: "team", title: "من يعمل معك؟", lead: "كل الموظفين مشمولون — فعّل من تحتاجه الآن." },
+] as const;
 
 const tones = [
   { id: "دافئة وقريبة، بدون مبالغة", label: "دافئة وقريبة", sample: "أهلاً! جهّزنا لك شيئاً يعجبك اليوم 🌿" },
-  {
-    id: "احترافية ورصينة",
-    label: "احترافية ورصينة",
-    sample: "يسرّنا مشاركتكم آخر تحديثات المنتج لهذا الربع.",
-  },
+  { id: "احترافية ورصينة", label: "احترافية ورصينة", sample: "يسرّنا مشاركتكم آخر تحديثات المنتج لهذا الربع." },
   { id: "جريئة ومباشرة", label: "جريئة ومباشرة", sample: "توقف عن إضاعة ميزانيتك. إليك ما ينجح فعلاً." },
+  { id: "مرحة وخفيفة الظل", label: "مرحة وخفيفة", sample: "خبر حلو… وخبر أحلى. ابدأ بالثاني 😄" },
 ];
 
-const field = "w-full rounded-2xl border border-border px-4 py-3 outline-none focus:border-jade";
+const goals = [
+  { id: "social", label: "محتوى يومي للسوشيال", hint: "أفكار ومنشورات جاهزة كل صباح", icon: MessageSquareHeart },
+  { id: "seo", label: "ظهور أعلى في جوجل", hint: "كلمات مفتاحية ومقالات تجلب زيارات", icon: Search },
+  { id: "sales", label: "عملاء ومبيعات أكثر", hint: "متابعة العملاء وردود أسرع", icon: Users },
+  { id: "email", label: "بريد ورسائل منتظمة", hint: "نشرات ورسائل متابعة", icon: Mail },
+  { id: "reports", label: "تقارير تفهمها بسرعة", hint: "ملخص أسبوعي لأداء كل شيء", icon: BarChart3 },
+  { id: "brand", label: "هوية وصوت ثابت", hint: "كل المخرجات بنفس النبرة", icon: PenLine },
+];
+
+const glassField =
+  "w-full rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm outline-none backdrop-blur-xl transition placeholder:text-muted-foreground/70 focus:border-primary/60 focus:bg-white/15 dark:bg-white/5";
 
 function Onboarding() {
   const navigate = useNavigate();
@@ -56,38 +81,45 @@ function Onboarding() {
   const [name, setName] = useState("");
   const [industry, setIndustry] = useState("");
   const [about, setAbout] = useState("");
+  const [website, setWebsite] = useState("");
   const [tone, setTone] = useState(tones[0]!.id);
-  const [banned, setBanned] = useState("الأفضل في العالم، مجاناً ١٠٠٪");
-  const [hired, setHired] = useState<string[]>(team.map((t) => t.id));
-  /** التكاملات المقترحة من تحليل الموقع — للعرض فقط، الربط الحقيقي من صفحة التكاملات. */
-  const [recommended, setRecommended] = useState<string[]>([]);
+  const [customTone, setCustomTone] = useState("");
+  const [banned, setBanned] = useState<string[]>(["الأفضل في العالم", "مجاناً ١٠٠٪"]);
+  const [bannedInput, setBannedInput] = useState("");
+  const [picked, setPicked] = useState<string[]>(["social"]);
+  const [hired, setHired] = useState<string[]>(team.map((member) => member.id));
 
   useEffect(() => {
     if (!workspace) return;
-    setName((v) => v || workspace.name);
-    setIndustry((v) => v || workspace.industry);
+    setName((value) => value || workspace.name);
+    setIndustry((value) => value || workspace.industry);
+    setWebsite((value) => value || workspace.website || "");
   }, [workspace]);
 
-  const toggle = (list: string[], set: (v: string[]) => void, id: string) =>
-    set(list.includes(id) ? list.filter((x) => x !== id) : [...list, id]);
+  const current = steps[step]!;
+  const progress = useMemo(() => Math.round(((step + 1) / steps.length) * 100), [step]);
 
-  const finish = async () => {
+  const toggle = (list: string[], set: (value: string[]) => void, id: string) =>
+    set(list.includes(id) ? list.filter((item) => item !== id) : [...list, id]);
+
+  async function finish() {
     if (!workspace) return;
     setSaving(true);
     try {
+      const finalName = name.trim() || workspace.name;
+      const finalTone = customTone.trim() || tone;
       await updateWorkspace.mutateAsync({
         id: workspace.id,
         patch: {
-          name: name || workspace.name,
-          industry: industry || workspace.industry,
-          initials: (name || workspace.name).slice(0, 2),
-          tone,
-          banned_words: banned
-            .split("،")
-            .map((s) => s.trim())
-            .filter(Boolean),
+          name: finalName,
+          industry: industry.trim() || workspace.industry,
+          initials: finalName.slice(0, 2),
+          tone: finalTone,
+          website: website.trim() || null,
+          banned_words: banned,
         },
       });
+
       if (about.trim()) {
         await addBrain.mutateAsync({
           kind: "note",
@@ -96,277 +128,329 @@ function Onboarding() {
           meta: "ملاحظة · من الإعداد الأولي",
         });
       }
-      // لا نضع أي حساب في حالة «مربوط» بلا OAuth حقيقي — الربط يتم من صفحة التكاملات
-      // لحظة الحاجة، وإلا ظنّ الموظفون أن النشر ممكن وهو ليس كذلك.
-      // نور تبدأ العمل من أول يوم: 5 أفكار محتوى كل صباح بلا طلب منك
-      try {
-        await createAutomation({
-          data: {
-            workspaceId: workspace.id,
-            employeeId: "nour",
-            skillId: "daily-ideas",
-            label: "5 أفكار محتوى كل صباح",
-            values: {
-              topic: industry || workspace.industry || name || workspace.name,
-              count: "5",
-            },
-            cadence: "daily",
-            dayOfWeek: 1,
-            hour: 6,
-            autoPublish: false,
-            active: true,
-          },
+      if (picked.length) {
+        await addBrain.mutateAsync({
+          kind: "note",
+          title: "أهدافنا هذا الربع",
+          body: picked.map((id) => goals.find((goal) => goal.id === id)?.label).filter(Boolean).join("، "),
+          meta: "ملاحظة · من الإعداد الأولي",
         });
-      } catch (error) {
-        console.error("[onboarding] daily ideas automation failed:", error);
       }
-      // سِراج كذلك: 3 أفكار منشورات جاهزة كل صباح
-      try {
-        await createAutomation({
-          data: {
-            workspaceId: workspace.id,
-            employeeId: "sonny",
-            skillId: "social-daily-ideas",
-            label: "3 أفكار منشورات كل صباح",
-            values: {
-              business: industry || workspace.industry || name || workspace.name,
-              platform: "إنستغرام",
-              dialect: "خليجية (السعودية/الإمارات)",
+
+      const topic = industry.trim() || workspace.industry || finalName;
+      if (picked.includes("social") && hired.includes("sonny")) {
+        try {
+          await createAutomation({
+            data: {
+              workspaceId: workspace.id,
+              employeeId: "sonny",
+              skillId: "social-daily-ideas",
+              label: "3 أفكار منشورات كل صباح",
+              values: { business: topic, platform: "إنستغرام", dialect: "خليجية (السعودية/الإمارات)" },
+              cadence: "daily",
+              dayOfWeek: 1,
+              hour: 7,
+              autoPublish: false,
+              active: true,
             },
-            cadence: "daily",
-            dayOfWeek: 1,
-            hour: 7,
-            autoPublish: false,
-            active: true,
-          },
-        });
-      } catch (error) {
-        console.error("[onboarding] sonny daily ideas automation failed:", error);
+          });
+        } catch (error) {
+          console.error("[onboarding] social automation failed:", error);
+        }
       }
+      if ((picked.includes("seo") || picked.includes("brand")) && hired.includes("nour")) {
+        try {
+          await createAutomation({
+            data: {
+              workspaceId: workspace.id,
+              employeeId: "nour",
+              skillId: "daily-ideas",
+              label: "5 أفكار محتوى كل صباح",
+              values: { topic, count: "5" },
+              cadence: "daily",
+              dayOfWeek: 1,
+              hour: 6,
+              autoPublish: false,
+              active: true,
+            },
+          });
+        } catch (error) {
+          console.error("[onboarding] content automation failed:", error);
+        }
+      }
+
       void navigate({ to: "/app" });
     } finally {
       setSaving(false);
     }
-  };
+  }
 
   const next = () => (step === steps.length - 1 ? void finish() : setStep(step + 1));
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="onboarding-stage min-h-screen">
       <header className="mx-auto flex max-w-3xl items-center justify-between px-5 py-6">
         <Link to="/" className="font-display text-2xl font-black">
-          سهل<span className="text-jade">.</span>
+          سهل<span className="text-primary">.</span>
         </Link>
-        <Link to="/app" className="text-sm font-bold text-muted-foreground">
+        <Link to="/app" className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold backdrop-blur-xl">
           تخطّي الإعداد
         </Link>
       </header>
 
       <main className="mx-auto max-w-3xl px-5 pb-20">
-        <ol className="flex items-center gap-2">
-          {steps.map((s, i) => (
-            <li key={s} className="flex flex-1 items-center gap-2">
-              <span
+        <div className="mb-5 flex items-center gap-3">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/15">
+            <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${progress}%` }} />
+          </div>
+          <span className="text-xs font-bold text-muted-foreground">
+            {step + 1} / {steps.length}
+          </span>
+        </div>
+
+        <ol className="mb-6 flex flex-wrap gap-2">
+          {steps.map((item, index) => (
+            <li key={item.id}>
+              <button
+                type="button"
+                onClick={() => setStep(index)}
                 className={cn(
-                  "grid size-8 shrink-0 place-items-center rounded-full text-xs font-black transition-colors",
-                  i < step && "bg-jade text-background",
-                  i === step && "bg-foreground text-background",
-                  i > step && "bg-secondary text-muted-foreground",
+                  "flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold backdrop-blur-xl transition",
+                  index === step
+                    ? "border-primary/50 bg-primary/20 text-foreground"
+                    : "border-white/12 bg-white/8 text-muted-foreground hover:text-foreground",
                 )}
               >
-                {i < step ? <Check className="size-4" /> : i + 1}
-              </span>
-              <span
-                className={cn(
-                  "hidden text-sm font-bold sm:block",
-                  i === step ? "text-foreground" : "text-muted-foreground",
-                )}
-              >
-                {s}
-              </span>
-              {i < steps.length - 1 ? <span className="h-px flex-1 bg-border" /> : null}
+                {index < step ? <Check className="size-3.5 text-primary" /> : null}
+                {item.title}
+              </button>
             </li>
           ))}
         </ol>
 
-        <div className="mt-8 rounded-3xl border border-border bg-card p-7 md:p-10">
-          {step === 0 ? (
-            <div className="space-y-5">
-              <h1 className="font-display text-2xl font-black md:text-3xl">عرّفنا على نشاطك</h1>
-              <p className="text-ink-soft">
-                أسهل طريقة: ضع رابط موقعك ونملأ كل شيء عنك تلقائياً — أو اكتب بنفسك.
-              </p>
-              {workspace ? (
-                <BusinessProfileCard
-                  workspaceId={workspace.id}
-                  compact
-                  onProfiled={(p) => {
-                    if (p.name) setName(p.name);
-                    if (p.industry && p.industry !== "عام") setIndustry(p.industry);
-                    const about = [p.summary, p.products.length ? `نبيع: ${p.products.join("، ")}` : "", p.audience ? `لمن: ${p.audience}` : ""]
-                      .filter(Boolean)
-                      .join("\n");
-                    if (about) setAbout(about);
-                    if (p.suggestedTone) setTone(p.suggestedTone);
-                    setRecommended(p.recommendedIntegrations.map((i) => i.provider));
-                  }}
-                />
-              ) : null}
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold">اسم النشاط</span>
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={field}
-                  placeholder="مثال: نخلة للتمور الفاخرة"
-                />
-              </label>
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold">مجال النشاط</span>
-                <input
-                  value={industry}
-                  onChange={(e) => setIndustry(e.target.value)}
-                  className={field}
-                  placeholder="تجزئة، مطاعم، خدمات…"
-                />
-              </label>
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold">ماذا تبيع ولمن؟</span>
-                <textarea
-                  value={about}
-                  onChange={(e) => setAbout(e.target.value)}
-                  className={cn(field, "min-h-32 resize-none")}
-                  placeholder="نورّد تموراً فاخرة معبأة يدوياً للمتاجر والفنادق في السعودية…"
-                />
-              </label>
-              <p className="flex items-center gap-2 rounded-2xl bg-secondary/60 p-4 text-sm text-ink-soft">
-                <Sparkles className="size-4 shrink-0 text-jade" />
-                هذا النص يذهب إلى عقل العلامة ويقرأه كل موظفيك.
-              </p>
-            </div>
-          ) : null}
+        <section className="onboarding-glass rounded-[2rem] p-6 sm:p-9">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-bold text-primary backdrop-blur-xl">
+            <Sparkles className="size-3.5" /> خطوة اختيارية — تقدر تتخطاها
+          </span>
+          <h1 className="mt-4 font-display text-2xl font-black md:text-3xl">{current.title}</h1>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">{current.lead}</p>
 
-          {step === 1 ? (
-            <div className="space-y-5">
-              <h1 className="font-display text-2xl font-black md:text-3xl">كيف تتكلم علامتك؟</h1>
-              <div className="grid gap-3">
-                {tones.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => setTone(t.id)}
-                    className={cn(
-                      "rounded-2xl border p-5 text-start transition-colors",
-                      tone === t.id ? "border-jade bg-jade/8" : "border-border hover:bg-secondary/50",
-                    )}
-                  >
-                    <span className="block font-bold">{t.label}</span>
-                    <span className="mt-1 block text-sm text-ink-soft">«{t.sample}»</span>
-                  </button>
-                ))}
+          <div className="mt-7">
+            {current.id === "site" ? (
+              <div className="space-y-5">
+                {workspace ? (
+                  <BusinessProfileCard
+                    workspaceId={workspace.id}
+                    compact
+                    onProfiled={(profiled) => {
+                      if (profiled.name) setName(profiled.name);
+                      if (profiled.industry && profiled.industry !== "عام") setIndustry(profiled.industry);
+                      const summary = [
+                        profiled.summary,
+                        profiled.products.length ? `نبيع: ${profiled.products.join("، ")}` : "",
+                        profiled.audience ? `لمن: ${profiled.audience}` : "",
+                      ]
+                        .filter(Boolean)
+                        .join("\n");
+                      if (summary) setAbout(summary);
+                      if (profiled.suggestedTone) setTone(profiled.suggestedTone);
+                    }}
+                  />
+                ) : null}
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold">رابط موقعك (اختياري)</span>
+                  <div className="relative">
+                    <Globe2 className="absolute right-3 top-3.5 size-4 text-muted-foreground" />
+                    <input
+                      value={website}
+                      onChange={(event) => setWebsite(event.target.value)}
+                      dir="ltr"
+                      placeholder="https://example.com"
+                      className={cn(glassField, "pe-9")}
+                    />
+                  </div>
+                </label>
+                <p className="rounded-2xl border border-white/12 bg-white/8 p-4 text-sm text-muted-foreground backdrop-blur-xl">
+                  ما عندك موقع؟ لا مشكلة إطلاقاً — اضغط «التالي» واكتب عن نشاطك بكلماتك.
+                </p>
               </div>
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold">كلمات ممنوعة</span>
-                <input
-                  value={banned}
-                  onChange={(e) => setBanned(e.target.value)}
-                  className={field}
-                />
-              </label>
-            </div>
-          ) : null}
+            ) : null}
 
-          {step === 2 ? (
-            <div className="space-y-5">
-              <h1 className="font-display text-2xl font-black md:text-3xl">من تريد أن يعمل معك؟</h1>
-              <p className="text-ink-soft">كل الموظفين مشمولون في اشتراكك — فعّل من تحتاجه الآن.</p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {team.map((m) => {
-                  const on = hired.includes(m.id);
-                  return (
+            {current.id === "business" ? (
+              <div className="space-y-5">
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold">اسم النشاط</span>
+                  <input value={name} onChange={(event) => setName(event.target.value)} className={glassField} placeholder="مثال: نخلة للتمور الفاخرة" />
+                </label>
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold">مجال النشاط</span>
+                  <input value={industry} onChange={(event) => setIndustry(event.target.value)} className={glassField} placeholder="تجزئة، مطاعم، خدمات…" />
+                </label>
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold">ماذا تبيع ولمن؟</span>
+                  <textarea
+                    value={about}
+                    onChange={(event) => setAbout(event.target.value)}
+                    className={cn(glassField, "min-h-32 resize-none")}
+                    placeholder="نورّد تموراً فاخرة معبأة يدوياً للمتاجر والفنادق في السعودية…"
+                  />
+                </label>
+                <p className="flex items-center gap-2 rounded-2xl border border-white/12 bg-white/8 p-4 text-sm text-muted-foreground backdrop-blur-xl">
+                  <Sparkles className="size-4 shrink-0 text-primary" />
+                  هذا النص يذهب إلى عقل العلامة ويقرأه كل موظفيك.
+                </p>
+              </div>
+            ) : null}
+
+            {current.id === "voice" ? (
+              <div className="space-y-5">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {tones.map((item) => (
                     <button
-                      key={m.id}
-                      onClick={() => toggle(hired, setHired, m.id)}
+                      key={item.id}
+                      type="button"
+                      onClick={() => setTone(item.id)}
                       className={cn(
-                        "flex items-center gap-3 rounded-2xl border p-4 text-start transition-colors",
-                        on ? "border-jade bg-jade/8" : "border-border hover:bg-secondary/50",
+                        "rounded-2xl border p-4 text-start backdrop-blur-xl transition",
+                        tone === item.id ? "border-primary/60 bg-primary/15" : "border-white/12 bg-white/8 hover:bg-white/12",
                       )}
                     >
-                      <span
-                        className="grid size-10 shrink-0 place-items-center rounded-2xl"
-                        style={{ background: m.tintSoft, color: m.tint }}
+                      <span className="block font-bold">{item.label}</span>
+                      <span className="mt-1 block text-sm text-muted-foreground">«{item.sample}»</span>
+                    </button>
+                  ))}
+                </div>
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold">أو اكتب نبرتك بنفسك (اختياري)</span>
+                  <textarea
+                    value={customTone}
+                    onChange={(event) => setCustomTone(event.target.value)}
+                    className={cn(glassField, "min-h-24 resize-none")}
+                    placeholder="نتكلم بلهجة سعودية بسيطة، جمل قصيرة، وبدون مبالغة…"
+                  />
+                </label>
+                <div>
+                  <span className="mb-2 block text-sm font-bold">كلمات ممنوعة</span>
+                  <div className="flex flex-wrap gap-2">
+                    {banned.map((word) => (
+                      <button
+                        key={word}
+                        type="button"
+                        onClick={() => setBanned((list) => list.filter((item) => item !== word))}
+                        className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-bold backdrop-blur-xl hover:border-destructive/50 hover:text-destructive"
                       >
-                        <m.icon className="size-5" strokeWidth={2.2} />
+                        {word} ✕
+                      </button>
+                    ))}
+                  </div>
+                  <input
+                    value={bannedInput}
+                    onChange={(event) => setBannedInput(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key !== "Enter" && event.key !== "،" && event.key !== ",") return;
+                      event.preventDefault();
+                      const word = bannedInput.trim();
+                      if (word && !banned.includes(word)) setBanned((list) => [...list, word]);
+                      setBannedInput("");
+                    }}
+                    placeholder="اكتب كلمة واضغط Enter"
+                    className={cn(glassField, "mt-3")}
+                  />
+                </div>
+              </div>
+            ) : null}
+
+            {current.id === "goals" ? (
+              <div className="grid gap-3 sm:grid-cols-2">
+                {goals.map((goal) => {
+                  const on = picked.includes(goal.id);
+                  return (
+                    <button
+                      key={goal.id}
+                      type="button"
+                      onClick={() => toggle(picked, setPicked, goal.id)}
+                      className={cn(
+                        "flex items-start gap-3 rounded-2xl border p-4 text-start backdrop-blur-xl transition",
+                        on ? "border-primary/60 bg-primary/15" : "border-white/12 bg-white/8 hover:bg-white/12",
+                      )}
+                    >
+                      <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl", on ? "bg-primary text-primary-foreground" : "bg-white/12")}>
+                        <goal.icon className="size-5" />
                       </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block font-bold">{m.name}</span>
-                        <span className="block truncate text-sm text-muted-foreground">
-                          {m.role}
-                        </span>
-                      </span>
-                      <span
-                        className={cn(
-                          "grid size-6 shrink-0 place-items-center rounded-full border",
-                          on ? "border-jade bg-jade text-background" : "border-border",
-                        )}
-                      >
-                        {on ? <Check className="size-3.5" /> : null}
+                      <span className="min-w-0">
+                        <span className="block font-bold">{goal.label}</span>
+                        <span className="mt-0.5 block text-xs text-muted-foreground">{goal.hint}</span>
                       </span>
                     </button>
                   );
                 })}
               </div>
-            </div>
-          ) : null}
+            ) : null}
 
-          {step === 3 ? (
-            <div className="space-y-5">
-              <h1 className="font-display text-2xl font-black md:text-3xl">حساباتك — عند الحاجة فقط</h1>
-              <p className="text-ink-soft">
-                لا نطلب ربط أي حساب الآن. موظفوك يبدؤون العمل فوراً بما فهمناه من موقعك، وعندما تطلب نشراً أو
-                إرسالاً أو بيانات حقيقية سيطلب الموظف المعني ربط الحساب المحدد بضغطة واحدة عبر OAuth الرسمي.
-              </p>
-              <div>
-                <p className="mb-2 text-sm font-bold">
-                  {recommended.length ? "الأعلى فائدة لنشاطك تحديداً:" : "أكثر الحسابات فائدة عادةً:"}
-                </p>
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  {(recommended.length ? recommended : ["instagram", "search-console", "gmail", "wordpress", "analytics", "whatsapp"]).map((p) => (
-                    <div
-                      key={p}
-                      className="flex items-center gap-2.5 rounded-2xl border border-border p-4 text-start"
-                    >
-                      <AppIcon name={p} className="size-5 shrink-0" />
-                      <span className="min-w-0 flex-1 truncate text-sm font-bold">{appLabel(p)}</span>
-                    </div>
-                  ))}
+            {current.id === "team" ? (
+              <div className="space-y-5">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {team.map((member) => {
+                    const on = hired.includes(member.id);
+                    return (
+                      <button
+                        key={member.id}
+                        type="button"
+                        onClick={() => toggle(hired, setHired, member.id)}
+                        className={cn(
+                          "flex items-center gap-3 rounded-2xl border p-4 text-start backdrop-blur-xl transition",
+                          on ? "border-primary/60 bg-primary/15" : "border-white/12 bg-white/8 hover:bg-white/12",
+                        )}
+                      >
+                        <span className="grid size-10 shrink-0 place-items-center rounded-2xl" style={{ background: member.tintSoft, color: member.tint }}>
+                          <member.icon className="size-5" strokeWidth={2.2} />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block font-bold">{member.name}</span>
+                          <span className="block truncate text-sm text-muted-foreground">{member.role}</span>
+                        </span>
+                        <span className={cn("grid size-6 shrink-0 place-items-center rounded-full border", on ? "border-primary bg-primary text-primary-foreground" : "border-white/20")}>
+                          {on ? <Check className="size-3.5" /> : null}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
+                <p className="rounded-2xl border border-white/12 bg-white/8 p-4 text-sm text-muted-foreground backdrop-blur-xl">
+                  لن نربط أي حساب الآن. عندما تطلب نشراً أو إرسالاً، سيطلب الموظف المعني ربط الحساب بضغطة واحدة.
+                </p>
               </div>
-              <p className="flex items-center gap-2 rounded-2xl bg-secondary/60 p-4 text-sm text-ink-soft">
-                <Sparkles className="size-4 shrink-0 text-jade" />
-                يمكنك ربط أي حساب في أي وقت من صفحة «التكاملات» — لا نحتفظ بأي كلمة مرور.
-              </p>
-            </div>
-          ) : null}
+            ) : null}
+          </div>
 
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/12 pt-6">
             <button
+              type="button"
               onClick={() => setStep(Math.max(0, step - 1))}
               disabled={step === 0}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-bold disabled:opacity-40"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-sm font-bold backdrop-blur-xl disabled:opacity-40"
             >
               <ArrowRight className="size-4" /> السابق
             </button>
-            <button
-              onClick={next}
-              disabled={saving || !workspace}
-              className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-2.5 text-sm font-bold text-background disabled:opacity-60"
-            >
-              {saving ? <Loader2 className="size-4 animate-spin" /> : null}
-              {step === steps.length - 1 ? "ابدأ العمل" : "التالي"}
-              <ArrowLeft className="size-4" />
-            </button>
+            <div className="flex items-center gap-3">
+              {step < steps.length - 1 ? (
+                <button type="button" onClick={() => setStep(step + 1)} className="text-sm font-bold text-muted-foreground hover:text-foreground">
+                  تخطّي هذه الخطوة
+                </button>
+              ) : null}
+              <button
+                type="button"
+                onClick={next}
+                disabled={saving || !workspace}
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition hover:opacity-95 disabled:opacity-60"
+              >
+                {saving ? <Loader2 className="size-4 animate-spin" /> : null}
+                {step === steps.length - 1 ? "ابدأ العمل" : "التالي"}
+                <ArrowLeft className="size-4" />
+              </button>
+            </div>
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );

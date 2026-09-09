@@ -1,34 +1,32 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Bell,
   Building2,
-  Check,
   CheckCircle2,
   ChevronLeft,
   CircleGauge,
   CreditCard,
+  Download,
   Eye,
   EyeOff,
   Globe2,
-  KeyRound,
-  Link2,
   Loader2,
   LockKeyhole,
   LogOut,
   Mail,
-  MessageCircle,
+  Monitor,
+  Moon,
+  Palette,
   Save,
   ShieldCheck,
   Sparkles,
+  Sun,
   User,
-  Workflow,
 } from "lucide-react";
 
 import { AppShell } from "@/components/app/AppShell";
-import { WhatsAppCommand } from "@/components/app/WhatsAppCommand";
+import { AvatarUploader } from "@/components/app/AvatarUploader";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
@@ -45,7 +43,6 @@ import {
   useUpdateWorkspace,
   useWorkspace,
 } from "@/lib/data";
-import { deleteSecret, listSecrets, testAiProviders, upsertSecrets } from "@/lib/secrets.functions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/settings")({
@@ -67,8 +64,7 @@ const tabs = [
   { id: "workspace", label: "مساحة العمل", hint: "الهوية والتفضيلات", icon: Building2 },
   { id: "account", label: "الحساب والأمان", hint: "بياناتك وكلمة المرور", icon: ShieldCheck },
   { id: "notifications", label: "التنبيهات", hint: "ما يصلك ومتى", icon: Bell },
-  { id: "connections", label: "الاتصالات", hint: "واتساب والتكاملات", icon: Workflow },
-  { id: "ai", label: "مفاتيح الذكاء", hint: "إدارة المزوّدين", icon: KeyRound },
+  { id: "appearance", label: "المظهر واللغة", hint: "الوضع الداكن والعرض", icon: Palette },
   { id: "billing", label: "الاستخدام والباقات", hint: "حالة تجربتك", icon: CreditCard },
 ] as const;
 
@@ -216,8 +212,7 @@ function SettingsPage() {
             <AccountPanel profile={profile} onNotice={setNotice} />
           ) : null}
           {tab === "notifications" ? <NotificationsPanel onNotice={setNotice} /> : null}
-          {tab === "connections" ? <ConnectionsPanel workspaceId={workspace?.id} /> : null}
-          {tab === "ai" ? <SecretsPanel /> : null}
+          {tab === "appearance" ? <AppearancePanel /> : null}
           {tab === "billing" ? (
             <BillingPanel doneCount={doneCount} loading={tasksLoading} />
           ) : null}
@@ -341,6 +336,7 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
   const { country, setCountry } = useRegion();
   const updateProfile = useUpdateProfile();
   const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
   const [anonymous, setAnonymous] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordBusy, setPasswordBusy] = useState(false);
@@ -348,6 +344,7 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
   useEffect(() => {
     void supabase.auth.getUser().then(({ data }) => {
       setEmail(data.user?.email ?? "حساب تجريبي");
+      setUserId(data.user?.id ?? null);
       setAnonymous(Boolean(data.user?.is_anonymous));
     });
   }, []);
@@ -356,13 +353,39 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
     <div className="space-y-5">
       <SettingsCard>
         <PanelHeader icon={User} title="بيانات الحساب" description="بياناتك الشخصية واللغة التي يكتب بها فريقك." />
+        {userId ? (
+          <div className="mb-6 rounded-lg border border-border bg-secondary/40 p-4">
+            <AvatarUploader
+              userId={userId}
+              path={profile.avatar_url}
+              name={profile.full_name ?? ""}
+              onError={(text) => onNotice({ type: "error", text })}
+              onChange={async (nextPath) => {
+                try {
+                  await updateProfile.mutateAsync({ id: profile.id, patch: { avatar_url: nextPath } });
+                  onNotice({ type: "success", text: nextPath ? "تم تحديث صورتك الشخصية." : "تم حذف صورتك الشخصية." });
+                } catch {
+                  onNotice({ type: "error", text: "تعذّر حفظ الصورة." });
+                }
+              }}
+            />
+          </div>
+        ) : null}
         <form
           className="space-y-5"
           onSubmit={async (event) => {
             event.preventDefault();
             const form = new FormData(event.currentTarget);
             try {
-              await updateProfile.mutateAsync({ id: profile.id, patch: { full_name: String(form.get("full_name") ?? "").trim(), dialect: String(form.get("dialect") ?? "") } });
+              await updateProfile.mutateAsync({
+                id: profile.id,
+                patch: {
+                  full_name: String(form.get("full_name") ?? "").trim(),
+                  dialect: String(form.get("dialect") ?? ""),
+                  job_title: String(form.get("job_title") ?? "").trim() || null,
+                  phone: String(form.get("phone") ?? "").trim() || null,
+                },
+              });
               onNotice({ type: "success", text: "تم تحديث بيانات حسابك." });
             } catch {
               onNotice({ type: "error", text: "تعذّر تحديث الحساب." });
@@ -372,6 +395,12 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
           <div className="grid gap-5 sm:grid-cols-2">
             <Field label="الاسم"><input name="full_name" defaultValue={profile.full_name ?? ""} className={field} /></Field>
             <Field label="البريد الإلكتروني"><div className="relative"><Mail className="absolute right-3 top-3 size-4 text-muted-foreground" /><input value={email} readOnly className={cn(field, "pe-9 text-muted-foreground")} /></div></Field>
+            <Field label="المسمى الوظيفي" hint="اختياري — يظهر في التقارير التي يعدّها فريقك">
+              <input name="job_title" defaultValue={profile.job_title ?? ""} placeholder="مدير التسويق" className={field} />
+            </Field>
+            <Field label="رقم الجوال" hint="اختياري — لتنبيهات واتساب مستقبلاً">
+              <input name="phone" type="tel" dir="ltr" defaultValue={profile.phone ?? ""} placeholder="+9665…" className={field} />
+            </Field>
             <Field label="لهجة المحتوى">
               <select name="dialect" defaultValue={profile.dialect} className={field}>
                 {["خليجية", "مصرية", "شامية", "مغاربية", "فصحى معاصرة"].map((dialect) => <option key={dialect}>{dialect}</option>)}
@@ -420,7 +449,31 @@ function AccountPanel({ profile, onNotice }: { profile: ProfileData; onNotice: N
             <Button type="submit" disabled={passwordBusy} className="gap-2">{passwordBusy ? <Loader2 className="size-4 animate-spin" /> : <LockKeyhole className="size-4" />}تغيير كلمة المرور</Button>
           </form>
         )}
-        <div className="mt-6 border-t border-border pt-5">
+        <div className="mt-6 flex flex-wrap gap-3 border-t border-border pt-5">
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-2"
+            onClick={async () => {
+              const [{ data: workspaces }, { data: profiles }] = await Promise.all([
+                supabase.from("workspaces").select("*"),
+                supabase.from("profiles").select("*"),
+              ]);
+              const blob = new Blob([JSON.stringify({ profiles, workspaces }, null, 2)], { type: "application/json" });
+              const url = URL.createObjectURL(blob);
+              const anchor = document.createElement("a");
+              anchor.href = url;
+              anchor.download = "sahl-account-data.json";
+              anchor.click();
+              URL.revokeObjectURL(url);
+              onNotice({ type: "success", text: "تم تنزيل نسخة من بياناتك." });
+            }}
+          >
+            <Download className="size-4" />تنزيل نسخة من بياناتي
+          </Button>
+          <Button type="button" variant="outline" className="gap-2" onClick={async () => { await supabase.auth.signOut({ scope: "global" }); window.location.assign("/"); }}>
+            <ShieldCheck className="size-4" />تسجيل الخروج من كل الأجهزة
+          </Button>
           <Button type="button" variant="outline" className="gap-2 text-destructive hover:text-destructive" onClick={async () => { await supabase.auth.signOut(); window.location.assign("/"); }}><LogOut className="size-4" />تسجيل الخروج من هذا الجهاز</Button>
         </div>
       </SettingsCard>
@@ -498,18 +551,91 @@ function NotificationsPanel({ onNotice }: { onNotice: NoticeSetter }) {
   );
 }
 
-function ConnectionsPanel({ workspaceId }: { workspaceId: string | undefined }) {
+const THEME_KEY = "sahl-theme";
+
+function applyTheme(mode: "light" | "dark" | "system") {
+  const dark = mode === "system" ? window.matchMedia("(prefers-color-scheme: dark)").matches : mode === "dark";
+  document.documentElement.classList.toggle("dark", dark);
+  document.documentElement.style.colorScheme = dark ? "dark" : "light";
+  if (mode === "system") localStorage.removeItem(THEME_KEY);
+  else localStorage.setItem(THEME_KEY, mode);
+}
+
+function AppearancePanel() {
+  const [mode, setMode] = useState<"light" | "dark" | "system">("system");
+  const [density, setDensity] = useState<"comfortable" | "compact">("comfortable");
+
+  useEffect(() => {
+    const stored = localStorage.getItem(THEME_KEY);
+    setMode(stored === "dark" || stored === "light" ? stored : "system");
+    const storedDensity = localStorage.getItem("sahl-density");
+    if (storedDensity === "compact") setDensity("compact");
+  }, []);
+
+  const options = [
+    { id: "light", label: "فاتح", icon: Sun },
+    { id: "dark", label: "داكن", icon: Moon },
+    { id: "system", label: "حسب الجهاز", icon: Monitor },
+  ] as const;
+
   return (
-    <div className="space-y-5">
-      <SettingsCard>
-        <PanelHeader icon={Link2} title="الاتصالات" description="أوامر واتساب والوصول إلى حسابات النشر المرتبطة." />
-        <Link to="/app/integrations" className="group flex items-center justify-between gap-4 rounded-lg border border-border p-4 transition hover:border-primary/30 hover:bg-primary/5">
-          <span className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-lg bg-secondary"><Workflow className="size-5" /></span><span><span className="block text-sm font-extrabold">إدارة كل التكاملات</span><span className="mt-1 block text-xs text-muted-foreground">منصات التواصل، البريد، المواقع وأدوات العمل</span></span></span>
-          <ChevronLeft className="size-5 text-muted-foreground transition group-hover:-translate-x-1 group-hover:text-primary" />
-        </Link>
-      </SettingsCard>
-      {workspaceId ? <SettingsCard><WhatsAppCommand workspaceId={workspaceId} /></SettingsCard> : <SettingsLoading />}
-    </div>
+    <SettingsCard>
+      <PanelHeader icon={Palette} title="المظهر واللغة" description="اختر الوضع المريح لعينك وطريقة عرض القوائم." />
+      <div className="space-y-6">
+        <div>
+          <p className="mb-3 text-sm font-extrabold">وضع الألوان</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {options.map((option) => {
+              const active = mode === option.id;
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => {
+                    setMode(option.id);
+                    applyTheme(option.id);
+                  }}
+                  aria-pressed={active}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg border p-4 text-start transition",
+                    active ? "border-primary bg-primary/10" : "border-border hover:bg-secondary/60",
+                  )}
+                >
+                  <span className={cn("grid size-9 place-items-center rounded-md", active ? "bg-primary text-primary-foreground" : "bg-secondary")}>
+                    <option.icon className="size-4" />
+                  </span>
+                  <span className="text-sm font-extrabold">{option.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-5 rounded-lg border border-border p-4">
+          <div>
+            <p className="text-sm font-extrabold">عرض مضغوط</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">مسافات أقل بين العناصر لعرض محتوى أكثر في الشاشة.</p>
+          </div>
+          <Switch
+            checked={density === "compact"}
+            aria-label="عرض مضغوط"
+            onCheckedChange={(checked) => {
+              const next = checked ? "compact" : "comfortable";
+              setDensity(next);
+              localStorage.setItem("sahl-density", next);
+              document.documentElement.dataset["density"] = next;
+            }}
+          />
+        </div>
+
+        <div className="rounded-lg border border-border p-4">
+          <p className="text-sm font-extrabold">لغة الواجهة</p>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+            واجهة سهل بالعربية مع اتجاه من اليمين لليسار. لهجة المحتوى الذي يكتبه فريقك تُضبط من «الحساب والأمان».
+          </p>
+        </div>
+      </div>
+    </SettingsCard>
   );
 }
 
@@ -525,45 +651,6 @@ function BillingPanel({ doneCount, loading }: { doneCount: number; loading: bool
       </div>
       <div className="mt-5 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-border p-4"><div><p className="text-sm font-extrabold">هل تحتاج سعة أكبر؟</p><p className="mt-1 text-xs text-muted-foreground">قارن الحدود والمزايا قبل اختيار خطتك.</p></div><Button asChild className="gap-2"><Link to="/pricing">عرض الباقات<ChevronLeft className="size-4" /></Link></Button></div>
       <p className="mt-4 text-xs text-muted-foreground">لا توجد وسيلة دفع مرتبطة بهذه المساحة حالياً.</p>
-    </SettingsCard>
-  );
-}
-
-function SecretsPanel() {
-  const queryClient = useQueryClient();
-  const load = useServerFn(listSecrets);
-  const save = useServerFn(upsertSecrets);
-  const remove = useServerFn(deleteSecret);
-  const test = useServerFn(testAiProviders);
-  const [note, setNote] = useState<string | null>(null);
-  const [showValue, setShowValue] = useState(false);
-  const { data, isLoading } = useQuery({ queryKey: ["app-secrets"], queryFn: () => load() });
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ["app-secrets"] });
-  const saveMutation = useMutation({
-    mutationFn: (input: { entries?: { name: string; value: string }[]; bulk?: string }) => save({ data: input }),
-    onSuccess: async (result) => { setNote(result.saved > 0 ? `تم حفظ ${result.saved} مفتاح بنجاح.` : "لم يُقرأ أي مفتاح. تأكد من صيغة NAME=value."); await refresh(); },
-    onError: () => setNote("تعذّر حفظ المفتاح."),
-  });
-  const deleteMutation = useMutation({ mutationFn: (name: string) => remove({ data: { name } }), onSuccess: async () => { setNote("تم حذف المفتاح."); await refresh(); } });
-  const testMutation = useMutation({ mutationFn: () => test(), onSuccess: (result) => setNote(result.message), onError: () => setNote("تعذّر الاختبار.") });
-
-  return (
-    <SettingsCard>
-      <PanelHeader icon={KeyRound} title="مفاتيح الذكاء" description="تُحفظ القيم بعيداً عن المتصفح ولا نعرضها كاملة بعد الحفظ." />
-      {note ? <p role="status" className="mb-5 rounded-lg border border-primary/20 bg-primary/10 px-4 py-3 text-sm font-semibold">{note}</p> : null}
-      <div className="mb-6 space-y-2">
-        <h3 className="text-sm font-black">المحفوظ حالياً</h3>
-        {isLoading ? <div className="h-16 animate-pulse rounded-lg bg-secondary" /> : null}
-        {!isLoading && (data?.stored ?? []).length === 0 ? <p className="rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground">لا يوجد مفتاح محفوظ بعد.</p> : null}
-        {(data?.stored ?? []).map((secret) => <div key={secret.name} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border px-4 py-3 text-sm"><span className="font-mono font-bold">{secret.name}</span><span className="flex items-center gap-3"><span className="font-semibold text-primary">{secret.preview}</span><Button type="button" size="sm" variant="ghost" disabled={deleteMutation.isPending} onClick={() => deleteMutation.mutate(secret.name)} className="text-destructive hover:text-destructive">حذف</Button></span></div>)}
-      </div>
-      {(data?.missing ?? []).length ? <div className="mb-6"><h3 className="mb-2 text-sm font-black">مفاتيح ينتظرها التطبيق</h3><div className="grid gap-2 sm:grid-cols-2">{(data?.missing ?? []).map((item) => <div key={item.name} className="rounded-lg border border-dashed border-border p-3"><p className="break-all font-mono text-xs font-bold">{item.name}</p><p className="mt-1 text-xs text-muted-foreground">{item.label}</p></div>)}</div></div> : null}
-      <form className="space-y-4 rounded-lg bg-secondary/50 p-5" onSubmit={(event) => { event.preventDefault(); const form = event.currentTarget; const values = new FormData(form); const name = String(values.get("name") ?? "").trim(); const value = String(values.get("value") ?? "").trim(); saveMutation.mutate({ entries: name && value ? [{ name, value }] : [], bulk: String(values.get("bulk") ?? "") }); form.reset(); }}>
-        <h3 className="text-sm font-black">إضافة أو تحديث مفتاح</h3>
-        <div className="grid gap-4 sm:grid-cols-2"><Field label="اسم المفتاح"><input name="name" placeholder="GEMINI_API_KEY" className={cn(field, "font-mono")} /></Field><Field label="القيمة"><div className="relative"><input name="value" type={showValue ? "text" : "password"} autoComplete="off" className={cn(field, "ps-10")} /><Button type="button" variant="ghost" size="icon" className="absolute left-1 top-1 size-8" onClick={() => setShowValue((value) => !value)} aria-label={showValue ? "إخفاء القيمة" : "إظهار القيمة"}>{showValue ? <EyeOff className="size-4" /> : <Eye className="size-4" />}</Button></div></Field></div>
-        <Field label="إضافة عدة مفاتيح" hint="سطر لكل مفتاح بصيغة NAME=value"><textarea name="bulk" spellCheck={false} placeholder={"GEMINI_API_KEY=…\nOPENROUTER_API_KEY=…"} className={cn(field, "min-h-28 resize-y font-mono")} /></Field>
-        <div className="flex flex-wrap gap-3"><Button type="submit" disabled={saveMutation.isPending} className="gap-2">{saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}حفظ المفتاح</Button><Button type="button" variant="outline" onClick={() => testMutation.mutate()} disabled={testMutation.isPending} className="gap-2">{testMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />}اختبار الاتصال</Button></div>
-      </form>
     </SettingsCard>
   );
 }
