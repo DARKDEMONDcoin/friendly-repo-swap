@@ -10,6 +10,7 @@ export type BrainItem = Tables<"brain_items">;
 export type Task = Tables<"tasks">;
 export type Message = Tables<"messages">;
 export type Conversation = Tables<"conversations">;
+export type NotificationPreferences = Tables<"notification_preferences">;
 
 export type TaskStep = { label: string; state: "done" | "active" | "todo" | "blocked" };
 
@@ -49,6 +50,46 @@ export function useWorkspace() {
         supabase.from("workspaces").select("*").order("created_at", { ascending: true }),
       );
       return rows[0] ?? null;
+    },
+  });
+}
+
+export function useNotificationPreferences() {
+  return useQuery({
+    queryKey: ["notification-preferences"],
+    queryFn: async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      if (!auth.user) return null;
+      return must<NotificationPreferences>(
+        supabase
+          .from("notification_preferences")
+          .select("*")
+          .eq("user_id", auth.user.id)
+          .maybeSingle(),
+      );
+    },
+  });
+}
+
+export function useUpdateNotificationPreferences() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (
+      patch: Omit<
+        NotificationPreferences,
+        "user_id" | "created_at" | "updated_at"
+      >,
+    ) => {
+      const { data: auth } = await supabase.auth.getUser();
+      if (!auth.user) throw new Error("سجّل الدخول لحفظ تفضيلات التنبيهات.");
+      const { error } = await supabase.from("notification_preferences").upsert(
+        { user_id: auth.user.id, ...patch },
+        { onConflict: "user_id" },
+      );
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ["notification-preferences"] });
     },
   });
 }
