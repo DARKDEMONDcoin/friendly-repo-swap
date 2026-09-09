@@ -18,7 +18,7 @@ import {
 
 import { Reveal } from "@/components/Reveal";
 import { AmbientBackground } from "@/components/site/AmbientBackground";
-import { TeamOrbit } from "@/components/site/TeamOrbit";
+import { AuthCover } from "@/components/site/AuthCover";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { supabase } from "@/integrations/supabase/client";
 import { signIn } from "@/lib/auth";
