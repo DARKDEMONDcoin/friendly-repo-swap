@@ -79,11 +79,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#C1663A" },
-      {
-        name: "theme-color",
-        media: "(prefers-color-scheme: dark)",
-        content: "#C1663A",
-      },
       { title: "سهل | فريق موظفين ذكاء اصطناعي لشركتك" },
       {
         name: "description",
