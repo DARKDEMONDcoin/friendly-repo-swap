@@ -962,7 +962,8 @@
   .impact-card-inner { padding: 1rem; }
   .impact-icon-shell { top: 1rem; right: 1rem; width: 2.35rem; height: 2.35rem; }
   .impact-icon { width: 1.05rem; }
-  .impact-value { font-size: clamp(1.4rem, 6.5vw, 1.95rem); }
+  .impact-value { font-size: clamp(1.3rem, 6vw, 1.8rem); }
+  .impact-readout { flex-wrap: wrap; gap: 0.3rem; }
   .impact-card p { font-size: 0.68rem; line-height: 1.6; }
   .impact-card-inner { gap: 0.6rem; padding: 1rem 0.9rem 0.9rem; }
   .impact-card-head { flex-direction: column-reverse; align-items: flex-start; gap: 0.5rem; }
