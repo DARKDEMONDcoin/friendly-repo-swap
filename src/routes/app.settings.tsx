@@ -493,18 +493,91 @@ function NotificationsPanel({ onNotice }: { onNotice: NoticeSetter }) {
   );
 }
 
-function ConnectionsPanel({ workspaceId }: { workspaceId: string | undefined }) {
+const THEME_KEY = "sahl-theme";
+
+function applyTheme(mode: "light" | "dark" | "system") {
+  const dark = mode === "system" ? window.matchMedia("(prefers-color-scheme: dark)").matches : mode === "dark";
+  document.documentElement.classList.toggle("dark", dark);
+  document.documentElement.style.colorScheme = dark ? "dark" : "light";
+  if (mode === "system") localStorage.removeItem(THEME_KEY);
+  else localStorage.setItem(THEME_KEY, mode);
+}
+
+function AppearancePanel() {
+  const [mode, setMode] = useState<"light" | "dark" | "system">("system");
+  const [density, setDensity] = useState<"comfortable" | "compact">("comfortable");
+
+  useEffect(() => {
+    const stored = localStorage.getItem(THEME_KEY);
+    setMode(stored === "dark" || stored === "light" ? stored : "system");
+    const storedDensity = localStorage.getItem("sahl-density");
+    if (storedDensity === "compact") setDensity("compact");
+  }, []);
+
+  const options = [
+    { id: "light", label: "فاتح", icon: Sun },
+    { id: "dark", label: "داكن", icon: Moon },
+    { id: "system", label: "حسب الجهاز", icon: Monitor },
+  ] as const;
+
   return (
-    <div className="space-y-5">
-      <SettingsCard>
-        <PanelHeader icon={Link2} title="الاتصالات" description="أوامر واتساب والوصول إلى حسابات النشر المرتبطة." />
-        <Link to="/app/integrations" className="group flex items-center justify-between gap-4 rounded-lg border border-border p-4 transition hover:border-primary/30 hover:bg-primary/5">
-          <span className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-lg bg-secondary"><Workflow className="size-5" /></span><span><span className="block text-sm font-extrabold">إدارة كل التكاملات</span><span className="mt-1 block text-xs text-muted-foreground">منصات التواصل، البريد، المواقع وأدوات العمل</span></span></span>
-          <ChevronLeft className="size-5 text-muted-foreground transition group-hover:-translate-x-1 group-hover:text-primary" />
-        </Link>
-      </SettingsCard>
-      {workspaceId ? <SettingsCard><WhatsAppCommand workspaceId={workspaceId} /></SettingsCard> : <SettingsLoading />}
-    </div>
+    <SettingsCard>
+      <PanelHeader icon={Palette} title="المظهر واللغة" description="اختر الوضع المريح لعينك وطريقة عرض القوائم." />
+      <div className="space-y-6">
+        <div>
+          <p className="mb-3 text-sm font-extrabold">وضع الألوان</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {options.map((option) => {
+              const active = mode === option.id;
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => {
+                    setMode(option.id);
+                    applyTheme(option.id);
+                  }}
+                  aria-pressed={active}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg border p-4 text-start transition",
+                    active ? "border-primary bg-primary/10" : "border-border hover:bg-secondary/60",
+                  )}
+                >
+                  <span className={cn("grid size-9 place-items-center rounded-md", active ? "bg-primary text-primary-foreground" : "bg-secondary")}>
+                    <option.icon className="size-4" />
+                  </span>
+                  <span className="text-sm font-extrabold">{option.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-5 rounded-lg border border-border p-4">
+          <div>
+            <p className="text-sm font-extrabold">عرض مضغوط</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">مسافات أقل بين العناصر لعرض محتوى أكثر في الشاشة.</p>
+          </div>
+          <Switch
+            checked={density === "compact"}
+            aria-label="عرض مضغوط"
+            onCheckedChange={(checked) => {
+              const next = checked ? "compact" : "comfortable";
+              setDensity(next);
+              localStorage.setItem("sahl-density", next);
+              document.documentElement.dataset["density"] = next;
+            }}
+          />
+        </div>
+
+        <div className="rounded-lg border border-border p-4">
+          <p className="text-sm font-extrabold">لغة الواجهة</p>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+            واجهة سهل بالعربية مع اتجاه من اليمين لليسار. لهجة المحتوى الذي يكتبه فريقك تُضبط من «الحساب والأمان».
+          </p>
+        </div>
+      </div>
+    </SettingsCard>
   );
 }
 
