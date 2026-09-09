@@ -1,34 +1,32 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Bell,
   Building2,
-  Check,
   CheckCircle2,
   ChevronLeft,
   CircleGauge,
   CreditCard,
+  Download,
   Eye,
   EyeOff,
   Globe2,
-  KeyRound,
-  Link2,
   Loader2,
   LockKeyhole,
   LogOut,
   Mail,
-  MessageCircle,
+  Monitor,
+  Moon,
+  Palette,
   Save,
   ShieldCheck,
   Sparkles,
+  Sun,
   User,
-  Workflow,
 } from "lucide-react";
 
 import { AppShell } from "@/components/app/AppShell";
-import { WhatsAppCommand } from "@/components/app/WhatsAppCommand";
+import { AvatarUploader } from "@/components/app/AvatarUploader";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
@@ -45,7 +43,6 @@ import {
   useUpdateWorkspace,
   useWorkspace,
 } from "@/lib/data";
-import { deleteSecret, listSecrets, testAiProviders, upsertSecrets } from "@/lib/secrets.functions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/settings")({
