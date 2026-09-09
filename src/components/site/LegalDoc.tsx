@@ -132,6 +132,7 @@ export function LegalDoc({
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 lg:grid-cols-[270px_1fr]">
         <aside className="lg:sticky lg:top-28 lg:self-start print:hidden">
           <details
+            open
             className="group rounded-3xl border border-border bg-card p-5 shadow-card [&:not([open])>summary]:mb-0 lg:[&>summary]:pointer-events-none"
           >
             <summary className="mb-3 flex cursor-pointer list-none items-center justify-between gap-2 text-sm font-bold text-muted-foreground [&::-webkit-details-marker]:hidden">

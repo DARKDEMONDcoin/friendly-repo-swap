@@ -48,7 +48,8 @@ function PricingPage() {
   const { country } = useRegion();
   const cur = currencyOf(country);
   const [mobilePlan, setMobilePlan] = useState<(typeof plans)[number]["id"]>("growth");
-  const selected = plans.find((plan) => plan.id === mobilePlan) ?? plans[1];
+  const selected = plans.find((plan) => plan.id === mobilePlan);
+  if (!selected) return null;
   return (
     <PageShell className="h-svh overflow-hidden bg-background md:min-h-screen md:h-auto md:overflow-visible" hideFooterOnMobile>
       <section className="flex h-svh flex-col px-4 pb-4 pt-[5.5rem] md:hidden">
