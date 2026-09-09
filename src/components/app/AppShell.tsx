@@ -1,3 +1,4 @@
+import { LogoMark } from "@/components/site/LogoMark";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Portrait } from "@/components/site/Portrait";
@@ -113,7 +114,8 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <div className="flex h-full flex-col gap-5 p-5">
-      <Link to="/" className="font-display text-2xl font-black tracking-tight">
+      <Link to="/" className="flex items-center gap-2 font-display text-2xl font-black tracking-tight">
+        <LogoMark className="size-8" size={32} />
         سهل<span className="text-jade">.</span>
       </Link>
 

@@ -1,3 +1,4 @@
+import { LogoMark } from "@/components/site/LogoMark";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Sparkles, ShieldCheck, Clock4, Languages } from "lucide-react";
@@ -40,9 +41,7 @@ export function AuthShell({
         <div aria-hidden className="grid-lines absolute inset-0 opacity-30" />
         <div className="relative flex h-full flex-col justify-between p-12">
           <Link to="/" className="flex items-center gap-2.5 text-white">
-            <span className="grid size-9 place-items-center rounded-xl bg-white/20 backdrop-blur">
-              <Sparkles className="size-4.5" strokeWidth={2.4} />
-            </span>
+            <LogoMark className="size-9" />
             <span className="font-display text-xl font-extrabold">سهل</span>
           </Link>
 
@@ -71,12 +70,7 @@ export function AuthShell({
       <div className="flex items-center justify-center px-5 py-14">
         <div className="w-full max-w-md">
           <Link to="/" className="mb-8 flex items-center gap-2.5 lg:hidden">
-            <span
-              className="grid size-9 place-items-center rounded-xl text-primary-foreground"
-              style={{ backgroundImage: "var(--gradient-aurora)" }}
-            >
-              <Sparkles className="size-4.5" strokeWidth={2.4} />
-            </span>
+            <LogoMark className="size-9" />
             <span className="font-display text-xl font-extrabold">سهل</span>
           </Link>
 
