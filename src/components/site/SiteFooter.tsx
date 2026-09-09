@@ -1,7 +1,6 @@
 import { LogoMark } from "@/components/site/LogoMark";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Sparkles } from "lucide-react";
-import { AppIcon } from "@/components/site/AppIcon";
+import { appLabel } from "@/components/site/AppIcon";
 
 const cols: { t: string; l: { label: string; to: string }[] }[] = [
   {
@@ -74,7 +73,6 @@ export function SiteFooter() {
             <div className="flex flex-wrap items-center gap-3">
               <Link to="/auth" className="site-footer-primary">
                 ابدأ مجانًا
-                <ArrowUpRight className="size-4" strokeWidth={2.6} />
               </Link>
               <Link to="/contact" className="site-footer-ghost">
                 تحدّث معنا
@@ -97,7 +95,7 @@ export function SiteFooter() {
               <div className="mt-5 flex flex-wrap items-center gap-2">
                 {integrations.map((a) => (
                   <span key={a} className="site-footer-chip">
-                    <AppIcon name={a} className="size-4.5" />
+                    {appLabel(a)}
                   </span>
                 ))}
               </div>
