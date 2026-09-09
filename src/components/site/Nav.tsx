@@ -107,7 +107,7 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
             : "max-h-0 overflow-hidden opacity-0",
         )}
       >
-        <div className="nav-glass-sheet mx-3 my-3 p-4 text-foreground">
+        <div className="nav-glass-sheet mx-3 my-3 max-w-[26rem] p-4 text-foreground md:mx-auto">
           <div className="mb-3 flex items-center justify-between px-1">
             <span className="text-xs font-semibold tracking-wide text-foreground/55">تنقّل</span>
             <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.7rem] font-medium text-foreground/55" style={{ border: "1px solid color-mix(in oklab, var(--foreground) 16%, transparent)" }}>
