@@ -5,6 +5,7 @@ import { PageShell, PageHero, CtaBand } from "@/components/site/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { stories } from "@/data/stories";
 import { team } from "@/data/team";
+import { Portrait } from "@/components/site/Portrait";
 
 export const Route = createFileRoute("/stories")({
   head: () => ({
@@ -88,9 +89,11 @@ function StoriesPage() {
                           key={id}
                           to="/employees/$id"
                           params={{ id }}
-                          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-sm font-semibold transition-colors hover:text-primary"
+                          className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pe-3.5 ps-1.5 text-sm font-semibold transition-colors hover:text-primary"
                         >
-                          <m.icon className="size-4" style={{ color: m.tint }} />
+                          <span className="size-7 shrink-0 overflow-hidden rounded-full">
+                            <Portrait memberId={m.id} name={m.name} className="size-full" />
+                          </span>
                           {m.name}
                         </Link>
                       );

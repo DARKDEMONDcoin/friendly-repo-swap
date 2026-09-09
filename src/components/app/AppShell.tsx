@@ -115,7 +115,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col gap-5 p-5">
       <Link to="/" className="flex items-center gap-2 font-display text-2xl font-black tracking-tight">
-        <LogoMark className="size-8" size={32} />
+        <LogoMark className="size-10" size={40} />
         سهل<span className="text-jade">.</span>
       </Link>
 

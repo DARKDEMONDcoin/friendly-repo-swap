@@ -85,7 +85,7 @@ export function SiteFooter() {
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
             <div>
               <Link to="/" className="flex items-center gap-2.5">
-                <LogoMark className="size-9" />
+                <LogoMark className="size-12" size={48} />
                 <span className="font-display text-xl font-extrabold">سهل</span>
               </Link>
               <p className="mt-4 max-w-xs leading-relaxed text-muted-foreground">

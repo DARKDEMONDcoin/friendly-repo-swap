@@ -41,7 +41,7 @@ export function AuthShell({
         <div aria-hidden className="grid-lines absolute inset-0 opacity-30" />
         <div className="relative flex h-full flex-col justify-between p-12">
           <Link to="/" className="flex items-center gap-2.5 text-white">
-            <LogoMark className="size-9" />
+            <LogoMark className="size-11" size={44} />
             <span className="font-display text-xl font-extrabold">سهل</span>
           </Link>
 
@@ -70,7 +70,7 @@ export function AuthShell({
       <div className="flex items-center justify-center px-5 py-14">
         <div className="w-full max-w-md">
           <Link to="/" className="mb-8 flex items-center gap-2.5 lg:hidden">
-            <LogoMark className="size-9" />
+            <LogoMark className="size-11" size={44} />
             <span className="font-display text-xl font-extrabold">سهل</span>
           </Link>
 

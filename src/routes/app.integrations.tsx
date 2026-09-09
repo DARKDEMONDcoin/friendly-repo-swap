@@ -16,6 +16,7 @@ import { GhostConnect } from "@/components/app/GhostConnect";
 import { MetaDirect } from "@/components/app/MetaDirect";
 import { WhatsAppCommand } from "@/components/app/WhatsAppCommand";
 import { team } from "@/data/team";
+import { Portrait } from "@/components/site/Portrait";
 import { integrationStatusLabel } from "@/data/app";
 import { isPipedreamProvider, pipedreamApp } from "@/data/pipedream-apps";
 import { useIntegrations, useSetIntegrationStatus, useWorkspace } from "@/lib/data";
@@ -392,10 +393,10 @@ function IntegrationsPage() {
               <section key={m.id} className="rounded-3xl border border-border bg-card p-5 sm:p-6">
                 <div className="flex items-center gap-3">
                   <span
-                    className="grid size-10 place-items-center rounded-2xl"
-                    style={{ background: m.tintSoft, color: m.tint }}
+                    className="grid size-11 shrink-0 overflow-hidden rounded-2xl ring-2"
+                    style={{ background: m.tintSoft, "--tw-ring-color": m.tintSoft } as React.CSSProperties}
                   >
-                    <m.icon className="size-5" strokeWidth={2.2} />
+                    <Portrait memberId={m.id} name={m.name} className="size-full" />
                   </span>
                   <div className="min-w-0">
                     <h2 className="font-display font-black">{m.name}</h2>

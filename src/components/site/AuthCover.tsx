@@ -121,7 +121,7 @@ export function AuthCover() {
 
       <div className="auth-cover-top">
         <span className="auth-cover-brand">
-          <LogoMark className="size-4" size={16} />
+          <LogoMark className="size-5" size={20} />
           عملاء سهل
         </span>
       </div>
