@@ -353,7 +353,7 @@ export function AppShell({
               {actions}
               <Link
                 to="/app/approvals"
-                className="relative hidden size-10 place-items-center rounded-xl border border-border transition-colors hover:bg-secondary sm:grid"
+                className="relative grid size-10 shrink-0 place-items-center rounded-xl border border-border transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 aria-label="التنبيهات"
               >
                 <Bell className="size-4.5" />
@@ -364,7 +364,7 @@ export function AppShell({
           </div>
         </header>
         <GuestBar />
-        <main className={padded ? "px-5 py-7" : ""}>{children}</main>
+        <main className={padded ? "mx-auto w-full max-w-[100rem] px-4 py-6 sm:px-5 sm:py-7" : ""}>{children}</main>
 
       </div>
     </div>

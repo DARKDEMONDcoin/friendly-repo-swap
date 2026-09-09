@@ -33,13 +33,13 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
           <span className="font-display text-xl font-extrabold tracking-tight">سهل</span>
         </Link>
 
-        <ul className="pointer-events-auto hidden items-center gap-1 2xl:flex">
+        <ul className="pointer-events-auto hidden items-center gap-0.5 xl:flex">
           {links.map((l) => (
             <li key={l.to}>
               <Link
                 to={l.to}
                 className={cn(
-                  "nav-floating-control relative rounded-full px-3 py-2 text-[0.93rem] font-medium transition-colors",
+                  "nav-floating-control relative rounded-full px-2.5 py-2 text-sm font-medium transition-colors",
                   solid ? "text-ink-soft hover:text-primary" : "text-white/90 hover:text-white",
                 )}
                 activeProps={{
@@ -52,7 +52,7 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
           ))}
         </ul>
 
-        <div className="pointer-events-auto hidden items-center gap-2 md:flex">
+        <div className="pointer-events-auto hidden items-center gap-2 xl:flex">
           <Link
             to="/app"
             className={cn(
@@ -91,7 +91,7 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
           onClick={() => setOpen((v) => !v)}
           aria-label="القائمة"
           className={cn(
-            "nav-floating-control pointer-events-auto size-10 rounded-full 2xl:hidden",
+            "nav-floating-control pointer-events-auto size-11 rounded-full xl:hidden",
             solid ? "text-foreground" : "text-white",
           )}
         >
@@ -101,7 +101,7 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
 
       <div
         className={cn(
-          "pointer-events-auto transition-[max-height,opacity] duration-500 ease-out 2xl:hidden",
+          "pointer-events-auto transition-[max-height,opacity] duration-500 ease-out xl:hidden",
           open
             ? "max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain opacity-100"
             : "max-h-0 overflow-hidden opacity-0",

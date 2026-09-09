@@ -1,6 +1,5 @@
 import { LogoMark } from "@/components/site/LogoMark";
 import { Link } from "@tanstack/react-router";
-import { appLabel } from "@/components/site/AppIcon";
 
 const cols: { t: string; l: { label: string; to: string }[] }[] = [
   {
@@ -48,40 +47,12 @@ const cols: { t: string; l: { label: string; to: string }[] }[] = [
   },
 ];
 
-const integrations = ["instagram", "linkedin", "x", "tiktok", "gmail", "slack", "notion", "shopify"];
-
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-footer-glow" aria-hidden />
-      <div className="mx-auto w-full max-w-6xl px-5 pb-10 pt-16">
-        <div className="site-footer-cta">
-          <div className="site-footer-sheen" aria-hidden />
-          <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-            <div>
-              <span className="site-footer-badge">
-                <span className="site-footer-dot" />
-                فريقك جاهز للعمل الآن
-              </span>
-              <h2 className="mt-4 font-display text-2xl font-extrabold leading-tight sm:text-3xl">
-                وظّف فريق «سهل» وابدأ خلال دقائق
-              </h2>
-              <p className="mt-2 max-w-md leading-relaxed text-muted-foreground">
-                بدون بطاقة، بدون تعقيد — جرّب مجانًا وشوف النتيجة بنفسك.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <Link to="/auth" className="site-footer-primary">
-                ابدأ مجانًا
-              </Link>
-              <Link to="/contact" className="site-footer-ghost">
-                تحدّث معنا
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="site-footer-panel mt-6">
+      <div className="mx-auto w-full max-w-6xl px-5 pb-10 pt-12">
+        <div className="site-footer-panel">
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
             <div>
               <Link to="/" className="flex items-center gap-2.5">
@@ -92,13 +63,6 @@ export function SiteFooter() {
                 فريق موظفين بالذكاء الاصطناعي، يعمل بالعربية على مدار الساعة لأصحاب المشاريع — ينشر،
                 يصمّم، يردّ، ويبيع نيابة عنك.
               </p>
-              <div className="mt-5 flex flex-wrap items-center gap-2">
-                {integrations.map((a) => (
-                  <span key={a} className="site-footer-chip">
-                    {appLabel(a)}
-                  </span>
-                ))}
-              </div>
             </div>
             {cols.map((c) => (
               <nav key={c.t} aria-label={c.t}>
