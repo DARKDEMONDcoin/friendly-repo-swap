@@ -77,7 +77,9 @@ type TabId = (typeof tabs)[number]["id"];
 const field =
   "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15";
 
-const defaultNotifications = {
+type NotificationDraft = Omit<NotificationPreferences, "user_id" | "created_at" | "updated_at">;
+
+const defaultNotifications: NotificationDraft = {
   approval_ready: true,
   integration_disconnected: true,
   publishing_failed: true,
@@ -85,7 +87,7 @@ const defaultNotifications = {
   task_digest: true,
   digest_frequency: "weekly",
   timezone: "Africa/Cairo",
-} satisfies Omit<NotificationPreferences, "user_id" | "created_at" | "updated_at">;
+};
 
 function isTab(value: string | null): value is TabId {
   return tabs.some((item) => item.id === value);
@@ -496,7 +498,7 @@ function NotificationsPanel({ onNotice }: { onNotice: NoticeSetter }) {
   );
 }
 
-function ConnectionsPanel({ workspaceId }: { workspaceId?: string }) {
+function ConnectionsPanel({ workspaceId }: { workspaceId: string | undefined }) {
   return (
     <div className="space-y-5">
       <SettingsCard>
