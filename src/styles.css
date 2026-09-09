@@ -788,11 +788,13 @@
 .orbit-user strong, .orbit-user small { display: block; }
 .orbit-user strong { margin-top: 0.35rem; font-family: var(--font-display); }
 .orbit-user small { color: var(--muted-foreground); font-size: 0.67rem; }
-.orbit-map-center { position: absolute; z-index: 5; inset: 46% auto auto 50%; width: 19rem; height: 11.5rem; translate: -50% -50%; pointer-events: none; animation: mena-map-breathe 7s ease-in-out infinite; }
-.orbit-map-center > small { position: absolute; inset: auto -18% -1.15rem; display: grid; gap: 0.15rem; color: color-mix(in oklab, var(--primary) 82%, var(--foreground)); font-size: 0.62rem; font-weight: 800; text-align: center; }
-.orbit-map-center > small b { font-family: var(--font-display); font-size: 0.82rem; }
+.orbit-map-center { position: absolute; z-index: 1; inset: 45% auto auto 50%; width: 22rem; height: 13rem; translate: -50% -50%; pointer-events: none; animation: mena-map-breathe 7s ease-in-out infinite; }
+.orbit-map-center > small { position: absolute; inset: auto -14% -2.6rem; display: grid; gap: 0.18rem; color: color-mix(in oklab, var(--primary) 82%, var(--foreground)); font-size: 0.62rem; font-weight: 800; text-align: center; }
+.orbit-map-center > small b { font-family: var(--font-display); font-size: 0.86rem; letter-spacing: 0.01em; }
 .orbit-map-center > small span { color: var(--muted-foreground); font-weight: 600; }
 .orbit-slot { position: absolute; z-index: 2; width: min(15.5rem, 27%); }
+.orbit-slot:has(.orbit-bubble) { z-index: 9; }
+
 .orbit-employee { position: relative; display: flex; width: 100%; min-height: 5.25rem; align-items: center; gap: 0.75rem; border-radius: 1rem; padding: 0.7rem; animation: orbit-float 5s ease-in-out infinite; animation-delay: var(--float-delay); transition: border-color 280ms ease, box-shadow 280ms ease; }
 .orbit-connections .orbit-connection.is-active { stroke: var(--primary) !important; stroke-width: 2.2px !important; filter: drop-shadow(0 0 5px color-mix(in oklab, var(--primary) 78%, transparent)); }
 .orbit-employee:hover { border-color: color-mix(in oklab, var(--employee-tone) 54%, var(--border)); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--card) 96%, transparent), 0 18px 38px -22px color-mix(in oklab, var(--employee-tone) 65%, transparent); }
