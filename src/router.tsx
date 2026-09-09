@@ -11,6 +11,9 @@ export const getRouter = () => {
     context: { queryClient },
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
+    defaultPendingMs: 250,
+    defaultPendingMinMs: 400,
+    defaultPendingComponent: () => <BrandLoaderScreen />,
   });
 
   return router;
