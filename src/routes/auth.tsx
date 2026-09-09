@@ -18,6 +18,7 @@ import {
 import { Reveal } from "@/components/Reveal";
 import { AmbientBackground } from "@/components/site/AmbientBackground";
 import { AuthCover } from "@/components/site/AuthCover";
+import { LogoMark } from "@/components/site/LogoMark";
 import { supabase } from "@/integrations/supabase/client";
 import { signIn } from "@/lib/auth";
 import { GUEST_EMAIL } from "@/lib/guest.functions";
