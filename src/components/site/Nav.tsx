@@ -1,3 +1,4 @@
+import { LogoMark } from "@/components/site/LogoMark";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X, Sparkles } from "lucide-react";
@@ -28,12 +29,7 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5">
         <Link to="/" className="nav-floating-control pointer-events-auto group flex items-center gap-2.5 rounded-full py-1.5 pe-4 ps-1.5">
-          <span
-            className="grid size-9 place-items-center rounded-xl text-primary-foreground"
-            style={{ backgroundImage: "var(--gradient-aurora)" }}
-          >
-            <Sparkles className="size-4.5" strokeWidth={2.4} />
-          </span>
+          <LogoMark className="size-9" />
           <span className="font-display text-xl font-extrabold tracking-tight">سهل</span>
         </Link>
 

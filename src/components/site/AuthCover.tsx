@@ -1,3 +1,4 @@
+import { LogoMark } from "@/components/site/LogoMark";
 import { useEffect, useRef, useState } from "react";
 import { Quote, Sparkles } from "lucide-react";
 
@@ -120,7 +121,7 @@ export function AuthCover() {
 
       <div className="auth-cover-top">
         <span className="auth-cover-brand">
-          <Sparkles className="size-3.5" strokeWidth={2.5} />
+          <LogoMark className="size-4" size={16} />
           عملاء سهل
         </span>
       </div>

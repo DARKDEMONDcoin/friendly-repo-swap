@@ -1,3 +1,4 @@
+import { LogoMark } from "@/components/site/LogoMark";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import { AppIcon } from "@/components/site/AppIcon";
@@ -86,12 +87,7 @@ export function SiteFooter() {
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
             <div>
               <Link to="/" className="flex items-center gap-2.5">
-                <span
-                  className="grid size-9 place-items-center rounded-xl text-primary-foreground"
-                  style={{ backgroundImage: "var(--gradient-aurora)" }}
-                >
-                  <Sparkles className="size-4.5" strokeWidth={2.4} />
-                </span>
+                <LogoMark className="size-9" />
                 <span className="font-display text-xl font-extrabold">سهل</span>
               </Link>
               <p className="mt-4 max-w-xs leading-relaxed text-muted-foreground">
