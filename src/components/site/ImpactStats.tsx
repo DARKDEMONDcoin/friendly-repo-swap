@@ -1,175 +1,153 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDownRight, ArrowUpRight, CalendarCheck2, Clock3, Coins, Layers3 } from "lucide-react";
 
-type Stat = {
-  value: number;
-  prefix: string;
-  suffix: string;
-  title: string;
-  label: string;
-  unit: string;
-  delta: string;
-  trend: "up" | "down";
-  icon: typeof Clock3;
-  series: number[];
-  meta: { k: string; v: string }[];
+type Lane = {
+  role: string;
+  nodes: { at: number; task: string }[];
 };
 
-const stats: Stat[] = [
+const lanes: Lane[] = [
   {
-    value: 40,
-    prefix: "+",
-    suffix: " ساعة",
-    title: "الوقت المستعاد شهريًا",
-    label: "متوسط ما يعود لفريقك من ساعات تشغيل",
-    unit: "شهريًا",
-    delta: "٢٢٪+",
-    trend: "up",
-    icon: Clock3,
-    series: [18, 22, 21, 27, 25, 31, 34, 33, 38, 40],
-    meta: [
-      { k: "أعلى شهر", v: "٤٦ ساعة" },
-      { k: "المتوسط", v: "٣٢ ساعة" },
+    role: "كاتب المحتوى",
+    nodes: [
+      { at: 2, task: "خطة محتوى الأسبوع" },
+      { at: 6, task: "مقال طويل جاهز" },
+      { at: 9, task: "٣ إعلانات نصية" },
+      { at: 12, task: "نشرة بريدية" },
+      { at: 16, task: "إعادة صياغة باللهجة" },
+      { at: 19, task: "وصف منتجات" },
+      { at: 23, task: "تقرير يومي" },
     ],
   },
   {
-    value: 70,
-    prefix: "",
-    suffix: "%",
-    title: "انخفاض تكلفة التشغيل",
-    label: "مقارنة بفريق تسويق تقليدي بنفس المهام",
-    unit: "مقارنة بالسوق",
-    delta: "٧٠٪−",
-    trend: "down",
-    icon: Coins,
-    series: [100, 94, 88, 79, 74, 66, 58, 46, 38, 30],
-    meta: [
-      { k: "فريق تقليدي", v: "١٠٠٪" },
-      { k: "مع سهل", v: "٣٠٪" },
+    role: "محلل SEO",
+    nodes: [
+      { at: 3, task: "بحث كلمات مفتاحية" },
+      { at: 10, task: "تدقيق صفحات" },
+      { at: 15, task: "تحسين عناوين" },
+      { at: 22, task: "تقرير ترتيب" },
     ],
   },
   {
-    value: 6,
-    prefix: "",
-    suffix: "/٧",
-    title: "أيام التشغيل الأسبوعية",
-    label: "ستة أيام عمل متواصل ويوم صيانة وتحديث",
-    unit: "يوم/أسبوع",
-    delta: "٩٨٪ جاهزية",
-    trend: "up",
-    icon: CalendarCheck2,
-    series: [82, 88, 91, 90, 94, 96, 95, 97, 98, 98],
-    meta: [
-      { k: "زمن الاستجابة", v: "< ٣ دقائق" },
-      { k: "التوقف", v: "يوم واحد" },
+    role: "مدير السوشيال",
+    nodes: [
+      { at: 4, task: "جدولة منشورات" },
+      { at: 11, task: "ردود المجتمع" },
+      { at: 18, task: "تحليل التفاعل" },
     ],
   },
   {
-    value: 1000,
-    prefix: "+",
-    suffix: "",
-    title: "سعة الفريق الشهرية",
-    label: "مهام منشورة ومجدولة في باقات الفرق",
-    unit: "مهمة/شهر",
-    delta: "٣٫٤×",
-    trend: "up",
-    icon: Layers3,
-    series: [180, 260, 320, 410, 520, 610, 720, 830, 930, 1000],
-    meta: [
-      { k: "مكتملة", v: "٩٦٪" },
-      { k: "تحتاج مراجعة", v: "٤٪" },
+    role: "مساعد الدعم",
+    nodes: [
+      { at: 1, task: "فرز المحادثات" },
+      { at: 8, task: "ردود واتساب" },
+      { at: 14, task: "تصعيد الحالات" },
+      { at: 21, task: "ملخص العملاء" },
     ],
   },
 ];
 
-function Sparkline({ series, trend }: { series: number[]; trend: "up" | "down" }) {
-  const max = Math.max(...series);
-  const min = Math.min(...series);
-  const span = Math.max(max - min, 1);
-  const points = series.map((v, i) => {
-    const x = (i / (series.length - 1)) * 100;
-    const y = 34 - ((v - min) / span) * 28 - 3;
-    return [x, y] as const;
-  });
-  const line = points.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`).join(" ");
-  const area = `${line} L100,36 L0,36 Z`;
-  const last = points[points.length - 1]!;
-  return (
-    <svg className={`impact-spark ${trend === "down" ? "is-down" : ""}`} viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
-      <path className="impact-spark-area" d={area} />
-      <path className="impact-spark-line" d={line} vectorEffect="non-scaling-stroke" />
-      <circle className="impact-spark-dot" cx={last[0]} cy={last[1]} r="1.9" vectorEffect="non-scaling-stroke" />
-    </svg>
-  );
-}
+const hours = [0, 4, 8, 12, 16, 20, 24];
+const kpis = [
+  { v: "+٤٠", k: "ساعة تعود لفريقك شهريًا" },
+  { v: "٧٠٪−", k: "انخفاض تكلفة التشغيل" },
+  { v: "٦/٧", k: "أيام تشغيل أسبوعية" },
+  { v: "+١٠٠٠", k: "مهمة منفَّذة شهريًا" },
+];
 
-function AnimatedNumber({ value }: { value: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [shown, setShown] = useState(0);
+const total = lanes.reduce((s, l) => s + l.nodes.length, 0);
+
+export function ImpactStats() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [live, setLive] = useState(false);
+  const [step, setStep] = useState(0);
+
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setShown(value);
-      return;
+    const io = new IntersectionObserver(([e]) => setLive(!!e?.isIntersecting), { threshold: 0.25 });
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!live) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => setStep((s) => (s + 1) % total), 1700);
+    return () => window.clearInterval(id);
+  }, [live]);
+
+  let cursor = step;
+  let activeLane = 0;
+  for (let i = 0; i < lanes.length; i += 1) {
+    const len = lanes[i]!.nodes.length;
+    if (cursor < len) {
+      activeLane = i;
+      break;
     }
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry?.isIntersecting) return;
-      const start = performance.now();
-      const tick = (now: number) => {
-        const p = Math.min((now - start) / 1200, 1);
-        setShown(Math.round(value * (1 - Math.pow(1 - p, 3))));
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      observer.disconnect();
-    }, { threshold: 0.35 });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [value]);
-  return <span ref={ref}>{shown.toLocaleString("ar-EG")}</span>;
-}
+    cursor -= len;
+  }
+  const activeNode = cursor;
 
-export function ImpactStats() {
   return (
-    <section className="impact-strip" aria-label="أثر فريق سهل">
-      <div className="impact-grid mx-auto max-w-6xl px-5">
-        {stats.map((stat, index) => (
-          <article key={stat.title} className="impact-card" style={{ "--impact-delay": `${index * 120}ms` } as React.CSSProperties}>
-            <div className="impact-card-inner">
-              <header className="impact-card-head">
-                <div className="impact-head-id">
-                  <span className="impact-icon-shell"><stat.icon className="impact-icon" /></span>
-                  <span className="impact-title">{stat.title}</span>
-                </div>
-                <span className={`impact-delta ${stat.trend === "down" ? "is-down" : "is-up"}`}>
-                  {stat.trend === "down" ? <ArrowDownRight /> : <ArrowUpRight />}
-                  {stat.delta}
-                </span>
-              </header>
+    <section className="impact-strip" aria-label="جدول عمل فريق سهل خلال اليوم">
+      <div className="mx-auto max-w-5xl px-5">
+        <header className="flow-head">
+          <span className="flow-chip">
+            <span className="flow-chip-dot" /> يعمل الآن
+          </span>
+          <h2 className="flow-title font-display">فريقك الذكي يشتغل على مدار اليوم</h2>
+          <p className="flow-sub">كل موظف يستلم مهامه تلقائيًا، ينفّذها، ويسلّم النتيجة — بدون متابعة منك.</p>
+        </header>
 
-              <div className="impact-readout">
-                <div className="impact-value font-display tabular-nums">
-                  {stat.prefix}<AnimatedNumber value={stat.value} />{stat.suffix}
-                </div>
-                <span className="impact-unit">{stat.unit}</span>
-              </div>
+        <div ref={ref} className={`flow-panel ${live ? "is-live" : ""}`} dir="ltr">
+          <div className="flow-ruler" aria-hidden="true">
+            {hours.map((h) => (
+              <span key={h} style={{ left: `${(h / 24) * 100}%` }}>{h}h</span>
+            ))}
+          </div>
 
-              <Sparkline series={stat.series} trend={stat.trend} />
-
-              <p className="impact-label">{stat.label}</p>
-
-              <dl className="impact-meta">
-                {stat.meta.map((m) => (
-                  <div key={m.k}>
-                    <dt>{m.k}</dt>
-                    <dd>{m.v}</dd>
+          <ul className="flow-lanes">
+            {lanes.map((lane, li) => {
+              const isActive = li === activeLane;
+              return (
+                <li key={lane.role} className={`flow-lane ${isActive ? "is-active" : ""}`}>
+                  <span className="flow-lane-name" dir="rtl">{lane.role}</span>
+                  <div className="flow-track">
+                    <span className="flow-rail" />
+                    <span
+                      className="flow-rail-fill"
+                      style={{ width: isActive ? `${(lane.nodes[activeNode]?.at ?? 0) / 24 * 100}%` : "0%" }}
+                    />
+                    {lane.nodes.map((n, ni) => {
+                      const on = isActive && ni <= activeNode;
+                      const now = isActive && ni === activeNode;
+                      return (
+                        <span
+                          key={n.task}
+                          className={`flow-node ${on ? "is-on" : ""} ${now ? "is-now" : ""}`}
+                          style={{ left: `${(n.at / 24) * 100}%` }}
+                        >
+                          {now && (
+                            <span className="flow-tip" dir="rtl">{n.task}</span>
+                          )}
+                        </span>
+                      );
+                    })}
                   </div>
-                ))}
-              </dl>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <dl className="flow-kpis">
+          {kpis.map((kpi) => (
+            <div key={kpi.k}>
+              <dt className="font-display tabular-nums">{kpi.v}</dt>
+              <dd>{kpi.k}</dd>
             </div>
-          </article>
-        ))}
+          ))}
+        </dl>
       </div>
     </section>
   );
