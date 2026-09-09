@@ -16,9 +16,6 @@ export function CtaFooter() {
               <p className="mx-auto mt-5 max-w-xl text-lg text-white/90">
                 ابدأ مجاناً بدون بطاقة ائتمان. أول منشور خلال دقائق، وأول تقرير خلال أسبوع.
               </p>
-              <p className="mt-3 text-sm font-medium text-white/75">
-                بينما تقرأ هذه الجملة، فريق سهل كتب منشوراً وردّ على عميل.
-              </p>
               <div className="mt-9 flex flex-wrap justify-center gap-3">
                 <Link
                   to="/auth"
