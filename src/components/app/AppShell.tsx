@@ -33,6 +33,7 @@ import { GUEST_EMAIL } from "@/lib/guest.functions";
 
 import { useProfile, useTasks, useWorkspace } from "@/lib/data";
 import { UserAvatar } from "@/components/app/UserAvatar";
+import { SiteFavicon } from "@/components/app/SiteBadge";
 import { cn } from "@/lib/utils";
 
 
@@ -61,11 +62,18 @@ const secondaryNav = [
 
 function WorkspaceCard() {
   const { data: workspace } = useWorkspace();
+  const website = (workspace as { website?: string | null } | undefined)?.website?.trim();
   return (
     <div className="flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-3 text-start">
-      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-jade font-display text-sm font-black text-background">
-        {workspace?.initials ?? "سه"}
-      </span>
+      {website ? (
+        <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-xl border border-border bg-background p-1.5 shadow-sm">
+          <SiteFavicon website={website} className="size-full" />
+        </span>
+      ) : (
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-jade font-display text-sm font-black text-background">
+          {workspace?.initials ?? "سه"}
+        </span>
+      )}
       <span className="min-w-0 flex-1">
         <span className="block truncate text-sm font-bold">{workspace?.name ?? "مساحة عملك"}</span>
         <span className="block truncate text-xs text-muted-foreground">
