@@ -44,15 +44,20 @@ export function BusinessProfileCard({ workspaceId, website, profile, onProfiled,
   const has = Boolean(p?.summary || p?.products?.length);
 
   return (
-    <section className={cn("rounded-3xl border border-border bg-card p-6", className)}>
+    <section className={cn("rounded-3xl border border-border bg-card p-4 sm:p-6", className)}>
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-start gap-3">
-          <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-jade/12 text-jade-deep">
-            <Globe className="size-5" />
+        <div className="flex min-w-0 items-start gap-3">
+          <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-2xl bg-jade/12 text-jade-deep">
+            {savedSite ? <SiteFavicon website={savedSite} className="size-6" /> : <Globe className="size-5" />}
           </span>
-          <div>
-            <h2 className="font-display text-lg font-black">ملف العلامة من موقعك</h2>
-            <p className="mt-0.5 text-sm text-ink-soft">
+          <div className="min-w-0">
+            <h2 className="font-display text-base font-black sm:text-lg">ملف العلامة من موقعك</h2>
+            {savedSite ? (
+              <p className="mt-0.5 truncate text-xs font-bold text-jade-deep" dir="ltr">
+                {savedSite.replace(/^https?:\/\//, "").replace(/^www\./, "")}
+              </p>
+            ) : null}
+            <p className="mt-0.5 text-xs text-ink-soft sm:text-sm">
               ضع رابط موقعك فقط — نقرأ صفحاته ونفهم منتجاتك وجمهورك ومدنك ولهجتك ومنافسيك، ويعمل عليها الموظفون الستة تلقائياً.
             </p>
           </div>
