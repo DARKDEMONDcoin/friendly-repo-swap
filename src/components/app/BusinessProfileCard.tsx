@@ -10,6 +10,7 @@ import type { BusinessProfile } from "@/lib/business-profile.server";
 import { profileMyWebsite } from "@/lib/business-profile.functions";
 import { cn } from "@/lib/utils";
 import { Portrait } from "@/components/site/Portrait";
+import { SiteFavicon } from "@/components/app/SiteBadge";
 
 type Props = {
   workspaceId: string;
@@ -42,6 +43,7 @@ export function BusinessProfileCard({ workspaceId, website, profile, onProfiled,
 
   const p = (result ?? profile) as Partial<BusinessProfile> | null;
   const has = Boolean(p?.summary || p?.products?.length);
+  const savedSite = (website ?? "").trim() || (mutation.isSuccess ? url.trim() : "");
 
   return (
     <section className={cn("rounded-3xl border border-border bg-card p-4 sm:p-6", className)}>
