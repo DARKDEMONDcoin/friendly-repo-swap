@@ -102,17 +102,8 @@ function AppHome() {
         ))}
       </div>
 
-      <section className="mt-5 overflow-hidden rounded-3xl border border-border bg-card shadow-card">
-        <div className="border-b border-border/70 bg-secondary/30 px-4 py-3.5 sm:px-6">
-          <h2 className="font-display text-base font-black sm:text-lg">خطوات تشغيل فريقك</h2>
-          <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">
-            تتحدّث تلقائياً كلما أكملت خطوة — كل خطوة تفتح قدرة جديدة لفريقك.
-          </p>
-        </div>
-        <div className="p-4 sm:p-6">
-          <ActivationMap />
-        </div>
-      </section>
+      <ActivationMap className="mt-5" />
+
 
       {workspace ? (
         <div className="mt-5">
