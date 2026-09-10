@@ -77,88 +77,44 @@ function AppHome() {
         </div>
       ) : null}
 
-      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-3 xl:grid-cols-4">
         {kpis.map((k) => (
-          <div key={k.k} className="group rounded-2xl border border-border/80 bg-card p-4 shadow-card transition-transform duration-300 hover:-translate-y-0.5 sm:p-5">
-            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
+          <div
+            key={k.k}
+            className="group relative overflow-hidden rounded-3xl border border-border/70 bg-card p-4 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 sm:p-5"
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -top-10 end--6 size-24 rounded-full opacity-60 blur-2xl transition-opacity group-hover:opacity-100"
+              style={{ background: "color-mix(in oklab, var(--primary) 16%, transparent)" }}
+            />
+            <div className="relative grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
               <div className="min-w-0">
-                <p className="truncate text-xs font-semibold text-muted-foreground sm:text-sm">{k.k}</p>
-                <p className="mt-1.5 font-display text-2xl font-black tabular-nums sm:text-3xl">{k.v}</p>
+                <p className="truncate text-[0.72rem] font-semibold text-muted-foreground sm:text-sm">{k.k}</p>
+                <p className="mt-1.5 font-display text-[1.7rem] font-black tabular-nums leading-none sm:text-4xl">{k.v}</p>
               </div>
-              <span className={`grid size-9 shrink-0 place-items-center rounded-xl ${k.tone}`}>
+              <span className={`grid size-9 shrink-0 place-items-center rounded-2xl ${k.tone}`}>
                 <k.icon className="size-4.5" strokeWidth={2.2} />
               </span>
             </div>
-            <p className="mt-1 truncate text-[0.7rem] text-muted-foreground">{k.d}</p>
+            <p className="relative mt-2 truncate text-[0.7rem] text-muted-foreground">{k.d}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-5 grid items-start gap-4 xl:grid-cols-[minmax(0,1.65fr)_minmax(18rem,0.7fr)] [&>*]:min-w-0">
-        {workspace ? <MorningBriefingCard workspaceId={workspace.id} /> : null}
+      <ActivationMap className="mt-5" />
 
-        <section className="rounded-2xl border border-border bg-card p-5 shadow-card sm:p-6">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="text-xs font-bold text-coral">الأولوية الآن</p>
-              <h2 className="mt-1 font-display text-lg font-black">طلبات الاعتماد</h2>
-            </div>
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-coral/12 font-display text-lg font-black text-coral">
-              {review.length}
-            </span>
-          </div>
-          <ul className="mt-4 space-y-2">
-            {review.slice(0, 4).map((a) => (
-              <li key={a.id} className="rounded-xl border border-border/70 bg-secondary/35 px-3 py-2.5">
-                <p className="truncate text-xs font-bold text-muted-foreground">{a.kind}</p>
-                <p className="mt-0.5 line-clamp-2 text-sm font-bold leading-relaxed">{a.title}</p>
-              </li>
-            ))}
-            {review.length === 0 ? <li className="py-4 text-sm text-muted-foreground">لا شيء ينتظرك الآن.</li> : null}
-          </ul>
-          <Link to="/app/approvals" className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90">
-            <CheckCheck className="size-4" /> راجع الكل
-          </Link>
-        </section>
-      </div>
 
-      <div className="mt-5 grid gap-3 lg:grid-cols-2">
-        <details className="group rounded-2xl border border-border bg-card">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
-            <span className="min-w-0 truncate font-display text-sm font-black">خطوات تشغيل فريقك</span>
-            <span className="shrink-0 text-xs font-bold text-muted-foreground group-open:hidden">
-              عرض
-            </span>
-            <span className="hidden shrink-0 text-xs font-bold text-muted-foreground group-open:inline">
-              إخفاء
-            </span>
-          </summary>
-          <div className="px-4 pb-4">
-            <ActivationMap />
-          </div>
-        </details>
+      {workspace ? (
+        <div className="mt-5">
+          <BusinessProfileCard
+            workspaceId={workspace.id}
+            website={(workspace as { website?: string | null }).website}
+            profile={(workspace as { profile?: Record<string, unknown> }).profile as never}
+          />
+        </div>
+      ) : null}
 
-        {workspace ? (
-          <details className="group rounded-2xl border border-border bg-card">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
-              <span className="min-w-0 truncate font-display text-sm font-black">ملف نشاطك التجاري</span>
-              <span className="shrink-0 text-xs font-bold text-muted-foreground group-open:hidden">
-                عرض
-              </span>
-              <span className="hidden shrink-0 text-xs font-bold text-muted-foreground group-open:inline">
-                إخفاء
-              </span>
-            </summary>
-            <div className="px-4 pb-4">
-              <BusinessProfileCard
-                workspaceId={workspace.id}
-                website={(workspace as { website?: string | null }).website}
-                profile={(workspace as { profile?: Record<string, unknown> }).profile as never}
-              />
-            </div>
-          </details>
-        ) : null}
-      </div>
 
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[1.6fr_1fr] [&>*]:min-w-0">

@@ -114,9 +114,9 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   };
 
   return (
-    <div className="flex h-full flex-col gap-5 p-5">
-      <Link to="/" className="flex items-center gap-2 font-display text-2xl font-black tracking-tight">
-        <LogoMark className="size-10" size={40} />
+    <div className="flex h-full flex-col gap-4 p-4 sm:gap-5 sm:p-5">
+      <Link to="/" className="flex items-center gap-2 font-display text-xl font-black tracking-tight sm:text-2xl">
+        <LogoMark className="size-8 sm:size-10" size={40} />
         سهل<span className="text-jade">.</span>
       </Link>
 
@@ -317,8 +317,8 @@ export function AppShell({
   const { data: profile } = useProfile();
 
   return (
-    <div className="min-h-screen bg-background">
-      <aside className="fixed inset-y-0 start-0 z-40 hidden w-72 overflow-y-auto border-e border-border bg-card lg:block">
+    <div className="flex min-h-screen bg-background">
+      <aside className="sticky top-0 hidden h-screen w-72 shrink-0 self-start overflow-y-auto border-e border-border bg-card lg:block">
         <SidebarBody />
       </aside>
 
@@ -329,31 +329,31 @@ export function AppShell({
             className="absolute inset-0 bg-foreground/40 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="absolute inset-y-0 start-0 w-72 overflow-y-auto bg-card shadow-2xl">
+          <div className="absolute inset-y-0 start-0 w-[min(19rem,86vw)] overflow-y-auto bg-card shadow-2xl">
             <SidebarBody onNavigate={() => setMobileOpen(false)} />
           </div>
         </div>
       ) : null}
 
-      <div className="lg:ps-72">
+      <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-xl">
-          <div className="flex items-center gap-3 px-5 py-4">
+          <div className="flex items-center gap-2.5 px-3.5 py-3 sm:gap-3 sm:px-5 sm:py-4">
             <button
-              className="grid size-10 place-items-center rounded-xl border border-border lg:hidden"
+              className="grid size-10 shrink-0 place-items-center rounded-xl border border-border lg:hidden"
               onClick={() => setMobileOpen(true)}
               aria-label="القائمة"
             >
               {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
             <div className="min-w-0 flex-1">
-              <h1 className="truncate font-display text-xl font-black md:text-2xl">{title}</h1>
-              {lead ? <p className="truncate text-sm text-muted-foreground">{lead}</p> : null}
+              <h1 className="truncate font-display text-base font-black sm:text-xl md:text-2xl">{title}</h1>
+              {lead ? <p className="truncate text-xs text-muted-foreground sm:text-sm">{lead}</p> : null}
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
               {actions}
               <Link
                 to="/app/approvals"
-                className="relative grid size-10 shrink-0 place-items-center rounded-xl border border-border transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="relative hidden size-10 shrink-0 place-items-center rounded-xl border border-border transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid"
                 aria-label="التنبيهات"
               >
                 <Bell className="size-4.5" />
@@ -364,7 +364,7 @@ export function AppShell({
           </div>
         </header>
         <GuestBar />
-        <main className={padded ? "mx-auto w-full max-w-[100rem] px-4 py-6 sm:px-5 sm:py-7" : ""}>{children}</main>
+        <main className={padded ? "mx-auto w-full max-w-[100rem] px-3.5 py-5 sm:px-5 sm:py-7" : ""}>{children}</main>
 
       </div>
     </div>

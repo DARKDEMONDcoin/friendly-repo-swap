@@ -54,49 +54,52 @@ function BrainPage() {
       actions={
         <button
           onClick={() => setOpen((v) => !v)}
-          className="hidden items-center gap-2 rounded-xl bg-foreground px-4 py-2.5 text-sm font-bold text-background sm:inline-flex"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-foreground px-3 py-2 text-xs font-bold text-background sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm"
         >
-          <Plus className="size-4" /> أضف معرفة
+          <Plus className="size-4" /> <span className="hidden sm:inline">أضف معرفة</span>
         </button>
       }
     >
-      <div className="grid gap-6 lg:grid-cols-[1fr_20rem]">
-        <div>
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div className="min-w-0">
           {workspace ? (
             <BusinessProfileCard
               workspaceId={workspace.id}
               website={(workspace as { website?: string | null }).website}
               profile={(workspace as { profile?: Record<string, unknown> }).profile as never}
               compact
-              className="mb-6"
+              className="mb-4 sm:mb-6"
             />
           ) : null}
           <BrandVoiceExtractor workspaceId={workspace?.id} />
-          <div className="mt-6 flex flex-wrap items-center gap-2">
-            <div className="flex min-w-56 flex-1 items-center gap-2 rounded-2xl border border-border bg-card px-4 py-2.5">
+          <div className="mt-5 grid gap-2 sm:mt-6">
+            <div className="flex min-w-0 items-center gap-2 rounded-2xl border border-border bg-card px-3.5 py-2.5 sm:px-4">
               <Search className="size-4 shrink-0 text-muted-foreground" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="ابحث في معرفة علامتك…"
-                className="min-w-0 flex-1 bg-transparent outline-none"
+                className="min-w-0 flex-1 bg-transparent text-sm outline-none sm:text-base"
               />
             </div>
-            {(["all", "doc", "link", "note", "image"] as const).map((k) => (
-              <button
-                key={k}
-                onClick={() => setKind(k)}
-                className={cn(
-                  "rounded-full border px-4 py-2 text-sm font-bold transition-colors",
-                  kind === k
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border hover:bg-secondary",
-                )}
-              >
-                {k === "all" ? "الكل" : brainKindLabel[k]}
-              </button>
-            ))}
+            <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible">
+              {(["all", "doc", "link", "note", "image"] as const).map((k) => (
+                <button
+                  key={k}
+                  onClick={() => setKind(k)}
+                  className={cn(
+                    "shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-bold transition-colors sm:px-4 sm:py-2 sm:text-sm",
+                    kind === k
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border hover:bg-secondary",
+                  )}
+                >
+                  {k === "all" ? "الكل" : brainKindLabel[k]}
+                </button>
+              ))}
+            </div>
           </div>
+
 
           <form
             className={cn(

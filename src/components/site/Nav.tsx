@@ -28,9 +28,9 @@ export function Nav({ variant = "over" }: { variant?: "over" | "solid" }) {
       )}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5">
-        <Link to="/" className="nav-floating-control pointer-events-auto group flex items-center gap-2.5 rounded-full py-1.5 pe-4 ps-1.5">
-          <LogoMark className="size-11" size={44} />
-          <span className="font-display text-xl font-extrabold tracking-tight">سهل</span>
+        <Link to="/" className="nav-floating-control pointer-events-auto group flex items-center gap-2 rounded-full py-1.5 pe-3 ps-1.5 sm:gap-2.5 sm:pe-4">
+          <LogoMark className="size-8 sm:size-11" size={44} />
+          <span className="font-display text-lg font-extrabold tracking-tight sm:text-xl">سهل</span>
         </Link>
 
         <ul className="pointer-events-auto hidden items-center gap-0.5 xl:flex">

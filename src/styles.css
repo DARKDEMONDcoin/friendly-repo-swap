@@ -686,9 +686,9 @@
 }
 .sahl-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 48% center; pointer-events: none; filter: saturate(0.92) contrast(1.04) brightness(1.08); }
 .sahl-video-copy { position: absolute; z-index: 10; top: 50%; right: clamp(1.5rem, 5.1vw, 5rem); width: min(44rem, 48vw); transform: translateY(-48%); text-shadow: 0 0.15rem 1.35rem color-mix(in oklab, var(--stage-black) 72%, transparent); }
-.sahl-video-eyebrow { margin: 0; color: color-mix(in oklab, var(--primary) 70%, var(--stage-ink)); font-size: clamp(0.7rem, 0.9vw, 0.84rem); font-weight: 800; }
-.sahl-video-copy h1 { margin: 1.25rem 0 0; font-family: var(--font-display); font-size: clamp(2.8rem, 5.25vw, 5.6rem); font-weight: 700; line-height: 1.04; letter-spacing: 0; text-wrap: balance; }
-.sahl-video-copy h1 span { display: block; color: var(--stage-ink); }
+.sahl-video-eyebrow { margin: 0; color: color-mix(in oklab, var(--primary) 70%, var(--stage-ink)); font-size: clamp(0.7rem, 0.9vw, 0.84rem); font-weight: 800; line-height: 1.9; }
+.sahl-video-copy h1 { margin: 1.25rem 0 0; font-family: var(--font-display); font-size: clamp(2.5rem, 4.6vw, 4.9rem); font-weight: 700; line-height: 1.28; letter-spacing: 0; text-wrap: balance; padding-block: 0.1em; }
+.sahl-video-copy h1 span { display: block; margin-top: 0.12em; color: var(--stage-ink); }
 .sahl-video-lead { max-width: 39rem; margin: 1.5rem 0 0; color: var(--stage-muted); font-size: clamp(0.94rem, 1.25vw, 1.2rem); line-height: 1.85; text-wrap: pretty; }
 .sahl-video-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem; margin-top: 2rem; }
 .sahl-video-primary { display: inline-flex; min-height: 3.25rem; align-items: center; justify-content: center; gap: 0.7rem; padding: 0.75rem 1.45rem; border-radius: 999px; color: var(--stage-black); background: var(--stage-ink); font-size: 0.9rem; font-weight: 800; transition: transform 250ms var(--ease-enter), background-color 250ms ease; }
@@ -732,7 +732,7 @@
       linear-gradient(to bottom, color-mix(in oklab, var(--stage-black) 44%, transparent), color-mix(in oklab, var(--stage-black) 12%, transparent) 25%, color-mix(in oklab, var(--stage-black) 18%, transparent) 54%, color-mix(in oklab, var(--stage-black) 68%, transparent) 82%, color-mix(in oklab, var(--stage-black) 92%, transparent) 95%, var(--stage-black));
   }
   .sahl-video-copy { top: auto; right: 1.25rem; bottom: 8.4rem; left: 1.25rem; width: auto; transform: none; }
-  .sahl-video-copy h1 { margin-top: 0.9rem; font-size: clamp(2.15rem, 11vw, 3.25rem); line-height: 1.08; }
+  .sahl-video-copy h1 { margin-top: 1.15rem; font-size: clamp(1.75rem, 8vw, 2.5rem); line-height: 1.42; }
   .sahl-video-lead { margin-top: 1rem; font-size: 0.88rem; line-height: 1.75; }
   .sahl-video-actions { gap: 1rem; margin-top: 1.25rem; }
   .sahl-video-primary { min-height: 2.9rem; padding: 0.65rem 1.1rem; font-size: 0.8rem; }
@@ -1026,8 +1026,10 @@
 
 .auth-experience { position: relative; min-height: 100svh; overflow: hidden; background: var(--background); }
 .auth-topbar { position: absolute; z-index: 20; inset: 1rem 1rem auto; display: flex; align-items: center; justify-content: space-between; }
-.auth-logo { display: flex; align-items: center; gap: 0.55rem; font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; }
+.auth-logo { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-display); font-size: 1.05rem; font-weight: 900; }
 .auth-logo svg { width: 2rem; height: 2rem; border-radius: 0.65rem; padding: 0.45rem; color: var(--primary-foreground); background: var(--primary); }
+.auth-logo img { width: 1.6rem; height: 1.6rem; }
+@media (min-width: 640px) { .auth-logo { font-size: 1.25rem; } .auth-logo img { width: 2rem; height: 2rem; } }
 .auth-layout { position: relative; z-index: 2; display: grid; min-height: 100svh; grid-template-columns: minmax(0, 1fr) minmax(30rem, 0.82fr); }
 .auth-story { position: sticky; top: 0; display: block; height: 100svh; min-height: 100svh; padding: 0; overflow: hidden; }
 .auth-story h2 { max-width: 44rem; margin-top: 0.7rem; font-family: var(--font-display); font-size: clamp(2.5rem, 4.2vw, 4.7rem); font-weight: 900; line-height: 1.12; }
@@ -2149,8 +2151,8 @@
 .auth-cover-dot[data-active="true"] > span { animation-name: auth-cover-progress; animation-timing-function: linear; animation-fill-mode: forwards; }
 @keyframes auth-cover-progress { from { width: 0; } to { width: 100%; } }
 @media (max-width: 1023px) {
-  .auth-cover { min-height: 0; height: 36svh; border-end-start-radius: 28px; border-end-end-radius: 28px; }
-  .auth-cover-ghost { top: 4%; font-size: clamp(64px, 20vw, 130px); opacity: 0.18; }
+  .auth-cover { min-height: 0; height: 30svh; border-end-start-radius: 24px; border-end-end-radius: 24px; }
+  .auth-cover-ghost { top: 6%; font-size: clamp(44px, 12vw, 78px); opacity: 0.16; }
   .auth-cover-top { display: none; }
   .auth-cover-card { max-width: none; padding: 0.75rem 0.9rem; border-radius: 20px; }
   .auth-cover-quote { margin-top: 0.25rem; font-size: 0.82rem; line-height: 1.55; }
@@ -2219,8 +2221,15 @@ select.glass-input { appearance: none; }
   height: 3.25rem;
   flex: none;
 }
-.brand-loader-sm .brand-loader-ring { width: 2.1rem; height: 2.1rem; }
-.brand-loader-lg .brand-loader-ring { width: 4.75rem; height: 4.75rem; }
+.brand-loader-sm .brand-loader-ring { width: 2.35rem; height: 2.35rem; }
+.brand-loader-lg .brand-loader-ring { width: 5.5rem; height: 5.5rem; }
+@media (min-width: 1024px) {
+  .brand-loader-ring { width: 4rem; height: 4rem; }
+  .brand-loader-sm .brand-loader-ring { width: 2.75rem; height: 2.75rem; }
+  .brand-loader-lg .brand-loader-ring { width: 7.5rem; height: 7.5rem; }
+  .brand-loader-label { font-size: 1.02rem; }
+  .brand-loader-lg + .brand-loader-label, .brand-loader-lg .brand-loader-label { font-size: 1.12rem; }
+}
 .brand-loader-arc {
   position: absolute;
   inset: 0;
@@ -2252,8 +2261,11 @@ select.glass-input { appearance: none; }
 .brand-loader-screen {
   display: grid;
   place-items: center;
-  min-height: 60svh;
+  min-height: 72svh;
   padding: 3rem 1.25rem;
+}
+@media (min-width: 1024px) {
+  .brand-loader-screen { min-height: 82svh; }
 }
 @keyframes brand-loader-spin { to { transform: rotate(360deg); } }
 @keyframes brand-loader-pulse {
