@@ -9,6 +9,7 @@ import { getMember } from "@/data/team";
 import { useTasks, useUpdateTask, useWorkspace } from "@/lib/data";
 import { sanitizePostBody } from "@/lib/post-format";
 import { BrandLoader } from "@/components/site/BrandLoader";
+import { Portrait } from "@/components/site/Portrait";
 
 
 export const Route = createFileRoute("/app/approvals")({
@@ -89,10 +90,10 @@ function ApprovalsPage() {
                   {member ? (
                     <span className="inline-flex items-center gap-1.5 font-bold">
                       <span
-                        className="grid size-7 shrink-0 place-items-center rounded-lg"
-                        style={{ background: member.tintSoft, color: member.tint }}
+                        className="size-7 shrink-0 overflow-hidden rounded-lg"
+                        style={{ background: member.tintSoft }}
                       >
-                        <member.icon className="size-3.5" strokeWidth={2.4} />
+                        <Portrait memberId={member.id} name={member.name} className="size-full" />
                       </span>
                       {member.name}
                     </span>
