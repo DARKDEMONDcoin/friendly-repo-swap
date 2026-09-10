@@ -10,6 +10,7 @@ import { ConnectNow } from "@/components/app/ConnectNow";
 import { getMember } from "@/data/team";
 import { integrationStatusLabel } from "@/data/app";
 import { useBrainItems, useConversations, useCreateConversation, useDeleteConversation, useIntegrations, useMessages, useRenameConversation, useWorkspace } from "@/lib/data";
+import { SiteBadgeBar } from "@/components/app/SiteBadge";
 import { askEmployee, runSkill } from "@/lib/ai.functions";
 import { SkillPalette } from "@/components/app/SkillPalette";
 import { Thinking } from "@/components/app/Thinking";
@@ -534,7 +535,8 @@ function ChatPage() {
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-[radial-gradient(60%_100%_at_50%_0%,color-mix(in_oklab,var(--primary)_9%,transparent),transparent)]"
           />
-          <div className="relative mx-auto w-full max-w-3xl flex-1 space-y-4 px-5 py-6">
+          <div className="relative mx-auto w-full max-w-3xl flex-1 space-y-4 px-4 py-5 sm:px-5 sm:py-6">
+            <SiteBadgeBar website={(workspace as { website?: string | null } | undefined)?.website ?? null} />
             {brainItems && !hasVoiceGuide && !voiceHintHidden && ["sonny", "nour", "eva", "dana"].includes(id) ? (
               <div className="group flex items-center gap-3 rounded-2xl border border-dashed border-border bg-secondary/40 px-4 py-3 text-sm">
                 <span
