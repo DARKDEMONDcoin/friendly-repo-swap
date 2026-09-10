@@ -69,9 +69,9 @@ export function AuthShell({
 
       <div className="flex items-center justify-center px-5 py-14">
         <div className="w-full max-w-md">
-          <Link to="/" className="mb-8 flex items-center gap-2.5 lg:hidden">
-            <LogoMark className="size-11" size={44} />
-            <span className="font-display text-xl font-extrabold">سهل</span>
+          <Link to="/" className="mb-7 flex items-center gap-2 lg:hidden">
+            <LogoMark className="size-9" size={36} />
+            <span className="font-display text-lg font-extrabold">سهل</span>
           </Link>
 
           <h1 className="font-display text-3xl font-black">{title}</h1>
