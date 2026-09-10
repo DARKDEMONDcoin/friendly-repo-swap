@@ -102,40 +102,44 @@ export function ActivationMap({ className }: { className?: string }) {
 
   const next = steps.find((s) => !s.done)!;
 
+  const pct = Math.round((doneCount / steps.length) * 100);
+
   return (
-    <section className={cn("rounded-3xl border border-border bg-card p-6", className)}>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="font-display text-lg font-black">خطواتك للانطلاق</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {doneCount} من {steps.length} مكتملة · التالي: {next.title}
+    <section className={cn("overflow-hidden rounded-3xl border border-border bg-card shadow-card", className)}>
+      <div className="grid gap-3 border-b border-border/70 bg-secondary/25 p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-6">
+        <div className="min-w-0">
+          <p className="text-[0.7rem] font-bold tracking-wide text-primary">تشغيل فريقك</p>
+          <h2 className="mt-1 font-display text-base font-black sm:text-lg">
+            أنجزت {doneCount} من {steps.length} خطوات
+          </h2>
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+            التالي: <b className="text-foreground">{next.title}</b> — {next.lead}
           </p>
         </div>
-        <Link
-          to={next.to}
-          className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background"
-        >
-          {next.cta} <ArrowLeft className="size-3.5" />
-        </Link>
+        <div className="flex items-center gap-3 sm:flex-col sm:items-end">
+          <span className="font-display text-2xl font-black tabular-nums sm:text-3xl">{pct}%</span>
+          <Link
+            to={next.to}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background transition-transform hover:-translate-y-0.5"
+          >
+            {next.cta} <ArrowLeft className="size-3.5" />
+          </Link>
+        </div>
+        <div className="h-1.5 overflow-hidden rounded-full bg-secondary sm:col-span-2">
+          <div
+            className="h-full rounded-full transition-[width] duration-700"
+            style={{ width: `${pct}%`, backgroundImage: "var(--gradient-aurora)" }}
+          />
+        </div>
       </div>
 
-      <div className="mt-4 h-2 overflow-hidden rounded-full bg-secondary">
-        <div
-          className="h-full rounded-full transition-[width]"
-          style={{
-            width: `${(doneCount / steps.length) * 100}%`,
-            backgroundImage: "var(--gradient-aurora)",
-          }}
-        />
-      </div>
-
-      <ol className="mt-5 grid gap-3 md:grid-cols-2">
+      <ol className="grid gap-2.5 p-4 sm:grid-cols-2 sm:gap-3 sm:p-6 xl:grid-cols-3">
         {steps.map((s, i) => (
           <li
             key={s.id}
             className={cn(
-              "flex items-start gap-3 rounded-2xl border p-4",
-              s.done ? "border-jade/30 bg-jade/8" : "border-border/70",
+              "flex items-start gap-3 rounded-2xl border p-3.5 transition-colors sm:p-4",
+              s.done ? "border-jade/30 bg-jade/8" : "border-border/70 hover:bg-secondary/40",
               s.id === next.id && "border-foreground/40 bg-secondary/50",
             )}
           >
@@ -148,16 +152,14 @@ export function ActivationMap({ className }: { className?: string }) {
               {s.done ? <Check className="size-3.5" strokeWidth={3} /> : i + 1}
             </span>
             <span className="min-w-0 flex-1">
-              <span className="flex items-center gap-2 font-bold">
+              <span className="flex items-center gap-2 text-sm font-bold sm:text-base">
                 {s.title}
-                {s.id === next.id ? (
-                  <Circle className="size-2 fill-coral text-coral" />
-                ) : null}
+                {s.id === next.id ? <Circle className="size-2 shrink-0 fill-coral text-coral" /> : null}
               </span>
-              <span className="mt-1 block text-sm leading-relaxed text-ink-soft">{s.lead}</span>
+              <span className="mt-1 block text-xs leading-relaxed text-ink-soft sm:text-sm">{s.lead}</span>
               {!s.done ? (
                 <Link to={s.to} className="mt-2 inline-block text-xs font-bold text-primary">
-                  {s.cta}
+                  {s.cta} ←
                 </Link>
               ) : null}
             </span>
